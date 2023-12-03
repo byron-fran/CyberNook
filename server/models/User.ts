@@ -9,7 +9,7 @@ class User extends Model<User>{
     @AutoIncrement
     @PrimaryKey
     @Column(DataType.INTEGER)
-    id! : number
+    id! : number | string
 
     @Column(DataType.STRING)
     name!: string
