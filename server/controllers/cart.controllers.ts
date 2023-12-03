@@ -4,10 +4,10 @@ import Cart from '../models/Cart';
 import { AxiosError } from 'axios';;
 
 const createPurchase = async (req = request, res = response) => {
-    const {name, image, quantityProduct, price} : Purchase = req.body;
+    const {name, image, quantityProduct, price, id_purchase} : Purchase = req.body;
 
     try{
-        const newPurchase = await Cart.create<any, any>({name, image, quantityProduct, price});
+        const newPurchase = await Cart.create<any, any>({name, image, quantityProduct, price, id_purchase});
         if(!newPurchase){
             return res.status(402).json({error : 'Purchase invalid'})
         }

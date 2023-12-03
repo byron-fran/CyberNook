@@ -1,32 +1,34 @@
-import React, { createContext, ReactNode, useState} from 'react';
+import React, { createContext, ReactNode, useState, Dispatch, SetStateAction } from 'react';
+// import { Purchase } from '../interface/Purchase';
+// import { Product } from '../interface/Product';
+import { PurchaseType } from '../interface/Purchase';
 
-type CartItem = {
-  // Define el tipo de los elementos del carrito
-  // Puedes ajustar esto según la estructura real de tus elementos del carrito
-  id: number;
-  name: string;
-  price: number;
+
+export type CartContextType = {
+  cart: PurchaseType[];
+  resfreshData: boolean;
+  setRefreshData: Dispatch<SetStateAction<boolean>>;
+  setCart: Dispatch<SetStateAction<PurchaseType[]>>
 };
 
-type CartContextType = {
-  cart: CartItem[];
-};
 
-const initialState: CartContextType = {
+const defaultContextValue: CartContextType = {
   cart: [],
+  resfreshData: false,
+  setRefreshData: () => { },
+  setCart: () => { }
 };
-
-export const CartContext = createContext(initialState);
+export const CartContext = createContext<CartContextType>(defaultContextValue);
 
 type CartProviderProps = {
-  children: ReactNode; // Usa ReactNode para permitir cualquier tipo de contenido como children
-  value: CartContextType; // Ajusta el tipo de value según tu necesidad
+  children: ReactNode;
 };
 
-export const CartProvider: React.FC<CartProviderProps> = ({ children, value }) => {
-  const [resfreshData,setRefreshData] = useState(false)
+export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
+  const [resfreshData, setRefreshData] = useState<boolean>(defaultContextValue.resfreshData)
+  const [cart, setCart] = useState<PurchaseType[]>(defaultContextValue.cart);
 
-  return (<CartContext.Provider value={{...value, resfreshData, setRefreshData}}>
+  return (<CartContext.Provider value={{ cart, resfreshData, setRefreshData, setCart }}>
     {children}
-    </CartContext.Provider>);
+  </CartContext.Provider>);
 };

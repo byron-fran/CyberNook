@@ -23,6 +23,9 @@ class Cart extends Model <Cart>{
 
     @Column(DataType.STRING)
     image! : string
+
+    @Column(DataType.STRING)
+    id_purchase! : string
 };
 
 export default Cart

@@ -4,5 +4,6 @@ export interface Purchase{
     price : number,
     quantityProduct : number
     id? : number,
-    category : string
+    category : string,
+    id_purchase : string
 }

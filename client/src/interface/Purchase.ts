@@ -3,7 +3,7 @@ export type PurchaseType = {
     price: number,
     quantityProduct : number ,
     image : string,
-    id_purchase? :  string,
+    id_purchase :  string,
     id?: number
 }
 
