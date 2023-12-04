@@ -1,11 +1,14 @@
 import {Model, Table, DataType, PrimaryKey, AutoIncrement, Column} from 'sequelize-typescript';
+import { User  as UserInterface} from '../interfaces/User';
 
 @Table({
     tableName : 'users',
     timestamps : true
 })
 
-class User extends Model<User>{
+
+
+class User extends Model<User, UserInterface>{
     @AutoIncrement
     @PrimaryKey
     @Column(DataType.INTEGER)
