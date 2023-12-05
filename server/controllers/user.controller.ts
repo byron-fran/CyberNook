@@ -129,7 +129,6 @@ const updateProfile = async (req = request, res = response) => {
     const { userId, name, email } = req.body;
     try {
        
-
         const user  = await User.findByPk<any>(userId);
 
         if (user) {
