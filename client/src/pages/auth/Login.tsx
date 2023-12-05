@@ -4,7 +4,7 @@ import 'react-phone-input-2/lib/style.css';
 import { NavLink } from 'react-router-dom';
 
 const Login = () => {
-    const { register, formState: { errors }, handleSubmit, control } = useForm<UserType>();
+    const { register, formState: { errors }, handleSubmit } = useForm<UserType>();
 
     const onSubmit = handleSubmit((data) => {
         console.log(data)

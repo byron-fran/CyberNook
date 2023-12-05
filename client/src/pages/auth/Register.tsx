@@ -4,13 +4,25 @@ import PhoneInput from 'react-phone-input-2';
 import es from 'react-phone-input-2/lang/es.json'
 import 'react-phone-input-2/lib/style.css';
 import { NavLink } from 'react-router-dom';
+import { useAppDispatch } from '../../redux/hooks/hooks';
+import { useAppSelector } from '../../redux/hooks/hooks';
+import { registerUserThunk } from '../../redux/thunks/AuthThunk';
+
+
+
 
 const Register = () => {
 
     const { register, formState: { errors }, handleSubmit, control } = useForm<UserType>();
+    const auth = useAppSelector((state) => state.auth);
+    const dispatch = useAppDispatch()
+    console.log(auth)
+
 
     const onSubmit = handleSubmit((data) => {
-        console.log(data)
+        dispatch(registerUserThunk(data))
+      
+
     })
     return (
         <div className='flex h-screen justify-center items-center w-[95%] md:w-[60%] lg:w-[40%] mx-auto'>
