@@ -21,7 +21,7 @@ function App() : JSX.Element {
         const url = `http://localhost:4000/store/products`;
         const { data } = await axios(url);
         setProducts(data);
-        console.log(data)
+        
         return data
       }
       catch (eror: unknown) {

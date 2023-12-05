@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form'
 import { UserType } from '../../types/auth/User';
 import PhoneInput from 'react-phone-input-2';
@@ -7,8 +8,9 @@ import { NavLink } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/hooks/hooks';
 import { useAppSelector } from '../../redux/hooks/hooks';
 import { registerUserThunk } from '../../redux/thunks/AuthThunk';
-
-
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import { tokenVerify } from './api/auth';
 
 
 const Register = () => {
@@ -16,9 +18,28 @@ const Register = () => {
     const { register, formState: { errors }, handleSubmit, control } = useForm<UserType>();
     const auth = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch()
-    console.log(auth)
+    console.log(auth?.user)
+    const token = Cookies.get();
+    console.log(token)
 
-
+    useEffect(() => {
+        const tokenVerify = async () => {
+            const cookie = Cookies.get();
+            if(!cookie){
+                console.log('No hay token')
+            }
+            else{
+                try{
+                    const res = await tokenVerify(cookie.token)
+                    console.log(res)
+                }
+                catch(error) {
+                    console.log(error)
+                }
+            }
+        }
+        tokenVerify()
+    }, [])
     const onSubmit = handleSubmit((data) => {
         dispatch(registerUserThunk(data))
       

@@ -151,13 +151,33 @@ const updateProfile = async (req = request, res = response) => {
         return res.status(500).json({ message: 'Error unknown' })
     }
 }
+
+const verify = async (req =request, res = response) => {
+    const {token} = req.cookies;
+    if(!token){return res.status(404).json({message: 'Token no provided'})};
+    try{
+        const user = jwt.verify(token, process.env.SECRET_KEY!) as UserInterface;
+
+        const userFound = await User.findOne({where : {id : user.id}});
+        if(!userFound) return res.status(401).json({message : 'Unauthorized'});
+        return res.status(200).json(userFound);
+    }
+    catch (error: unknown) {
+        if (error instanceof AxiosError) {
+            return res.status(404).json({ message: error.response?.data })
+        }
+        return res.status(500).json({ message: 'Error unknown' })
+    }
+
+}
 export {
     register,
     login,
     logout,
     getProfile,
     deleteProfile,
-    updateProfile
+    updateProfile,
+    verify
 }
 
 

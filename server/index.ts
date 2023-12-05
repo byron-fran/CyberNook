@@ -6,6 +6,7 @@ import routerPurchase from './routes/cart.routes';
 import routerUser from './routes/user.routes'
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 
 dotenv.config()
 const app = express();
@@ -13,16 +14,11 @@ const app = express();
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}));
-app.use((req = request, res = response, next :()=> void ) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept',
-    );
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    next();
-});
+app.use(cors({
+    origin : 'http://localhost:5173',
+    credentials : true
+
+}));
 app.use(express.json());
 app.use(cookieParser())
 app.use('/store', routerProduct);
