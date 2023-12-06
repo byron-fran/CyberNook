@@ -9,10 +9,13 @@ import Cart from './components/cart/Cart';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
 import Home from './pages/home/Home';
+import { useAppSelector, useAppDispatch } from './redux/hooks/hooks';
+import { getUserProfileThunk, verifyTokenThunk } from './redux/thunks/AuthThunk';
 
 function App() : JSX.Element {
   const [productos, setProducts] = useState([]);
-
+  const dispatch = useAppDispatch()
+  const  {user} = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -29,8 +32,16 @@ function App() : JSX.Element {
       }
     }
     getProducts()
-  }, [])
-  // console.log(productos);
+  }, []);
+
+
+  //get user profile
+  useEffect(() => {
+      dispatch(getUserProfileThunk());
+      dispatch(verifyTokenThunk())
+  }, []);
+  console.log(user);
+  
   return (
     <>
       <CartProvider>

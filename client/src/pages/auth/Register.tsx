@@ -12,36 +12,23 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import { tokenVerify } from './api/auth';
 
-
+import { useNavigate } from 'react-router-dom';
 const Register = () => {
 
-    const { register, formState: { errors }, handleSubmit, control } = useForm<UserType>();
+    const { register, formState: { errors }, handleSubmit, control, reset } = useForm<UserType>();
     const auth = useAppSelector((state) => state.auth);
+    const Navigate = useNavigate()
     const dispatch = useAppDispatch()
     console.log(auth?.user)
-    const token = Cookies.get();
-    console.log(token)
 
-    useEffect(() => {
-        const tokenVerify = async () => {
-            const cookie = Cookies.get();
-            if(!cookie){
-                console.log('No hay token')
-            }
-            else{
-                try{
-                    const res = await tokenVerify(cookie.token)
-                    console.log(res)
-                }
-                catch(error) {
-                    console.log(error)
-                }
-            }
-        }
-        tokenVerify()
-    }, [])
+
     const onSubmit = handleSubmit((data) => {
-        dispatch(registerUserThunk(data))
+        dispatch(registerUserThunk(data));
+        // redirect
+        Navigate('/')
+
+        //clear field
+        reset()
       
 
     })

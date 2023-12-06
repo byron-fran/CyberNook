@@ -3,10 +3,8 @@ export interface Product {
     price : number,
     image : string,
     category : string
-
+    stock : number,
+    id : number | string
 
 };
 
-interface Specs  {
-    
-}

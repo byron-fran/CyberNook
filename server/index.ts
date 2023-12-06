@@ -26,7 +26,7 @@ app.use('/', routerPurchase);
 app.use('/', routerUser)
 
 
-sequelize.sync({force:false})
+sequelize.sync({force:true})
     .then(() => {
         app.listen(process.env.PORT, () => {
             console.log(`El puerto ${process.env.PORT}`);
