@@ -4,5 +4,5 @@ export interface Auth  {
     isAdmin : boolean,
     user : UserType,
     isLoading : boolean,
-    error: string
+    error: string | unknown
 };

@@ -11,11 +11,13 @@ import Login from './pages/auth/Login';
 import Home from './pages/home/Home';
 import { useAppSelector, useAppDispatch } from './redux/hooks/hooks';
 import { getUserProfileThunk, verifyTokenThunk } from './redux/thunks/AuthThunk';
+import Cookies from 'js-cookie'
 
-function App() : JSX.Element {
+
+function App(): JSX.Element {
   const [productos, setProducts] = useState([]);
   const dispatch = useAppDispatch()
-  const  {user} = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -24,7 +26,7 @@ function App() : JSX.Element {
         const url = `http://localhost:4000/store/products`;
         const { data } = await axios(url);
         setProducts(data);
-        
+
         return data
       }
       catch (eror: unknown) {
@@ -37,22 +39,24 @@ function App() : JSX.Element {
 
   //get user profile
   useEffect(() => {
-      dispatch(getUserProfileThunk());
-      dispatch(verifyTokenThunk())
+ 
+    dispatch(verifyTokenThunk())
+    dispatch(getUserProfileThunk());
+    
   }, []);
-  console.log(user);
   
+
   return (
     <>
       <CartProvider>
         <Routes>
-          <Route path='/' element={<Home/>}/>
+          <Route path='/' element={<Home />} />
           <Route path='/store' element={<Products productos={productos} />} />
-          <Route path='/detail/:id' element={<DetailProduct  />} />
-          <Route path='/cart' element={<Cart/>}/>
+          <Route path='/detail/:id' element={<DetailProduct />} />
+          <Route path='/cart' element={<Cart />} />
           {/* Auth */}
-          <Route path='/register' element={<Register/>}/>
-          <Route path='/login' element={<Login/>}/>
+          <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
         </Routes>
       </CartProvider>
 

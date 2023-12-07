@@ -6,11 +6,11 @@ import fs from 'fs'
 import path from 'path';
 
 const createProduct = async (req = request, res = response) => {
-    const {name,  price, category } : P = req.body
+    const {name,  price, category, stock,  } : P = req.body
     const  file = req.file
     try{
         // console.log(image)
-        const newProduct  = await Product.create<any>({name, image : file?.filename, price, category})
+        const newProduct  = await Product.create<any>({name, image : file?.filename, price, category, stock})
         
         if(!newProduct){return res.status(404).json({error : 'No saved product'})};
     

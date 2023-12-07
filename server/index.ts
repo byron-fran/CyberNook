@@ -2,7 +2,7 @@ import express, {request, response} from 'express';
 import dotenv from 'dotenv';
 import { sequelize} from './connection/db';
 import routerProduct from './routes/product.routes';
-import routerPurchase from './routes/cart.routes';
+import routerOrder from './routes/order.routes';
 import routerUser from './routes/user.routes'
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
@@ -19,14 +19,15 @@ app.use(cors({
     credentials : true
 
 }));
+
 app.use(express.json());
 app.use(cookieParser())
 app.use('/store', routerProduct);
-app.use('/', routerPurchase);
+app.use('/', routerOrder);
 app.use('/', routerUser)
 
 
-sequelize.sync({force:true})
+sequelize.sync({force:false})
     .then(() => {
         app.listen(process.env.PORT, () => {
             console.log(`El puerto ${process.env.PORT}`);

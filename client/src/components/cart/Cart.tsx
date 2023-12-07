@@ -12,7 +12,7 @@ const Cart : React.FC= () => {
     
     useEffect(() => {
         const getCartPurchase = async () => {
-            const url = `http://localhost:4000/list_cart`;
+            const url = `http://localhost:4000/list_order`;
             try{
                 // setRefreshData(false)
                 const {data} = await axios(url);

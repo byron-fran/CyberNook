@@ -36,7 +36,7 @@ const DetailProduct: React.FC = () : JSX.Element | null => {
     };
     useEffect(() => {
         const getCartPurchase = async () => {
-            const url = `http://localhost:4000/list_cart`;
+            const url = `http://localhost:4000/list_order`;
             try{
                 // setRefreshData(false)
                 const {data} = await axios(url);
@@ -91,7 +91,7 @@ const DetailProduct: React.FC = () : JSX.Element | null => {
             if(purchaseFound){
                 try {
                     setRefreshData(false)
-                    const url = `http://localhost:4000/cart/${purchaseFound.id}`;
+                    const url = `http://localhost:4000/order/${purchaseFound.id}`;
                     const { data } = await axios.put(url, infoPurchase);
                     setRefreshData(true)
                     console.log(data)
@@ -109,7 +109,7 @@ const DetailProduct: React.FC = () : JSX.Element | null => {
                 try {
                     setRefreshData(false);
                     infoPurchase.id_purchase = generarId()
-                    const url = `http://localhost:4000/cart`;
+                    const url = `http://localhost:4000/order`;
                     const { data } = await axios.post(url, infoPurchase);
                     setRefreshData(true)
                     console.log(data)

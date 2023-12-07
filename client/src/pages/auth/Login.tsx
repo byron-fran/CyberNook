@@ -1,20 +1,39 @@
 import { useForm } from 'react-hook-form'
 import { UserType } from '../../types/auth/User';
 import 'react-phone-input-2/lib/style.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../redux/hooks/hooks';
+import { loginUserThunk } from '../../redux/thunks/AuthThunk';
+import { useAppSelector } from '../../redux/hooks/hooks';
 
 const Login = () => {
-    const { register, formState: { errors }, handleSubmit } = useForm<UserType>();
+    const { register, formState: { errors }, handleSubmit, reset } = useForm<UserType>();
+    const {error: errorLogin} = useAppSelector(state => state.auth);
+
+    const dispatch = useAppDispatch();
+    const Navigate =  useNavigate()
 
     const onSubmit = handleSubmit((data) => {
-        console.log(data)
+        dispatch(loginUserThunk(data))
+            .then((data) => {
+                if(data?.type === 'auth/login/rejected'){
+                    return
+                }        
+                Navigate('/')
+            })
+            .catch(error => {
+                return error
+            })
+        //reset
+        reset()
     })
   return (
     <div className='flex h-screen justify-center items-center w-[95%] md:w-[60%] lg:w-[40%] mx-auto'>
-    <form action="" method='post' className='w-full border rounded-md  border-gray-300 p-4 '
+    <form action="" method='post' className='w-full border rounded-md  border-gray-300 p-4'
         onSubmit={onSubmit}>
         {/* field email */}
         <div className='w-full'>
+            {errorLogin !== 'Token no provided' && <p className='text-red-500 ml-2'>{errorLogin}</p>}
             <label htmlFor="email" className='block p-2'>Email</label>
             {errors.email?.type === 'required' && (<p className='text-red-500'>Email is required</p>)}
             {errors.email?.type === 'pattern' && (<p className='text-red-500'>Must be a email valid </p>)}
