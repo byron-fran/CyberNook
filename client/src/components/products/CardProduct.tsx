@@ -5,7 +5,7 @@ import { formaterDinero } from "../../helpers"
 
 const CardProduct : React.FC<Product> = ({product}) => {
     const Navigate = useNavigate();
-    //console.log(product)
+  console.log(product)
   return (
     <div onClick={() => Navigate(`/detail/${product.id}`)} className="mx-auto w-full  shadow-md border border-gray-100 bg-gray-200 p-4 rounded-sm">
       
@@ -14,6 +14,7 @@ const CardProduct : React.FC<Product> = ({product}) => {
         </div>
         <h2 className="text-center">{product.name}</h2>
         <p className="text-center text-2xl ">{product.price && formaterDinero(product.price)}</p>
+        
     </div>
   )
 }

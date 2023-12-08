@@ -11,47 +11,29 @@ import Login from './pages/auth/Login';
 import Home from './pages/home/Home';
 import { useAppSelector, useAppDispatch } from './redux/hooks/hooks';
 import { getUserProfileThunk, verifyTokenThunk } from './redux/thunks/AuthThunk';
+import { getProductsThunk } from './redux/thunks/ProductsThunk';
 import Cookies from 'js-cookie'
 
 
 function App(): JSX.Element {
-  const [productos, setProducts] = useState([]);
   const dispatch = useAppDispatch()
   const { user } = useAppSelector((state) => state.auth);
-
-  useEffect(() => {
-    const getProducts = async () => {
-      try {
-
-        const url = `http://localhost:4000/store/products`;
-        const { data } = await axios(url);
-        setProducts(data);
-
-        return data
-      }
-      catch (eror: unknown) {
-        console.log(eror)
-      }
-    }
-    getProducts()
-  }, []);
-
-
   //get user profile
   useEffect(() => {
- 
+
     dispatch(verifyTokenThunk())
     dispatch(getUserProfileThunk());
-    
+    dispatch(getProductsThunk())
+
   }, []);
-  
+
 
   return (
     <>
       <CartProvider>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/store' element={<Products productos={productos} />} />
+          <Route path='/store' element={<Products />} />
           <Route path='/detail/:id' element={<DetailProduct />} />
           <Route path='/cart' element={<Cart />} />
           {/* Auth */}

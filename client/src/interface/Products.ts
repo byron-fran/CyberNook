@@ -1,5 +1,8 @@
 
 import { ProductType } from "./Product"
+
 export type Products ={
-    productos : ProductType[]
+    products : ProductType[],
+    isLoading : boolean,
+    detailProduct : ProductType
 }

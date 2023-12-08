@@ -3,5 +3,5 @@ export interface User {
     email : string,
     id? : string | number,
     password : string,
-    userId? : number
+    
 }

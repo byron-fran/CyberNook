@@ -3,7 +3,7 @@ import { Order } from "../../types/cart/Order";
 import { createOrderThunk, getAllOrdersThunk, deleteOrderByIdThunk} from "../thunks/CartThunks";
 
 export interface CartType  {
-    cart : Array<Order>,
+    cart :Order[],
     isLoading : boolean
    
 }
@@ -29,7 +29,9 @@ const cartSlice = createSlice({
                 state.cart = action.payload
                 state.isLoading = false
             })
-
+            .addCase(getAllOrdersThunk.rejected, state => {
+                state.isLoading = false
+            })
         //create order    
         builder
             .addCase(createOrderThunk.pending, (state) => {

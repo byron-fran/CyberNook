@@ -4,6 +4,6 @@ export interface Order  {
     price : number,
     image : string,
     paid : boolean,
-    id : number | string,
-    userId : number | string
+    category? : string,
+    stock?: number,
 }

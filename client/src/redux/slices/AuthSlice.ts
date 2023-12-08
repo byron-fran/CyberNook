@@ -13,7 +13,8 @@ const initialState: Auth = {
         name: '',
         email: '',
         password: '',
-        id: ''
+        id: '',
+    
     }
 };
 

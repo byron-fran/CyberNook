@@ -4,34 +4,18 @@ import CardPurchase from "./CardPurchase";
 import { PurchaseType } from "../../interface/Purchase";
 import { CartContext } from "../../context/CartContext";
 // import { PurchaseType } from "../../interface/Purchase";
+import { useAppSelector } from "../../redux/hooks/hooks";
+
 import Payment from "./Payment";
 const Cart : React.FC= () => {
 
-    const [listCart, setListCart] = useState<PurchaseType[]>([]);
-    const {resfreshData} = useContext(CartContext);
-    
-    useEffect(() => {
-        const getCartPurchase = async () => {
-            const url = `http://localhost:4000/list_order`;
-            try{
-                // setRefreshData(false)
-                const {data} = await axios(url);
-                //console.log(data)
-                setListCart(data)
-                return data
-            }
-            catch(error : unknown){
-                if(error instanceof AxiosError){
-                    console.log(error.message)
-                }
-            }
-        }
-        getCartPurchase();
-    },[resfreshData]);
+    const {user} = useAppSelector(state => state.auth)
+    console.log(user)
+
   return (
     <div className="w-full md:w-[90%] mx-auto flex flex-col md:flex-row  justify-center mt-20">
         <div className="md:w-[70%]">
-             {listCart &&listCart.map(purchase => (
+             {user.Orders && user.Orders.map(purchase => (
              <CardPurchase key={purchase.id} purchase={purchase}/>
             ))}
         </div>

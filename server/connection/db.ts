@@ -1,7 +1,6 @@
 import {Sequelize} from 'sequelize-typescript';
 import dotenv from 'dotenv';
 import Product from '../models/Product';
-import Cart from '../models/Cart';
 import User from '../models/User';
 import Order from '../models/Order';
 import Spces from '../models/Specs';
@@ -19,15 +18,18 @@ export const sequelize = new Sequelize({
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    models: [Product, Cart, User, Order, Spces] 
+    models: [Product, User, Order, Spces] 
 
 })
 
 
 User.hasMany(Order, {
-    onDelete : 'CASCADE'
+    onDelete : 'CASCADE',
+    foreignKey : 'userId'
 })
-Order.belongsTo(User)
+Order.belongsTo(User, {
+    foreignKey : 'userId'
+})
 
 
 Product.hasOne(Spces, {

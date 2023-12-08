@@ -4,11 +4,12 @@ import { Order } from "../../types/cart/Order";
 
 
 
-export const createOrderThunk = createAsyncThunk('create_order/cart', async (order :Order, {rejectWithValue}) => {
+export const createOrderThunk = createAsyncThunk('create_order/cart', async (order : Object , {rejectWithValue}) => {
     try {
         const {data} = await axios.post('http://localhost:4000/order', order, {
             withCredentials : true
         })
+        console.log(data)
        return data
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -47,16 +48,23 @@ export const deleteOrderByIdThunk = createAsyncThunk('delete/cart', async(id : n
     }
 })
 
-export  const updateOrderThunk = createAsyncThunk('update/cart', async (id :number | string, {rejectWithValue}) => {
-    try {
-        await axios.put(`http://localhost:4000/order/${id}`, {
-            withCredentials : true
+
+export const updateOrderThunk = createAsyncThunk<number, { id: number; order: object }, { rejectValue: string }>(
+    'update/cart',
+    async ({ id, order }, { rejectWithValue }) => {
+      try {
+       const {data} = await axios.put(`http://localhost:4000/order/${id}`, order, {
+          withCredentials: true,
         });
-        return id
-    } catch (error) {
+        console.log(data)
+        return id;
+      } catch (error) {
         if (axios.isAxiosError(error)) {
-            // Aquí, error es de tipo AxiosError
-            return rejectWithValue(error.response?.data.message );
+          // Here, error is of type AxiosError
+          return rejectWithValue(error.response?.data.message);
         }
+        // Handle other types of errors if needed
+        throw error;
+      }
     }
-} )
+  );

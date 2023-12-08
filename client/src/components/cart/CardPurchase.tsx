@@ -11,7 +11,7 @@ const CardPurchase: React.FC<PurchaseIterface> = ({ purchase }) => {
         <div className="">
           <h2 className="text-center">{purchase.name}</h2>
           <p className="text-center">{purchase.price}</p>
-          <p className="text-center">{purchase.quantityProduct}</p>
+          <p className="text-center">{purchase.quantity}</p>
         </div>
 
       </div>

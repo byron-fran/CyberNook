@@ -5,7 +5,8 @@ import { AxiosError } from 'axios';
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt'
-
+import Order from '../models/Order';
+import { log } from 'console';
 dotenv.config();
 
 const register = async (req = request, res = response) => {
@@ -95,7 +96,9 @@ const getProfile = async (req = request, res = response) => {
     const { userId } = req.body;
 
     try {
-        const user = await User.findOne({ where: { id: userId } });
+        const user = await User.findByPk(userId, {
+            include : Order
+        });
         if (!user) { return res.status(404).json({ message: 'user not found' }) };
 
         return res.status(200).json(user)
