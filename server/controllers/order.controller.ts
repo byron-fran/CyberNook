@@ -4,9 +4,10 @@ import { Order as OrderInterface } from '../interfaces/Order';
 import { AxiosError } from 'axios';
 import { log } from 'console';
 
+//userId
 
 const createOrder = async (req = request, res = response) => {
-    const { name, quantity, paid, price, image, userId }: OrderInterface = req.body;
+    const { name, quantity, paid, price, image, UserId}: OrderInterface = req.body;
     console.log(req.body)
     try {
         
@@ -27,12 +28,12 @@ const createOrder = async (req = request, res = response) => {
     }
 };
 const getAllOrders = async (req = request, res = response) => {
-    const { userId }: OrderInterface = req.body;
+    const { UserId }: OrderInterface = req.body;
 
 
     try {
 
-        const listOrders = await Order.findAll({ where: { userId } });
+        const listOrders = await Order.findAll({ where: { UserId } });
         if (!listOrders) { return res.status(404).json({ message: 'Cart yet is Empty' }) };
 
         return res.status(200).json(listOrders)
@@ -78,7 +79,7 @@ const deleteOrderById = async (req = request, res = response) => {
         const success = await Order.destroy({ where: { id } });
         if (!success) { return res.status(404).json({ message: 'Cannot delete purchase' }) };
 
-        return res.status(200).json({ message: `Your purchase ${id} has deleted` })
+        return res.status(200).json({ message: `Your purchase ${id} has been deleted` })
 
     }
     catch (error: unknown) {

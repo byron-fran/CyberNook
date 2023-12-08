@@ -31,7 +31,7 @@ sequelize.sync({force:false})
     .then(() => {
         app.listen(process.env.PORT, () => {
             console.log(`El puerto ${process.env.PORT}`);
-            console.log('Conion a base de datos')
+            console.log('Conexion a base de datos')
         })
     })
     .catch(error => {

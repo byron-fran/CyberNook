@@ -1,5 +1,6 @@
-import {Table, DataType,Model, AutoIncrement, Column, PrimaryKey } from 'sequelize-typescript';
-
+import {Table, DataType,Model, AutoIncrement, Column, PrimaryKey, HasMany, BelongsToMany } from 'sequelize-typescript';
+import UserOrder from './UserOrder';
+import User from './User';
 
 @Table({
     tableName : 'order',
@@ -28,7 +29,13 @@ class Order extends Model<Order>{
     paid! : boolean
 
     @Column(DataType.INTEGER || DataType.STRING)
-    userId! : number | string
+    UserId! : number | string
+
+    @HasMany (() => UserOrder,'OrderId')
+    userOrders! : Order[]
+
+    @BelongsToMany (() => User, () => UserOrder)
+    users! : User[]
 
 }
 

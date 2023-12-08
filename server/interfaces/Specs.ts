@@ -6,6 +6,6 @@ export interface Specs {
     size? : string,
     weight : string,
     mesasures?: string,
-    productId : number | string
+    ProductId : number | string
 
 }

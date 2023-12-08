@@ -1,11 +1,12 @@
-import {Model, Table, DataType, PrimaryKey, AutoIncrement, Column} from 'sequelize-typescript';
+import {Model, Table, DataType, PrimaryKey, AutoIncrement, Column, HasMany, BelongsToMany} from 'sequelize-typescript';
 import { User  as UserInterface} from '../interfaces/User';
+import Order from './Order';
+import UserOrder from './UserOrder';
 
 @Table({
     tableName : 'users',
     timestamps : true
 })
-
 
 
 class User extends Model<User, UserInterface>{
@@ -22,5 +23,14 @@ class User extends Model<User, UserInterface>{
 
     @Column(DataType.STRING)
     email! : string 
+
+    @HasMany(() => Order, 'UserId')
+    orders! : Order[]
+
+    @BelongsToMany(() => Order, () => UserOrder)
+    userOrders! : Order[]
+
+
+
 };
  export default User

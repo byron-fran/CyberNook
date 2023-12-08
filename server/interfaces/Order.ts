@@ -5,5 +5,5 @@ export interface Order  {
     image : string,
     paid : boolean,
     id : number | string,
-    userId : number | string
+    UserId : number | string
 }

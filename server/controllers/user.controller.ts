@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt'
 import Order from '../models/Order';
-import { log } from 'console';
+
 dotenv.config();
 
 const register = async (req = request, res = response) => {
@@ -30,7 +30,7 @@ const register = async (req = request, res = response) => {
         }
         const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
             algorithm: 'HS256',
-            expiresIn: '1d'
+            expiresIn: '7d'
         })
         res.cookie('token', token, {
             httpOnly: true,
@@ -93,12 +93,17 @@ const logout = async (req = request, res = response) => {
 };
 
 const getProfile = async (req = request, res = response) => {
-    const { userId } = req.body;
-
+    const { UserId } = req.body;
+    
     try {
-        const user = await User.findByPk(userId, {
-            include : Order
-        });
+        const user = await User.findByPk(UserId, {
+            include : [
+                {
+                    model : Order,
+                    as : 'orders'
+                }
+            ]
+        })
         if (!user) { return res.status(404).json({ message: 'user not found' }) };
 
         return res.status(200).json(user)
@@ -107,14 +112,14 @@ const getProfile = async (req = request, res = response) => {
         if (error instanceof AxiosError) {
             return res.status(404).json({ message: error.response?.data })
         }
-        return res.status(500).json({ message: 'Error unknown' })
+        return res.status(500).json({ message:error })
     }
 }
 
 const deleteProfile = async (req = request, res = response) => {
-    const { userId } = req.body
+    const { UserId } = req.body
     try {
-        const userDelete = await User.findByPk(userId);
+        const userDelete = await User.findByPk(UserId);
         userDelete?.destroy()
         return res.status(200).json({message : "Delete success"});
 
@@ -129,10 +134,10 @@ const deleteProfile = async (req = request, res = response) => {
 
 const updateProfile = async (req = request, res = response) => {
 
-    const { userId, name, email } = req.body;
+    const { UserId, name, email } = req.body;
     try {
        
-        const user  = await User.findByPk<any>(userId);
+        const user  = await User.findByPk<any>(UserId);
 
         if (user) {
             // Actualiza los valores del usuario

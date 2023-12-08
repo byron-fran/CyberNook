@@ -10,7 +10,7 @@ export const verifyToken = async (req = request, res = response,next : NextFunct
     //verify token
     const user = jwt.verify(token, process.env.SECRET_KEY!) as JwtPayload;
     if(!user){return res.status(401).json({message : 'Unauthorized'})}
-    req.body.userId = user.id as string;
+    req.body.UserId = user.id as string;
 
     next()
 }
