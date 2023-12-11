@@ -2,11 +2,11 @@ import {Model, Table, DataType, PrimaryKey, AutoIncrement, Column, HasMany, Belo
 import { User  as UserInterface} from '../interfaces/User';
 import Order from './Order';
 import UserOrder from './UserOrder';
-
 @Table({
     tableName : 'users',
     timestamps : true
 })
+
 
 
 class User extends Model<User, UserInterface>{
@@ -24,10 +24,10 @@ class User extends Model<User, UserInterface>{
     @Column(DataType.STRING)
     email! : string 
 
-    @HasMany(() => Order, 'UserId')
+    @HasMany(() => Order, 'UserId' )
     orders! : Order[]
 
-    @BelongsToMany(() => Order, () => UserOrder)
+    @BelongsToMany(() => Order, () => UserOrder, )
     userOrders! : Order[]
 
 

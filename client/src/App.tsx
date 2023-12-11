@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import axios from 'axios';
 import Products from './components/products/Products';
 import { CartProvider } from './context/CartContext';
@@ -13,11 +13,11 @@ import { useAppSelector, useAppDispatch } from './redux/hooks/hooks';
 import { getUserProfileThunk, verifyTokenThunk } from './redux/thunks/AuthThunk';
 import { getProductsThunk } from './redux/thunks/ProductsThunk';
 import Cookies from 'js-cookie'
-
+import NavBar from './components/navbar/NavBar';
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
-  const { user } = useAppSelector((state) => state.auth);
+
   //get user profile
   useEffect(() => {
 
@@ -30,17 +30,21 @@ function App(): JSX.Element {
 
   return (
     <>
-      <CartProvider>
-        <Routes>
+
+      <Routes>
+        <Route element={<NavBar />}>
           <Route path='/' element={<Home />} />
           <Route path='/store' element={<Products />} />
           <Route path='/detail/:id' element={<DetailProduct />} />
           <Route path='/cart' element={<Cart />} />
-          {/* Auth */}
-          <Route path='/register' element={<Register />} />
-          <Route path='/login' element={<Login />} />
-        </Routes>
-      </CartProvider>
+        </Route>
+
+
+        {/* Auth */}
+        <Route path='/register' element={<Register />} />
+        <Route path='/login' element={<Login />} />
+      </Routes>
+
 
     </>
   )

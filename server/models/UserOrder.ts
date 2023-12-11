@@ -11,7 +11,7 @@ export default class UserOrder extends Model<UserOrder> {
 
     @ForeignKey(() => Order)
     @Column
-    orderId!: number;
+    OrderId!: number;
 
     @BelongsTo(() => User, 'OrderId')
     user!: User;

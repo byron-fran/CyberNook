@@ -15,7 +15,7 @@ const Cart : React.FC= () => {
   return (
     <div className="w-full md:w-[90%] mx-auto flex flex-col md:flex-row  justify-center mt-20">
         <div className="md:w-[70%]">
-             {user.Orders && user.Orders.map(purchase => (
+             {user.orders && user.orders.map(purchase => (
              <CardPurchase key={purchase.id} purchase={purchase}/>
             ))}
         </div>

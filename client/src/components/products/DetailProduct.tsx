@@ -1,34 +1,19 @@
-import axios, { AxiosError } from "axios";
-import React, { useEffect, useState, useContext } from "react";
-import { CartContext } from "../../context/CartContext";
+import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
-import { formaterDinero, generarId } from "../../helpers";
-import { PurchaseType } from "../../interface/Purchase";
-import { ProductType } from "../../interface/Product";
+import { formaterDinero } from "../../helpers";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { createOrderThunk, updateOrderThunk } from "../../redux/thunks/CartThunks";
 import { getDetailProduct } from "../../redux/thunks/ProductsThunk";
-import { car, cat } from "@cloudinary/url-gen/qualifiers/focusOn";
-
-// import { generarId } from "../../helpers";
-
-
-
 
 
 const DetailProduct: React.FC = (): JSX.Element | null => {
     const Navigate = useNavigate();
-    const { cart, resfreshData, setRefreshData, setCart } = useContext(CartContext)
-    const dispatch = useAppDispatch();
-    const { cart: orders } = useAppSelector(state => state.cart);
-    const { user } = useAppSelector(state => state.auth)
-    const { products, detailProduct: product } = useAppSelector(state => state.products)
-
-    const { id } = useParams();
     const [quantity, setQuantity] = useState(1);
-
-
+    const dispatch = useAppDispatch();
+    const { id } = useParams();
+    const { user } = useAppSelector(state => state.auth);
+    const { detailProduct: product } = useAppSelector(state => state.products)
 
     useEffect(() => {
         if (id) {
@@ -36,28 +21,6 @@ const DetailProduct: React.FC = (): JSX.Element | null => {
             return
         }
     }, [id]);
-
-
-    useEffect(() => {
-        const getCartPurchase = async () => {
-            const url = `http://localhost:4000/list_order`;
-            try {
-                // setRefreshData(false)
-                const { data } = await axios(url);
-                //console.log(data)
-                setCart(data)
-                return data
-            }
-            catch (error: unknown) {
-                if (error instanceof AxiosError) {
-                    console.log(error.message)
-                }
-            }
-        }
-        getCartPurchase();
-    }, [resfreshData, setCart]);
-
-
 
 
     const handleAddQuantityProduct = () => {
@@ -71,29 +34,23 @@ const DetailProduct: React.FC = (): JSX.Element | null => {
         }
     };
 
-    const addToCart = async (order : any) => {
-        try{
-            const {data} = await axios.post(`http://localhost:4000/order`, order, {
-                withCredentials : true
-            })
-            console.log(data)
-         }
-        catch(error){
-            console.log(error)
-        }
-    }
-
-    //console.log(cart)
     const handleAddPurchase = async () => {
-        
-        let priceTotal = product.price * quantity;   
-        const productExist = user.Orders?.find(order => order.id === product.id);
-        if(productExist){
-            dispatch(updateOrderThunk({id : productExist.id, order : { ...product, quantity, price: priceTotal}}))
+
+        let priceTotal = product.price * quantity;
+        console.log(product)
+        const productExist = user.orders?.find(order => order.id === product.id);
+        if (productExist) {
+            dispatch(updateOrderThunk({ id: productExist.id, order: { ...product, quantity, price: priceTotal, paid : false } }))
+                .then(() => {
+                    Navigate('/cart')
+                })
             return
         }
-        dispatch(createOrderThunk({ ...product, quantity, price: priceTotal}))
-    
+        dispatch(createOrderThunk({ ...product, quantity, price: priceTotal }))
+            .then(() => {
+                Navigate('/cart')
+            })
+
 
     }
 

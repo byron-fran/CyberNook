@@ -1,9 +1,10 @@
-import NavBar from "../../components/navbar/NavBar"
+import Slides from "../../components/slides/Slides"
 const Home = () => {
   return (
-    <div>
-    <NavBar/>
-    </div>
+    <main className="w-[95%] md:w-[80%] mx-auto">
+      <Slides/>
+
+    </main>
   )
 }
 

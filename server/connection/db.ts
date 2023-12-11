@@ -7,10 +7,6 @@ import Spces from '../models/Specs';
 import UserOrder from '../models/UserOrder';
 dotenv.config()
 
-
-
-
-
 export const sequelize = new Sequelize({
     dialect: 'postgres',
     host: process.env.DB_HOST,

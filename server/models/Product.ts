@@ -1,6 +1,7 @@
-import {Table, Column, Model, DataType,AutoIncrement, PrimaryKey} from 'sequelize-typescript'
+import {Table, Column, Model, DataType,AutoIncrement, PrimaryKey,HasMany, BelongsToMany} from 'sequelize-typescript'
 import { sequelize } from '../connection/db';
-
+import Order from './Order';
+import ProductOrder from './ProductOrder';
 
 @Table({
     tableName : 'productos',
@@ -24,6 +25,13 @@ class Product extends Model <Product> {
     
     @Column (DataType.STRING)
     category!: string
+
+    // @HasMany(() => ProductOrder, 'ProductId')
+    // productOrders! : Product[]
+
+    // @BelongsToMany(() => Product, () => ProductOrder)
+    // orders! : Order[]
+
     
 };
 
