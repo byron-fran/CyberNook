@@ -11,6 +11,7 @@ const Slides = () => {
 
     return (
         <div className='w-full mt-10'>
+            <h2 className='text-center mb-4 font-bold text-2xl uppercase'>Featured Products</h2>
             <Swiper
                 spaceBetween={30}
                 effect={'fade'}
@@ -24,7 +25,7 @@ const Slides = () => {
                     clickable: true,
                 }}
                 modules={[EffectFade, Navigation, Pagination, Autoplay]}
-                className=" h-[30rem]"
+                className=" h-[25rem]"
             >
                 <SwiperSlide className='bg-white'>
                     <img className='object-contain h-full mx-auto' src="/images/slides/camara1.jpg" />

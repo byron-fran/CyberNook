@@ -3,7 +3,8 @@ import dotenv from 'dotenv';
 import { sequelize} from './connection/db';
 import routerProduct from './routes/product.routes';
 import routerOrder from './routes/order.routes';
-import routerUser from './routes/user.routes'
+import routerUser from './routes/user.routes';
+import routesCategory from './routes/category.routes'
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
@@ -27,7 +28,8 @@ app.use(express.json());
 app.use(cookieParser())
 app.use('/store', routerProduct);
 app.use('/', routerOrder);
-app.use('/', routerUser)
+app.use('/', routerUser);
+app.use('/', routesCategory)
 
 
 sequelize.sync({force:false})

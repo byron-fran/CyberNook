@@ -14,7 +14,7 @@ import { getUserProfileThunk, verifyTokenThunk } from './redux/thunks/AuthThunk'
 import { getProductsThunk } from './redux/thunks/ProductsThunk';
 import Cookies from 'js-cookie'
 import NavBar from './components/navbar/NavBar';
-
+import AdminPage from './pages/admin/AdminPage';
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
 
@@ -39,7 +39,7 @@ function App(): JSX.Element {
           <Route path='/cart' element={<Cart />} />
         </Route>
 
-
+        <Route path='/admin' element={<AdminPage/>}/>
         {/* Auth */}
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
