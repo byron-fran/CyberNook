@@ -1,4 +1,4 @@
-import  { useState } from 'react'
+import  { useState, FormEvent, ChangeEvent,  } from 'react'
 import { uploadImageClodinary } from './cloudinary';
 import axios, { AxiosError } from 'axios';
 const FormCategory = () => {
@@ -6,13 +6,13 @@ const FormCategory = () => {
     const [imgCategory, setImgCategory] = useState<FormData>()
 
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e : FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const imgUrl = await uploadImageClodinary(imgCategory!);
         
         const updateCategory = {
             name: nameCategory,
-            image: imgUrl.secure_url
+            image: imgUrl
         };
         try {
             const { data } = await axios.post('http://localhost:4000/category', updateCategory);
@@ -25,11 +25,10 @@ const FormCategory = () => {
         }
 
     }
-    const uploadImage = (e: any) => {
+    const uploadImage = (e :ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files;
         const data = new FormData();
-
-        data.append('file', file[0]);
+        data.append('file', file![0]);
         data.append('upload_preset', 'Categories')
         setImgCategory(data)
 

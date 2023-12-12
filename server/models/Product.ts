@@ -26,6 +26,9 @@ class Product extends Model <Product> {
     @Column (DataType.STRING)
     category!: string
 
+    @Column(DataType.INTEGER)
+    stock! : number
+
     // @HasMany(() => ProductOrder, 'ProductId')
     // productOrders! : Product[]
 

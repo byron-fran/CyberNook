@@ -1,13 +1,11 @@
 import {useEffect, useState}from 'react'
 import { NavLink, } from 'react-router-dom'
 import axios, { AxiosError } from 'axios';
+import { Category } from '../../interface/Category';
+
 const Categories = () => {
-    interface Category {
-        name : string,
-        id: number,
-        image : string
-    }
-    const [categories, setCategories] = useState([]);
+
+    const [categories, setCategories] = useState<Category[]>([]);
 
     useEffect(() => {
         const getCategories = async () => {
@@ -27,7 +25,7 @@ const Categories = () => {
         <main className='w-full mt-10 mb-10'>
             <h2 className='text-center mb-4 font-bold text-2xl uppercase'>Categories</h2>
             <ul className='w-full border border-slate-300 rounded-md  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4 gap-1 md:gap-0 '>
-                {categories && categories.map((category : Category) =>  (
+                {categories && categories.map((category ) =>  (
                     <li className='mt-4 mb-4 hover:border p-2 hover:border-slate-400 ' key={category.id}>
                         <NavLink to='/store'>
                             <h2 className='text-center font-bold '>{category.name}</h2>

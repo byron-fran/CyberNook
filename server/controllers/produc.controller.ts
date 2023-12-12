@@ -2,15 +2,18 @@ import {request, response} from 'express';
 import Product from '../models/Product';
 import { AxiosError } from 'axios';
 import { Product as P } from '../interfaces/Product';
+import Category from '../models/Categories';
+import { CategoryInterface } from '../interfaces/Category';
 import fs from 'fs'
 import path from 'path';
 
 const createProduct = async (req = request, res = response) => {
-    const {name,  price, category, stock,  } : P = req.body
+    const {name,  price, category, stock, image } : P = req.body
     const  file = req.file
     try{
         // console.log(image)
-        const newProduct  = await Product.create<any>({name, image : file?.filename, price, category, stock})
+        const categoryFound  = await Category.findOne({where : {name : category}});
+        const newProduct  = await Product.create({name, image, price, category, stock, CategoryId : categoryFound.id})
         
         if(!newProduct){return res.status(404).json({error : 'No saved product'})};
     

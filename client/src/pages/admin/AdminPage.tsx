@@ -1,13 +1,15 @@
 import React from 'react'
-import FormCategory from '../../components/admin/FormCategory';
+import Sidebar from '../../components/admin/Sidebar';
+import {Outlet} from 'react-router-dom';
 
 
 const AdminPage = () => {
 
 
   return (
-    <main>
-        <FormCategory/>
+    <main className='w-full grid md:grid-cols-4'>
+        <Sidebar/>
+        <Outlet/>
     </main>
   )
 }

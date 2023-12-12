@@ -36,11 +36,11 @@ const DetailProduct: React.FC = (): JSX.Element | null => {
 
     const handleAddPurchase = async () => {
 
-        let priceTotal = product.price * quantity;
+        const priceTotal = product.price * quantity;
         console.log(product)
         const productExist = user.orders?.find(order => order.id === product.id);
         if (productExist) {
-            dispatch(updateOrderThunk({ id: productExist.id, order: { ...product, quantity, price: priceTotal, paid : false } }))
+            dispatch(updateOrderThunk({ id: productExist.id, order: { ...product, quantity, price: priceTotal, paid: false } }))
                 .then(() => {
                     Navigate('/cart')
                 })
@@ -56,10 +56,10 @@ const DetailProduct: React.FC = (): JSX.Element | null => {
 
     return (
         <>
-            <div className="grid md:grid-cols-2 w-full lg:w-3/4 mx-auto gap-10 bg-slate-300 p-10 mt-20">
+            <div className="grid md:grid-cols-2 w-full lg:w-3/4 mx-auto gap-10   p-8 mt-10">
                 <div>
                     <h2 className="text-center mb-4 text-2xl">{product.name}</h2>
-                    <img className="w-9/12 md:w-[400px] mx-auto" src={`http://localhost:4000/store/product_image/${product?.image}`} alt="img-product" />
+                    <img className="w-9/12 md:w-[300px] md:h-[300px] mx-auto object-contain" src={`${product.image}`} alt="img-product" />
 
                 </div>
 

@@ -38,6 +38,7 @@ export const createProduct = createAsyncThunk('create/product', async(product: P
         const {data} = await axios.post('http://localhost:4000/store/product', product, {
             withCredentials : true
         });
+  
         return data
     } catch (error) {
         if (axios.isAxiosError(error)) {
