@@ -6,4 +6,5 @@ export interface Order  {
     paid : boolean,
     category? : string,
     stock?: number,
+    id : number
 }

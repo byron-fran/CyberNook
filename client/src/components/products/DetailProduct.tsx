@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { createOrderThunk, updateOrderThunk } from "../../redux/thunks/CartThunks";
 import { getDetailProduct } from "../../redux/thunks/ProductsThunk";
-
+import { clearDetailProduct } from "../../redux/slices/ProductsSilce";
 
 const DetailProduct: React.FC = (): JSX.Element | null => {
     const Navigate = useNavigate();
@@ -19,6 +19,9 @@ const DetailProduct: React.FC = (): JSX.Element | null => {
         if (id) {
             dispatch(getDetailProduct(id))
             return
+        }
+        return () => {
+            dispatch(clearDetailProduct())
         }
     }, [id]);
 
@@ -37,8 +40,8 @@ const DetailProduct: React.FC = (): JSX.Element | null => {
     const handleAddPurchase = async () => {
 
         const priceTotal = product.price * quantity;
-        console.log(product)
-        const productExist = user.orders?.find(order => order.id === product.id);
+ 
+        const productExist = user.Orders?.find(order => order.id === product.id);
         if (productExist) {
             dispatch(updateOrderThunk({ id: productExist.id, order: { ...product, quantity, price: priceTotal, paid: false } }))
                 .then(() => {

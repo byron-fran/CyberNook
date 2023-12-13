@@ -6,6 +6,7 @@ import Order from '../models/Order';
 import Spces from '../models/Specs';
 import UserOrder from '../models/UserOrder';
 import Category from '../models/Categories';
+import Address from '../models/Address';
 
 dotenv.config()
 
@@ -16,13 +17,38 @@ export const sequelize = new Sequelize({
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    models: [Product, User, Order, Spces, UserOrder, Category] 
+    models: [
+        Product, 
+        User,
+        Address, 
+        Order, 
+        Spces, 
+        UserOrder, 
+        Category
+    ] 
 
 })
 
 
-User.belongsToMany(Order, {through : UserOrder })
-Order.belongsToMany(User, {through : UserOrder})
+
+User.hasMany(Order, {
+
+     onDelete : 'CASCADE'
+});
+
+Order.belongsTo(User, {
+    foreignKey : 'UserId'
+})
+
+User.hasMany(Address, {
+    onDelete : 'CASCADE'
+});
+
+Address.belongsTo(User, {
+    foreignKey : 'UserId'
+})
+// User.belongsToMany(Order, {through : UserOrder })
+// Order.belongsToMany(User, {through : UserOrder})
 
 //
 Category.hasMany(Product, {

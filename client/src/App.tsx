@@ -6,26 +6,29 @@ import Cart from './components/cart/Cart';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
 import Home from './pages/home/Home';
-import { useAppSelector, useAppDispatch } from './redux/hooks/hooks';
+import {  useAppDispatch } from './redux/hooks/hooks';
 import { getUserProfileThunk, verifyTokenThunk } from './redux/thunks/AuthThunk';
 import { getProductsThunk } from './redux/thunks/ProductsThunk';
+import { getAllOrdersThunk } from './redux/thunks/CartThunks';
 import NavBar from './components/navbar/NavBar';
 import AdminPage from './pages/admin/AdminPage';
 import FormPage from './pages/admin/FormPage';
 import FormProduct from './components/admin/FormProduct';
 import FormCategory from './components/admin/FormCategory';
+import UserPage from './pages/profile/UserPage';
+
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
-  const { user } = useAppSelector(state => state.auth)
+  
   //get user profile
   useEffect(() => {
 
 
-      dispatch(verifyTokenThunk())
-      dispatch(getUserProfileThunk());
- 
-    
+    dispatch(verifyTokenThunk())
+    dispatch(getUserProfileThunk());
+
+  
 
     dispatch(getProductsThunk())
 
@@ -43,16 +46,22 @@ function App(): JSX.Element {
           <Route path='/cart' element={<Cart />} />
         </Route>
 
+      {/* Routes Admin */}
         <Route path='/admin' element={<AdminPage />} >
-          <Route index element={<FormPage/>}/>
-          <Route path='/admin/create-product' element={<FormProduct/>}/>
-          <Route path='/admin/create-category' element={<FormCategory/>}/>
+          <Route index element={<FormPage />} />
+          <Route path='/admin/create-product' element={<FormProduct />} />
+          <Route path='/admin/create-category' element={<FormCategory />} />
         </Route>
-        {/* Auth */}
+        {/* Routes Auth */}
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
+          {/* Routes User Profile */}
+          <Route path='/profile' element={<UserPage/>}/>
+        
       </Routes>
 
+    
+      
 
     </>
   )

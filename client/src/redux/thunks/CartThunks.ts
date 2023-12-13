@@ -24,7 +24,7 @@ export const getAllOrdersThunk = createAsyncThunk('orders/cart', async (_, {reje
         const {data} = await axios('http://localhost:4000/list_order', {
             withCredentials : true
         });
-        console.log(data)
+       
         return data
     } catch (error) {
         if (axios.isAxiosError(error)) {

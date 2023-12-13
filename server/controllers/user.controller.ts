@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt'
 import Order from '../models/Order';
+import Address from '../models/Address';
 
 dotenv.config();
 
@@ -44,7 +45,7 @@ const register = async (req = request, res = response) => {
         if (error instanceof AxiosError) {
             return res.status(404).json({ message: error.response?.data })
         }
-        return res.status(500).json({ error: 'Error unknown' })
+        return res.status(500).json({ error: error })
     }
 }
 
@@ -94,15 +95,11 @@ const logout = async (req = request, res = response) => {
 
 const getProfile = async (req = request, res = response) => {
     const { UserId } = req.body;
-    
+
     try {
-        const user = await User.findByPk(UserId, {
-            include : [
-                {
-                    model : Order,
-                    as : 'orders'
-                }
-            ]
+        const user = await User.findOne({where : {id : UserId}, 
+            include :[ Order, Address],
+            
         })
         if (!user) { return res.status(404).json({ message: 'user not found' }) };
 

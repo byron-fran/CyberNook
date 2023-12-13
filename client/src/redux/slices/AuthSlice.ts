@@ -14,8 +14,11 @@ const initialState: Auth = {
         email: '',
         password: '',
         id: '',
+        Orders : [],
+        Addresses :[]
     
-    }
+    },
+    
 };
 
 const authSlice = createSlice({
@@ -68,7 +71,9 @@ const authSlice = createSlice({
                     name: '',
                     email: '',
                     password: '',
-                    id: ''
+                    id: '',
+                    Addresses : [],
+                    Orders : []
                 }
             })
         //Get user Profile   

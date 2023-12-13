@@ -16,7 +16,7 @@ export const getProductsThunk = createAsyncThunk('get/product', async (_, {rejec
     }
 });
 
-export const getDetailProduct = createAsyncThunk('detail/product', async (id : number , {rejectWithValue}) => {
+export const getDetailProduct = createAsyncThunk('detail/product', async (id : number | string , {rejectWithValue}) => {
     try {
       
         const {data} = await axios(`http://localhost:4000/store/product/${id}`);
@@ -62,4 +62,6 @@ export const getDetailProductThunk = createAsyncThunk('detail/product', async(id
         }
     }
 })
+
+
 

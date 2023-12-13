@@ -9,7 +9,8 @@ import UserOrder from './UserOrder';
 
 
 
-class User extends Model<User, UserInterface>{
+class User extends Model<User>{
+
     @AutoIncrement
     @PrimaryKey
     @Column(DataType.INTEGER)
@@ -24,12 +25,14 @@ class User extends Model<User, UserInterface>{
     @Column(DataType.STRING)
     email! : string 
 
-    @HasMany(() => Order, 'UserId' )
-    orders! : Order[]
+    @Column(DataType.INTEGER || DataType.STRING)
+    phone! : number | string
 
-    @BelongsToMany(() => Order, () => UserOrder, )
-    userOrders! : Order[]
+    // @HasMany(() => Order, 'OrderId' )
+    // orders! : Order[]
 
+    // @BelongsToMany(() => Order, () => UserOrder, )
+    // userOrders! : Order[]
 
 
 };

@@ -9,7 +9,6 @@ import { createProduct } from '../../redux/thunks/ProductsThunk';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../../spinner/Spinner';
 
-
 const FormProduct = () => {
     const { handleSubmit, register, reset, } = useForm<ProductType>();
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -52,9 +51,7 @@ const FormProduct = () => {
             .then(() => {
            
                 setIsLoading(false);
-               
-                
-                //     navigate('/');
+                navigate('/');
             })
             .catch(error => {
                 console.log(error);
@@ -75,7 +72,7 @@ const FormProduct = () => {
 
     };
     return (
-        <main className='w-full col-span-3 relative'>
+        <main className='w-full col-span-3 relative flex items-start justify-center mt-10'>
             {isLoading  &&   <Spinner/>}
             <form action="" className='w-[95%] mx-auto md:w-[70%] lg:w-[50%] mt-4 border border-slate-400 p-4 rounded-sm'
                 onSubmit={onSubmit} >
@@ -106,7 +103,7 @@ const FormProduct = () => {
                 {/* field category */}
                 <div className='w-full'>
                     <label className='block w-full my-2' htmlFor="category" >Category</label>
-                    <select className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800' name="caregory" id="category"
+                    <select className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800'  id="category"
                      {...register('category', { required: true })}>
                         {categories.length > 0 && categories.map(category => (
                             <option key={category.id} value={category.name}

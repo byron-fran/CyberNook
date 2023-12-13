@@ -13,11 +13,10 @@ import Product from './Product';
 
 class Order extends Model<Order>{
 
+    @AutoIncrement
     @PrimaryKey
-    @Default(UUID)
-    @Column(DataType.UUID,)
-
-    id!: string
+    @Column(DataType.INTEGER)
+    id! : number | string
 
 
     @Column(DataType.STRING)
@@ -38,11 +37,11 @@ class Order extends Model<Order>{
     @Column(DataType.INTEGER || DataType.STRING)
     UserId!: number | string
 
-    @HasMany(() => UserOrder, 'OrderId')
-    userOrders!: Order[]
+    // @HasMany(() => User, 'UserId')
+    // userOrders!: Order[]
 
-    @BelongsToMany(() => User, () => UserOrder)
-    users!: User[]
+    // @BelongsToMany(() => User, () => UserOrder)
+    // usersOrders!: User[]
 
     // @HasMany(() => ProductOrder, 'OrderId')
     // productOrders! : Order[]

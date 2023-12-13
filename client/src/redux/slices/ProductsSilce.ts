@@ -21,7 +21,18 @@ const initialState : Products ={
 const ProductsSlice = createSlice({
     name : 'products',
     initialState,
-    reducers : {},
+    reducers : {
+        clearDetailProduct : (state) => {
+            state.detailProduct = {
+                name : '',
+                category : '',
+                image : '',
+                price : 0,
+                stock : 0,
+                quantity : 0
+            }
+        }
+    },
     extraReducers : (builder) => {
         builder
             .addCase(getProductsThunk.pending, state => {
@@ -48,7 +59,11 @@ const ProductsSlice = createSlice({
             .addCase(getDetailProductThunk.rejected , state => {
                 state.isLoading = false
             })
+
+        //clean 
+        builder
+                
     }
 });
-
+export const {clearDetailProduct} = ProductsSlice.actions
 export default ProductsSlice

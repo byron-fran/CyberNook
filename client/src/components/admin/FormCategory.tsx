@@ -4,7 +4,7 @@ import axios, { AxiosError } from 'axios';
 const FormCategory = () => {
     const [nameCategory, setNameCategory] = useState<string>('');
     const [imgCategory, setImgCategory] = useState<FormData>()
-
+    
 
     const handleSubmit = async (e : FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -35,19 +35,23 @@ const FormCategory = () => {
     };
 
     return (
-        <div>
-            <form action="" onSubmit={handleSubmit}>
-                <label className='block' htmlFor="name">Category Name</label>
-                <input type="text" placeholder='category name'
+        <main className='w-full col-span-3 relative flex items-start  justify-center mt-10'>
+            <form action="" className='w-[95%] mx-auto md:w-[70%] lg:w-[50%] mt-4 border border-slate-400 p-4 rounded-sm'
+             onSubmit={handleSubmit}>
+                <label  className='block w-full my-2' htmlFor="name">Category Name</label>
+                <input className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800'
+                    type="text" 
+                    placeholder='category name'
                     onChange={(e) => setNameCategory(e.target.value)} />
 
-                <label className='block' htmlFor="image">Image</label>
-                <input type="file" id='image'
+                <label className='block w-full my-2' htmlFor="image">Image</label>
+                <input className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800'
+                    type="file" id='image'
                     onChange={uploadImage} />
 
-                <button className='bg-indigo-500 block' type='submit'>Create Category</button>
+                <button className='bg-blue-800 text-white font-bold uppercase w-full p-2 block mt-4' type='submit'>Create Category</button>
             </form>
-        </div>
+        </main>
     )
 }
 

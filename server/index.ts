@@ -4,7 +4,8 @@ import { sequelize} from './connection/db';
 import routerProduct from './routes/product.routes';
 import routerOrder from './routes/order.routes';
 import routerUser from './routes/user.routes';
-import routesCategory from './routes/category.routes'
+import routesCategory from './routes/category.routes';
+import routerAddress from './routes/address.routes'
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
@@ -29,7 +30,8 @@ app.use(cookieParser())
 app.use('/store', routerProduct);
 app.use('/', routerOrder);
 app.use('/', routerUser);
-app.use('/', routesCategory)
+app.use('/', routesCategory);
+app.use('/', routerAddress)
 
 
 sequelize.sync({force:false})

@@ -31,13 +31,15 @@ const NavBar = () => {
                         <nav className='flex gap-2'>
                             {isAuthenticated ? (
                                 <div className='flex gap-8 items-center'>
-
                                     <p className='text-white'>Hello, {user?.name}</p>
-                                    <NavLink className='text-white' onClick={hanldeLogOut} to='/login'>Logout</NavLink>
-                                    <NavLink to='/cart'>
-                                          <img className=' w-8' src="/images/cart.png" alt="image cart" />
+                                    <NavLink to='/profile'>
+                                        <img className='w-[35px] ' src="/images/user.svg" alt="image-user" />
                                     </NavLink>
-                                  
+                                    <NavLink to='/cart'>
+                                        <img className=' w-8' src="/images/cart.svg" alt="image cart" />
+                                    </NavLink>
+                                    <NavLink className='text-white' onClick={hanldeLogOut} to='/login'>Logout</NavLink>
+
                                 </div>
                             ) :
                                 <>
@@ -51,7 +53,7 @@ const NavBar = () => {
                     <SearchBar />
                 </div>
             </main>
-            <Outlet/>
+            <Outlet />
         </>
     )
 }

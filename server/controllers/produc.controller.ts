@@ -8,7 +8,7 @@ import fs from 'fs'
 import path from 'path';
 
 const createProduct = async (req = request, res = response) => {
-    const {name,  price, category, stock, image } : P = req.body
+    const {name,  price, category, stock, image,  } : P = req.body
     const  file = req.file
     try{
         // console.log(image)
