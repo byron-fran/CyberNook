@@ -7,8 +7,8 @@ const UserAddress = () => {
     const [disableCodePostal, setDisableCodePostal] = useState<boolean>(true);
     const [disableCountry, setDisableCountry] = useState<boolean>(true);
     const [disabledCity, setDisableCity] = useState<boolean>(true);
-    const { handleSubmit, setValue, register, } = useForm<Address>();
     const [disableInteriorNumber, setDisableInteriorNumber] = useState<boolean>(true);
+    const { handleSubmit, setValue, register, } = useForm<Address>();
 
     const { user: { Addresses } } = useAppSelector(state => state.auth)
 

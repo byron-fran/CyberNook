@@ -8,12 +8,15 @@ import { useAppDispatch } from '../../redux/hooks/hooks';
 import { createProduct } from '../../redux/thunks/ProductsThunk';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../../spinner/Spinner';
+import SweetAlert from '../../libs/SweetAlert';
 
 const FormProduct = () => {
     const { handleSubmit, register, reset, } = useForm<ProductType>();
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [categories, setCategories] = useState<Category[]>([]);
     const [imgProduct, setImgProduct] = useState<FormData>();
+    const [showAlert, setShowAlert] = useState<boolean>(false)
+
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -36,31 +39,35 @@ const FormProduct = () => {
     const onSubmit = handleSubmit(async (data) => {
 
         setIsLoading(true)
-      
-        
+
+
         const urlProductImage = await uploadImageClodinary(imgProduct!);
-      
+
         const updateProduct = {
             ...data,
-            image : urlProductImage
+            image: urlProductImage
         }
-        
-      
+
+
         //submit a new product
         dispatch(createProduct(updateProduct))
             .then(() => {
-           
+
                 setIsLoading(false);
-                navigate('/');
+                setShowAlert(true);
+                setTimeout(() => {
+                    setShowAlert(false);
+                    navigate('/');
+                }, 3000)
             })
             .catch(error => {
                 console.log(error);
                 setIsLoading(false)
-                
+
             })
 
-          //form clear
-          reset()  
+        //form clear
+        reset()
 
     });
     const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +80,15 @@ const FormProduct = () => {
     };
     return (
         <main className='w-full col-span-3 relative flex items-start justify-center mt-10'>
-            {isLoading  &&   <Spinner/>}
+            {isLoading && <Spinner />}
+            {showAlert && (
+                <SweetAlert
+                    type='success'
+                    title='New product has been added'
+                    bgColor='white'
+                    colorText='#1e40af' />
+            )}
+
             <form action="" className='w-[95%] mx-auto md:w-[70%] lg:w-[50%] mt-4 border border-slate-400 p-4 rounded-sm'
                 onSubmit={onSubmit} >
                 {/* field name */}
@@ -103,20 +118,20 @@ const FormProduct = () => {
                 {/* field category */}
                 <div className='w-full'>
                     <label className='block w-full my-2' htmlFor="category" >Category</label>
-                    <select className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800'  id="category"
-                     {...register('category', { required: true })}>
+                    <select className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800' id="category"
+                        {...register('category', { required: true })}>
                         {categories.length > 0 && categories.map(category => (
                             <option key={category.id} value={category.name}
-                               >{category.name}</option>
+                            >{category.name}</option>
                         ))}
                     </select>
                 </div>
                 {/* Field image */}
                 <div className='w-full'>
-                  
+
                     <label className='block w-full my-2' htmlFor="image" >Select an image</label>
                     <input type="file" className='border border-slate-400  w-full' id='image'
-                        
+
                         onChange={uploadImage}
                     />
 

@@ -3,7 +3,7 @@ import { NavLink, useNavigate, Outlet } from 'react-router-dom'
 import { useAppDispatch } from '../../redux/hooks/hooks';
 import { logOutUserThunk } from '../../redux/thunks/AuthThunk';
 import SearchBar from '../searchBar/SearchBar';
-
+import Footer from '../footer/Footer';
 
 
 const NavBar = () => {
@@ -54,6 +54,7 @@ const NavBar = () => {
                 </div>
             </main>
             <Outlet />
+            <Footer />
         </>
     )
 }
