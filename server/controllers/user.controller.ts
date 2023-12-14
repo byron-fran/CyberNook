@@ -118,6 +118,7 @@ const deleteProfile = async (req = request, res = response) => {
     try {
         const userDelete = await User.findByPk(UserId);
         userDelete?.destroy()
+        res.clearCookie('token')
         return res.status(200).json({message : "Delete success"});
 
     }
@@ -131,15 +132,16 @@ const deleteProfile = async (req = request, res = response) => {
 
 const updateProfile = async (req = request, res = response) => {
 
-    const { UserId, name, email } = req.body;
+    const { UserId, name, email, phone } = req.body;
     try {
-       
-        const user  = await User.findByPk<any>(UserId);
+        console.log(req.body)
+        const user  = await User.findOne({where : {id : UserId}});
 
         if (user) {
             // Actualiza los valores del usuario
             user.email = email;
             user.name = name;
+            user.phone = phone
 
             // Guarda los cambios en la base de datos
             await user?.save();
@@ -153,7 +155,7 @@ const updateProfile = async (req = request, res = response) => {
         if (error instanceof AxiosError) {
             return res.status(404).json({ message: error.response?.data })
         }
-        return res.status(500).json({ message: 'Error unknown' })
+        return res.status(500).json({ message:error })
     }
 }
 

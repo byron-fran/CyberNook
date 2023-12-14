@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { useAppSelector } from '../../redux/hooks/hooks'
+import { useAppSelector, useAppDispatch } from '../../redux/hooks/hooks'
 import { useForm } from 'react-hook-form';
+import { updateProfileThunk } from '../../redux/thunks/AuthThunk';
+import { UserType } from '../../types/auth/User';
+import SweetAlert from '../../libs/SweetAlert';
+import { deleteProfileThunk } from '../../redux/thunks/AuthThunk';
+import { useNavigate } from 'react-router-dom';
 
 const UserData = () => {
     const { user } = useAppSelector(state => state.auth);
-    const { handleSubmit, setValue, register, } = useForm();
+    const { handleSubmit, setValue, register, } = useForm<UserType>();
     const [disableName, setDisableName] = useState<boolean>(true);
     const [disabledPhone, setDisablePhone] = useState<boolean>(true);
-    const [disableEmail, setDisableEmail] = useState<boolean>(true)
-
+    const [disableEmail, setDisableEmail] = useState<boolean>(true);
+    const [showAlert,setShowAlert] = useState(false)
+    const Navigate = useNavigate()
+    const dispatch = useAppDispatch()
     useEffect(() => {
 
         if (user) {
@@ -22,12 +29,38 @@ const UserData = () => {
 
     if (!user) { return null }
     const onSubmit = handleSubmit(data => {
-        console.log(data)
+        const phoneNumber = Number(data.phone)
+
+        dispatch(updateProfileThunk({...data, phone :phoneNumber}))
+            .then(() => {
+                setShowAlert(true);
+                setDisableEmail(true)
+                setDisableName(true)
+                setDisablePhone(true)
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 3000)
+            })
+            .catch((error) => {
+                console.log(error);
+                setShowAlert(false)
+            })
     })
 
+    const handleDeleteUserAccount = () => {
+        dispatch(deleteProfileThunk())
+            .then(() => {
+              Navigate('/login')
+            })
+    }
     return (
         <div className='border border-slate-300 w-full '>
             <h2 className='bg-blue-800 text-white p-2 font-bold'>Your personal information</h2>
+            {showAlert && <SweetAlert 
+                title='Updated successfully' 
+                type='success' 
+                bgColor='#fff'
+                colorText='#1e40af'/>}
             <form action="" className='mt-4 w-full'
                 onSubmit={onSubmit}>
                 {/* Field name */}
@@ -86,7 +119,8 @@ const UserData = () => {
                     </div>
                 </div>
                 <div className='flex justify-between mt-10'>
-                    <button className='bg-red-500 text-white p-2 uppercase font-bold' type='button'>Delete Account</button>
+                    <button className='bg-red-500 text-white p-2 uppercase font-bold' type='button' 
+                        onClick={handleDeleteUserAccount}>Delete Account</button>
                     <button className='bg-blue-800 text-white p-2 uppercase font-bold' type='submit'>Update </button>
                 </div>
 

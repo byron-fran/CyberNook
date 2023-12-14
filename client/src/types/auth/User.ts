@@ -6,6 +6,6 @@ export type UserType = {
     phone? : string | number,
     password : string,
     id? : number | string,
-    Orders : Order[],
-    Addresses : Address[]
+    Orders? : Order[],
+    Addresses? : Address[]
 }

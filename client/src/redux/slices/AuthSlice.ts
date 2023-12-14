@@ -2,7 +2,15 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { UserType } from "../../types/auth/User";
 import { Auth } from "../../interface/Auth";
 import Cookies from 'js-cookie'
-import { registerUserThunk, getUserProfileThunk, verifyTokenThunk, logOutUserThunk, loginUserThunk } from "../thunks/AuthThunk";
+import { 
+    registerUserThunk, 
+    getUserProfileThunk, 
+    verifyTokenThunk, 
+    logOutUserThunk, 
+    loginUserThunk,
+    updateProfileThunk,
+    deleteProfileThunk
+} from "../thunks/AuthThunk";
 
 const initialState: Auth = {
     isAdmin: false,
@@ -92,7 +100,41 @@ const authSlice = createSlice({
                 state.isAuthenticated = false
                 state.error = action.payload
             }),
-            //VerifyToken
+         //update data profile
+         builder
+            .addCase(updateProfileThunk.pending, state => {
+                state.isLoading = true
+            })
+            .addCase(updateProfileThunk.fulfilled, (state, action : PayloadAction<UserType>)  => {
+                state.user = action.payload;
+                state.isLoading = false
+
+            })
+            .addCase(updateProfileThunk.rejected, state => {
+                state.isLoading = false;
+
+            })
+        //delete account profile
+        builder
+            .addCase(deleteProfileThunk.pending, state => {
+                state.isLoading = true
+            })
+            .addCase(deleteProfileThunk.fulfilled, state => {
+                state.isLoading = false;
+                state.isAuthenticated = false;
+                state.user = {
+                    name : '',
+                    email : '',
+                    password : '',
+                    id : '',
+                    phone : '',
+
+                }
+            })
+            .addCase(deleteProfileThunk.rejected, state => {
+                state.isLoading = false
+            })
+        //VerifyToken
         builder
             .addCase(verifyTokenThunk.pending, (state) => {
                 state.isLoading = true

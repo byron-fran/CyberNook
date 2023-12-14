@@ -1,8 +1,5 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Order } from "../../types/cart/Order";
-
-
 
 export const createOrderThunk = createAsyncThunk('create_order/cart', async (order : Object , {rejectWithValue}) => {
     try {
