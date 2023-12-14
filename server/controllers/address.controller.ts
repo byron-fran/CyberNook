@@ -53,9 +53,30 @@ const updatAddress = async (req = request, res = response) => {
 const getAddress = async (req = request, res = response) => {
     const {id} = req.params;
     try{
-        const addressId = await Address.findByPk(id);
-        if(!addressId){return res.status(404).json({message : 'address no found'})}
-        addressId?.destroy();
+        const address = await Address.findByPk(id);
+        if(!address){return res.status(404).json({message : 'address no found'})}
+      
+        return res.status(200).json(address)
+        
+    }
+    catch(error : unknown){
+        if(error instanceof AxiosError){
+            return res.status(500).json({message : error.message})
+        }
+        else{
+        return res.status(500).json({message : error})
+        }
+    }
+};
+
+const deleteAddress = async ( req = request, res = response) => {
+    const {id} = req.params;
+    
+
+    try{
+        const addressId = await Address.findOne({where : {id}})  ;
+        if(!addressId){return res.status(404).json({message : 'address not found'})};
+        addressId.destroy();
         return res.status(204)
         
     }
@@ -72,5 +93,6 @@ const getAddress = async (req = request, res = response) => {
 export {
     createAdress,
     updatAddress,
-    getAddress
+    getAddress,
+    deleteAddress
 }

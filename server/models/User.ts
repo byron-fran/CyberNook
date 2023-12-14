@@ -25,10 +25,8 @@ class User extends Model<User>{
     @Column(DataType.STRING)
     email! : string 
 
-    @Column(DataType.INTEGER({
-        length : 20
-    }) )
-    phone! : number 
+    @Column(DataType.STRING)
+    phone! : string 
 
     // @HasMany(() => Order, 'OrderId' )
     // orders! : Order[]

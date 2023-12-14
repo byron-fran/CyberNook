@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useAppSelector } from '../../redux/hooks/hooks'
+import { useAppSelector, useAppDispatch} from '../../redux/hooks/hooks'
 import { useForm } from 'react-hook-form';
 import { Address } from '../../interface/Address';
+import { updateAddressThunk , createAddressThunk, deleteAddressThunk, getAddressThunk} from '../../redux/thunks/AddressThunk';
+
 const UserAddress = () => {
+
     const [disabledStreet, setDisableStreet] = useState<boolean>(true);
     const [disableCodePostal, setDisableCodePostal] = useState<boolean>(true);
     const [disableCountry, setDisableCountry] = useState<boolean>(true);
@@ -10,7 +13,9 @@ const UserAddress = () => {
     const [disableInteriorNumber, setDisableInteriorNumber] = useState<boolean>(true);
     const { handleSubmit, setValue, register, } = useForm<Address>();
 
-    const { user: { Addresses } } = useAppSelector(state => state.auth)
+    const { user: { Addresses } } = useAppSelector(state => state.auth);
+    const {address} = useAppSelector(state => state.address);
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         if (Addresses?.length) {
@@ -18,14 +23,24 @@ const UserAddress = () => {
             setValue('country', Addresses[0].country);
             setValue('exteriorNumber', Addresses[0].exteriorNumber);
             setValue('postalCode', Addresses[0].postalCode);
-            setValue('street', Addresses[0].street)
+            setValue('street', Addresses[0].street);
+            dispatch(getAddressThunk(Addresses![0].id))
         }
 
     }, [Addresses]);
-
+    
     const onSubmit = handleSubmit(data => {
-        console.log(data)
-    })
+        if(Addresses?.length){
+            dispatch(updateAddressThunk({id :address?.id, address : data}))
+        }
+        else {
+            dispatch(createAddressThunk({address : data}))
+        }
+    });
+
+    const handleDeleteAddress = (id : number ) => {
+       dispatch(deleteAddressThunk(id))
+    }
     return (
         <div className='border border-slate-300 w-full '>
             <h2 className='bg-blue-800 text-white p-2 font-bold'>Your Address</h2>
@@ -121,8 +136,9 @@ const UserAddress = () => {
                     </div>
                 </div>
                 <div className='flex justify-between mt-10'>
-                    <button className='bg-red-500 text-white p-2 uppercase font-bold' type='button'>Delete Address</button>
-                    <button className='bg-blue-800 text-white p-2 uppercase font-bold' type='submit'>Update Address</button>
+                    <button className='bg-red-500 text-white p-2 uppercase font-bold' type='button'
+                        onClick={() => handleDeleteAddress(address?.id)}>Delete Address</button>
+                    <button className='bg-blue-800 text-white p-2 uppercase font-bold' type='submit'>{Addresses?.length ? 'Update Address' : 'Add Address'}</button>
                 </div>
 
             </form>

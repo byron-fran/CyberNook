@@ -5,7 +5,7 @@ export type UserType = {
     email : string,
     phone? : string | number,
     password : string,
-    id? : number | string,
+    id : number | string,
     Orders? : Order[],
     Addresses? : Address[]
 }

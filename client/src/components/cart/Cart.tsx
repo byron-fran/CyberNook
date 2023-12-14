@@ -34,7 +34,7 @@ const Cart: React.FC = () => {
 
   return (
     <>
-      {cart?.length > 1 ? (
+      {cart?.length >= 1 ? (
         <div className="w-full md:w-[80%] mx-auto flex flex-col md:flex-row  justify-center my-20 gap-4 ">
           <div className="md:w-[70%] md:h-[88vh] overflow-y-scroll scrollbar-none no-scrollbar">
             {cart && cart.map(purchase => (
