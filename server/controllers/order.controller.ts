@@ -49,7 +49,7 @@ const getAllOrders = async (req = request, res = response) => {
 }
 const updateOrder = async (req = request, res = response) => {
     const { id } = req.params;
-    const { price, quantity }: OrderInterface = req.body;
+    const { price, quantity, paid}: OrderInterface = req.body;
 
     try {
         const orderFound = await Order.findByPk<Order>(id);
@@ -57,7 +57,8 @@ const updateOrder = async (req = request, res = response) => {
 
         if (!orderFound) { return res.status(404).json({ message: 'Error purchase does not exist' }) };
         orderFound.price = price;
-        orderFound.quantity = quantity
+        orderFound.quantity = quantity;
+        orderFound.paid = paid
         orderFound.save();
         return res.status(200).json({
             success: 'purchase update',

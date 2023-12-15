@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Order } from "../../types/cart/Order";
-import { createOrderThunk, getAllOrdersThunk, deleteOrderByIdThunk} from "../thunks/CartThunks";
+import { createOrderThunk, getAllOrdersThunk, deleteOrderByIdThunk, paymentOrderThunk} from "../thunks/CartThunks";
 
 export interface CartType  {
     cart :Order[],
@@ -53,6 +53,18 @@ const cartSlice = createSlice({
              state.cart.filter(order => order.id !== action.payload)
             })
             .addCase(deleteOrderByIdThunk.rejected, state => {
+                state.isLoading = false
+            })
+        // payment success
+         builder
+            .addCase(paymentOrderThunk.pending, state => {
+                state.isLoading = true
+            })   
+            .addCase(paymentOrderThunk.fulfilled, (state, action : PayloadAction<Order[]>) => {
+                state.cart = action.payload
+                state.isLoading = false
+            })
+            .addCase(paymentOrderThunk.rejected, state => {
                 state.isLoading = false
             })
 

@@ -34,6 +34,9 @@ class Order extends Model<Order>{
     @Column(DataType.BOOLEAN)
     paid!: boolean
 
+    @Column(DataType.INTEGER)
+    unitPrice! : number
+
     @Column(DataType.INTEGER || DataType.STRING)
     UserId!: number | string
 

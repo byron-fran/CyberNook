@@ -13,8 +13,10 @@ const DetailProduct: React.FC = (): JSX.Element | null => {
     const dispatch = useAppDispatch();
     const { id } = useParams();
     const { user } = useAppSelector(state => state.auth);
-    const { detailProduct: product } = useAppSelector(state => state.products)
+    const { detailProduct: product } = useAppSelector(state => state.products);
 
+
+   
     useEffect(() => {
         if (id) {
             dispatch(getDetailProduct(id))
@@ -38,18 +40,17 @@ const DetailProduct: React.FC = (): JSX.Element | null => {
     };
 
     const handleAddPurchase = async () => {
-
+        const unitPrice = product.price;
         const priceTotal = product.price * quantity;
- 
         const productExist = user.Orders?.find(order => order.id === product.id);
         if (productExist) {
-            dispatch(updateOrderThunk({ id: productExist.id, order: { ...product, quantity, price: priceTotal, paid: false } }))
+            dispatch(updateOrderThunk({ id: productExist.id, order: { ...product, quantity, price: priceTotal, paid: false, unitPrice } }))
                 .then(() => {
                     Navigate('/cart')
                 })
             return
         }
-        dispatch(createOrderThunk({ ...product, quantity, price: priceTotal }))
+        dispatch(createOrderThunk({ ...product, quantity, price: priceTotal,unitPrice, paid : false  }))
             .then(() => {
                 Navigate('/cart')
             })

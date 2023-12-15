@@ -1,14 +1,18 @@
-import { useAppSelector } from "../../redux/hooks/hooks"
+import { useAppSelector, useAppDispatch } from "../../redux/hooks/hooks"
 import { formaterDinero } from "../../helpers";
 import { Fragment, useEffect, useState } from "react";
+import { paymentOrderThunk } from "../../redux/thunks/CartThunks";
+import { StripeInterface } from "../../interface/Stripe";
 
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Payment = () => {
   const [priceTotal, setPriceTotal] = useState(0);
   const [quantityTotal, setQuantityTotal] = useState(0)
   const { cart } = useAppSelector(state => state.cart);
   const { user: { Addresses } } = useAppSelector(state => state.auth)
-
-
+  const dispatch = useAppDispatch()
+  const Navigate = useNavigate()
   useEffect(() => {
     // Calcula el precio total cuando Orders cambia
     let total = 0;
@@ -24,6 +28,28 @@ const Payment = () => {
     setQuantityTotal(totalQuantity)
   }, [cart]);
 
+
+  const handlePayment = async () => {
+    // const updatePromises = cart.map((order) => (
+    //  axios.put(`http://localhost:4000/order/${order.id}`, {...order, paid : true}, {
+    //       withCredentials : true
+    //   })));
+
+    //   const res = await Promise.all(updatePromises);
+    try {
+      const { data } = await axios<StripeInterface>('http://localhost:4000/cart/payment-checkout', { withCredentials: true })
+      window.location.href = data.session.url;
+    }
+    catch (error) {
+      console.log(error)
+    }
+
+
+
+
+
+
+  }
 
   return (
     <div className="w-full">
@@ -49,7 +75,10 @@ const Payment = () => {
 
       </div>
       <h2 className="text-2xl mt-4">Total: <span className="text-blue-800">{formaterDinero(priceTotal)}</span></h2>
-      <button className="bg-lime-500 hover:bg-lime-600 text-white w-full p-2 rounded-sm uppercase mt-4">Pay now</button>
+      <button className="bg-lime-500 hover:bg-lime-600 text-white w-full p-2 rounded-sm uppercase mt-4"
+        onClick={handlePayment}
+      >Pay now
+      </button>
     </div>
   )
 }

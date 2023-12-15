@@ -5,7 +5,8 @@ import routerProduct from './routes/product.routes';
 import routerOrder from './routes/order.routes';
 import routerUser from './routes/user.routes';
 import routesCategory from './routes/category.routes';
-import routerAddress from './routes/address.routes'
+import routersAddress from './routes/address.routes';
+import routersPayment from './routes/payment.routes'
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
@@ -31,7 +32,8 @@ app.use('/store', routerProduct);
 app.use('/', routerOrder);
 app.use('/', routerUser);
 app.use('/', routesCategory);
-app.use('/', routerAddress)
+app.use('/', routersAddress);
+app.use('/cart', routersPayment)
 
 
 sequelize.sync({force:false})

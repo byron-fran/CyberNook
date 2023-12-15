@@ -1,7 +1,9 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { Order } from "../../types/cart/Order";
+import { ProductType } from "../../interface/Product";
 
-export const createOrderThunk = createAsyncThunk('create_order/cart', async (order : Object , {rejectWithValue}) => {
+export const createOrderThunk = createAsyncThunk('create_order/cart', async (order : ProductType , {rejectWithValue}) => {
     try {
         const {data} = await axios.post('http://localhost:4000/order', order, {
             withCredentials : true
@@ -65,3 +67,17 @@ export const updateOrderThunk = createAsyncThunk<number, { id: number; order: ob
       }
     }
   );
+
+  export const paymentOrderThunk = createAsyncThunk('payment/cart', async (orders : Order[], {rejectWithValue}) => {
+    try{
+        return orders
+    }
+    catch (error) {
+        if (axios.isAxiosError(error)) {
+          // Here, error is of type AxiosError
+          return rejectWithValue(error.response?.data.message);
+        }
+        // Handle other types of errors if needed
+        throw error;
+      }
+  })
