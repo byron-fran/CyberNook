@@ -18,6 +18,9 @@ const Cart: React.FC = () => {
 
   useEffect(() => {
     dispatch(getAllOrdersThunk())
+      .then((data) => {
+        console.log(data)
+      })
   }, [refreshData, dispatch]);
 
 
@@ -33,8 +36,11 @@ const Cart: React.FC = () => {
 
   return (
     <>
-  
-      {isLoading ? <Spinner /> : (
+    
+      {isLoading ?
+      <div className="bg-white h-[60vh] w-full flex items-center justify-center">
+        <Spinner />
+      </div> : (
         <>
           {cartFilterNoPayment?.length >= 1 ? (
             <div className="w-full md:w-[80%] mx-auto flex flex-col md:flex-row  justify-center my-20 gap-4 ">

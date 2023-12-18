@@ -3,7 +3,6 @@ import { FC,  } from "react"
 import { formaterDinero } from "../../helpers"
 import { NavLink } from "react-router-dom"
 
-
 type ProductOrder = {
   purchase: Order,
   filterOrdersByDelete : (id: number) => void

@@ -1,4 +1,4 @@
-import {Table, Column, Model, DataType,AutoIncrement, PrimaryKey,HasMany, BelongsToMany} from 'sequelize-typescript'
+import {Table, Column, Model, DataType,AutoIncrement, PrimaryKey,HasMany, BelongsToMany, Unique} from 'sequelize-typescript'
 import { sequelize } from '../connection/db';
 import Order from './Order';
 import ProductOrder from './ProductOrder';
@@ -11,6 +11,7 @@ import ProductOrder from './ProductOrder';
 class Product extends Model <Product> {
     @PrimaryKey
     @AutoIncrement
+    
     @Column(DataType.INTEGER)
     id!: number;
 
@@ -28,6 +29,9 @@ class Product extends Model <Product> {
 
     @Column(DataType.INTEGER)
     stock! : number
+
+    @Column(DataType.STRING)
+    mark! : string
 
     // @HasMany(() => ProductOrder, 'ProductId')
     // productOrders! : Product[]

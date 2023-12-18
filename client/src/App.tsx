@@ -9,14 +9,13 @@ import Home from './pages/home/Home';
 import {  useAppDispatch } from './redux/hooks/hooks';
 import { getUserProfileThunk, verifyTokenThunk } from './redux/thunks/AuthThunk';
 import { getProductsThunk } from './redux/thunks/ProductsThunk';
-import { getAllOrdersThunk } from './redux/thunks/CartThunks';
 import NavBar from './components/navbar/NavBar';
 import AdminPage from './pages/admin/AdminPage';
 import FormPage from './pages/admin/FormPage';
 import FormProduct from './components/admin/FormProduct';
 import FormCategory from './components/admin/FormCategory';
 import UserPage from './pages/profile/UserPage';
-
+import CategoryPage from './pages/Category/CategoryPage';
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -27,9 +26,6 @@ function App(): JSX.Element {
 
     dispatch(verifyTokenThunk())
     dispatch(getUserProfileThunk());
-
-  
-
     dispatch(getProductsThunk())
 
   }, []);
@@ -41,9 +37,11 @@ function App(): JSX.Element {
       <Routes>
         <Route element={<NavBar />}>
           <Route path='/' element={<Home />} />
-          <Route path='/store' element={<Products />} />
+          <Route path='/store/:filter?/:search?' element={<Products />} />
+          <Route path='/store/*' element={<Products />} />
           <Route path='/detail/:id' element={<DetailProduct />} />
           <Route path='/cart' element={<Cart />} />
+          <Route path='/category/:category' element={<CategoryPage/>}/>
         </Route>
 
       {/* Routes Admin */}

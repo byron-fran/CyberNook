@@ -14,6 +14,7 @@ const FormProduct = () => {
     const { handleSubmit, register, reset, } = useForm<ProductType>();
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [categories, setCategories] = useState<Category[]>([]);
+    const [marks, setMarks] = useState([])
     const [imgProduct, setImgProduct] = useState<FormData>();
     const [showAlert, setShowAlert] = useState<boolean>(false)
 
@@ -33,9 +34,22 @@ const FormProduct = () => {
                 }
             }
         };
-        getCategories()
-    }, []);
+        const getMarks = async () => {
+            try{
+                const {data} = await axios('http://localhost:4000/mark');
+                setMarks(data)
+            }
+            catch(error : unknown){
+                if (error instanceof AxiosError) {
+                    console.log(error.response?.data)
+                }
+            }
+        }
+        getMarks()
+        getCategories();
 
+    }, []);
+    console.log(marks)
     const onSubmit = handleSubmit(async (data) => {
 
         setIsLoading(true)
@@ -114,6 +128,17 @@ const FormProduct = () => {
                         placeholder='10 pieces'
                         {...register('stock', { required: true })}
                     />
+                </div>
+                {/* field mark */}
+                <div className='w-full'>
+                <label className='block w-full my-2' htmlFor="mark" >Mark</label>
+                    <select className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800' id="mark"
+                        {...register('mark', { required: true })}>
+                        {marks.length > 0 && marks?.map(mark => (
+                            <option key={mark.id} value={mark.name}
+                            >{mark.name}</option>
+                        ))}
+                    </select>
                 </div>
                 {/* field category */}
                 <div className='w-full'>

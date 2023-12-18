@@ -7,7 +7,7 @@ import { createOrderThunk, updateOrderThunk } from "../../redux/thunks/CartThunk
 import { getDetailProduct } from "../../redux/thunks/ProductsThunk";
 import { clearDetailProduct } from "../../redux/slices/ProductsSilce";
 
-const DetailProduct: React.FC = (): JSX.Element | null => {
+const DetailProduct: React.FC = (): JSX.Element => {
     const Navigate = useNavigate();
     const [quantity, setQuantity] = useState(1);
     const dispatch = useAppDispatch();
@@ -29,7 +29,10 @@ const DetailProduct: React.FC = (): JSX.Element | null => {
 
 
     const handleAddQuantityProduct = () => {
-        setQuantity(value => value + 1)
+        setQuantity(value => value + 1);
+
+
+        
     };
     const handleLessQuantityProduct = () => {
         setQuantity(value => value - 1);

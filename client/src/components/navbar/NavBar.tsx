@@ -22,23 +22,24 @@ const NavBar = () => {
     }
     return (
         <>
-            <main className='flex gap-4 justify-around items-center w-full bg-blue-800 p-4 '>
+            <main className='flex gap-4 justify-around items-center w-full bg-blue-800 p-4 relative'>
                 <div className='flex flex-col w-full'>
-                    <div className='flex justify-between w-[95%] mx-auto md:w-[70%] '>
+                    <div className='flex justify-between w-[95%] mx-auto md:w-[85%] '>
                         <NavLink to='/'>
                             <h1 className='text-white text-2xl md:text-4xl md:font-bold'>CyberNook</h1>
                         </NavLink>
                         <nav className='flex gap-2'>
                             {isAuthenticated ? (
                                 <div className='flex gap-8 items-center'>
-                                    <p className='text-white'>Hello, {user?.name}</p>
-                                    <NavLink to='/profile'>
-                                        <img className='w-[35px] ' src="/images/user.svg" alt="image-user" />
-                                    </NavLink>
+
                                     <NavLink to='/cart'>
                                         <img className=' w-8' src="/images/cart.svg" alt="image cart" />
                                     </NavLink>
-                                    <NavLink className='text-white' onClick={hanldeLogOut} to='/login'>Logout</NavLink>
+
+                                    <NavLink to='/profile'>
+                                        <img className='w-[35px] ' src="/images/user.svg" alt="image-user" />
+                                    </NavLink>
+                                    <p className='text-white'>Hello, {user?.name}</p>
 
                                 </div>
                             ) :

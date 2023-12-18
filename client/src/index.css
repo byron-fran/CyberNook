@@ -11,4 +11,8 @@
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  /* Firefox */
   }
+  /* remove list-style */
+  .no-style {
+    list-style: none;
+  }
 }

@@ -1,31 +1,31 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Order } from "../../types/cart/Order";
-import { createOrderThunk, getAllOrdersThunk, deleteOrderByIdThunk, paymentOrderThunk} from "../thunks/CartThunks";
+import { createOrderThunk, getAllOrdersThunk, deleteOrderByIdThunk, paymentOrderThunk } from "../thunks/CartThunks";
 
-export interface CartType  {
-    cart :Order[],
-    isLoading : boolean
-   
+export interface CartType {
+    cart: Order[],
+    isLoading: boolean
+
 }
 
-const initialState : CartType = {
-    cart : [],
-    isLoading : false
-   
+const initialState: CartType = {
+    cart: [],
+    isLoading: false
+
 }
 
 const cartSlice = createSlice({
-    name : 'cart',
+    name: 'cart',
     initialState,
-    reducers : {},
-    extraReducers : (builder) => {
+    reducers: {},
+    extraReducers: (builder) => {
 
         builder
             .addCase(getAllOrdersThunk.pending, (state) => {
                 state.isLoading = true
 
             })
-            .addCase(getAllOrdersThunk.fulfilled, (state, action : PayloadAction<Order[]> ) => {
+            .addCase(getAllOrdersThunk.fulfilled, (state, action: PayloadAction<Order[]>) => {
                 state.cart = action.payload
                 state.isLoading = false
             })
@@ -35,9 +35,9 @@ const cartSlice = createSlice({
         //create order    
         builder
             .addCase(createOrderThunk.pending, (state) => {
-               state.isLoading = true
+                state.isLoading = true
             })
-            .addCase(createOrderThunk.fulfilled, (state, action : PayloadAction<Order>) => {
+            .addCase(createOrderThunk.fulfilled, (state, action: PayloadAction<Order>) => {
                 state.cart.push(action.payload);
                 state.isLoading = false
             })
@@ -49,18 +49,19 @@ const cartSlice = createSlice({
             .addCase(deleteOrderByIdThunk.pending, state => {
                 state.isLoading = true
             })
-            .addCase(deleteOrderByIdThunk.fulfilled, (state, action   ) => {
-             state.cart.filter(order => order.id !== action.payload)
+            .addCase(deleteOrderByIdThunk.fulfilled, (state, action) => {
+                state.cart.filter(order => order.id !== action.payload)
+                state.isLoading = false
             })
             .addCase(deleteOrderByIdThunk.rejected, state => {
                 state.isLoading = false
             })
         // payment success
-         builder
+        builder
             .addCase(paymentOrderThunk.pending, state => {
                 state.isLoading = true
-            })   
-            .addCase(paymentOrderThunk.fulfilled, (state, action : PayloadAction<Order[]>) => {
+            })
+            .addCase(paymentOrderThunk.fulfilled, (state, action: PayloadAction<Order[]>) => {
                 state.cart = action.payload
                 state.isLoading = false
             })

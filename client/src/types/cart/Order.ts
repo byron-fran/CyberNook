@@ -8,5 +8,6 @@ export interface Order  {
     category? : string,
     stock?: number,
     unitPrice: number,
-    id : number
+    id : number,
+    mark? : string
 }

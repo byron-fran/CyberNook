@@ -6,6 +6,8 @@ import Category from '../models/Categories';
 import { CategoryInterface } from '../interfaces/Category';
 import fs from 'fs'
 import path from 'path';
+import { Op, } from 'sequelize';
+
 
 const createProduct = async (req = request, res = response) => {
     const {name,  price, category, stock, image,  }  = req.body
@@ -25,7 +27,7 @@ const createProduct = async (req = request, res = response) => {
           return res.status(500).json({ error: (error as AxiosError).message });
         } else {
   
-          return res.status(500).json({ error: 'Ocurrió un error desconocido.' });
+          return res.status(500).json({ error: error });
         }
     }  
     
@@ -47,15 +49,55 @@ const getProductById = async (req = request, res = response) => {
           return res.status(500).json({ error: (error as AxiosError).message });
         } else {
   
-          return res.status(500).json({ error: 'Ocurrió un error desconocido.' });
+          return res.status(500).json({ error: error});
         }
     }  
 
 };
 
 const getProducts = async (req = request, res = response) => {
+    const {name,filter } = req.query;
 
+  
+  
     try{
+        if(filter === 'category') {
+            
+            const productFilters = await Product.findAll({
+                where : {
+                    category :{
+                        [Op.iLike]: `%${name}%`
+                    }
+                }
+            })
+            if(!productFilters){ return res.status(404).json({message : 'not found'})};
+            return res.status(200).json(productFilters);
+
+        }
+        else if(filter === 'name'){
+         
+            const productFilters = await Product.findAll({
+                where : {
+                    name :{
+                        [Op.iLike]: `%${name}%`
+                    } 
+                }
+            })
+            if(!productFilters){ return res.status(404).json({message : 'not found'})};
+            return res.status(200).json(productFilters);
+        }
+        else if(filter === 'mark') {
+            const productFilters = await Product.findAll({
+                where : {
+                    mark :{
+                        [Op.iLike]: `%${name}%`
+                    } 
+                }
+            })
+            if(!productFilters){ return res.status(404).json({message : 'not found'})};
+            return res.status(200).json(productFilters);
+        }
+
         const products = await Product.findAll();
         if(!products){return res.status(404).json({error : 'there not products'})};
         //console.log(products)
@@ -67,7 +109,7 @@ const getProducts = async (req = request, res = response) => {
           return res.status(500).json({ error: (error as AxiosError).message });
         } else {
   
-          return res.status(500).json({ error: 'Ocurrió un error desconocido.' });
+          return res.status(500).json({ error: error });
         }
     }   
 }

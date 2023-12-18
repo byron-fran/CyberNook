@@ -1,18 +1,16 @@
-import { useAppSelector, useAppDispatch } from "../../redux/hooks/hooks"
+import { useAppSelector} from "../../redux/hooks/hooks"
 import { formaterDinero } from "../../helpers";
 import { Fragment, useEffect, useState } from "react";
-import { paymentOrderThunk } from "../../redux/thunks/CartThunks";
 import { StripeInterface } from "../../interface/Stripe";
 
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
 const Payment = () => {
   const [priceTotal, setPriceTotal] = useState(0);
   const [quantityTotal, setQuantityTotal] = useState(0)
   const { cart } = useAppSelector(state => state.cart);
   const { user: { Addresses } } = useAppSelector(state => state.auth)
-  const dispatch = useAppDispatch()
-  const Navigate = useNavigate()
+
   useEffect(() => {
     // Calcula el precio total cuando Orders cambia
     let total = 0;

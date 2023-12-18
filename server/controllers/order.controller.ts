@@ -7,8 +7,6 @@ import { log } from 'console';
 //userId
 
 const createOrder = async (req = request, res = response) => {
-    const { name, quantity, paid, price, image, UserId}: OrderInterface = req.body;
-    console.log(req.body)
     try {
         
         const newOrder = await Order.create(req.body);
@@ -47,6 +45,7 @@ const getAllOrders = async (req = request, res = response) => {
         }
     }
 }
+
 const updateOrder = async (req = request, res = response) => {
     const { id } = req.params;
     const { price, quantity, paid}: OrderInterface = req.body;
@@ -91,7 +90,8 @@ const deleteOrderById = async (req = request, res = response) => {
             return res.status(500).json({ message: 'Error unknown' })
         }
     }
-}
+};
+
 export {
     createOrder,
     getAllOrders,

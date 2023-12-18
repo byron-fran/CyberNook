@@ -3,12 +3,15 @@ import authSlice from '../slices/AuthSlice'
 import cartSlice from '../slices/CartSlice';
 import ProductsSlice from '../slices/ProductsSilce';
 import AddressSlice from '../slices/Adress';
+import CategorySlice from '../slices/CategorySlice';
+
 export const store = configureStore({
   reducer: {
     auth : authSlice.reducer,
     cart : cartSlice.reducer,
     products : ProductsSlice.reducer,
-    address : AddressSlice.reducer
+    address : AddressSlice.reducer,
+    category : CategorySlice.reducer
   },
 })
 
