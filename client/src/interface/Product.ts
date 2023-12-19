@@ -1,4 +1,4 @@
-import { Order } from "../types/cart/Order"
+// import { Order } from "../types/cart/Order"
 export type ProductType = {
     name: string,
     quantity: number,
@@ -7,14 +7,15 @@ export type ProductType = {
     paid?: boolean
     category: string,
     stock?: number,
-    id? : number | string,
+    id: number ,
     unitPrice? : number,
-    mark? : string
+    mark? : string,
+    ProductId? : number | string
 
     
 }
 
 export interface Product {
-    product: ProductType | Order
+    product: ProductType 
 }
 

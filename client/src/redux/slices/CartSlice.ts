@@ -50,7 +50,8 @@ const cartSlice = createSlice({
                 state.isLoading = true
             })
             .addCase(deleteOrderByIdThunk.fulfilled, (state, action) => {
-                state.cart.filter(order => order.id !== action.payload)
+                const newCart = state.cart.filter(order => order.id !== action.payload)
+                state.cart = newCart
                 state.isLoading = false
             })
             .addCase(deleteOrderByIdThunk.rejected, state => {

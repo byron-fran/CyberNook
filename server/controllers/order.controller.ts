@@ -8,6 +8,7 @@ import { log } from 'console';
 
 const createOrder = async (req = request, res = response) => {
     try {
+        console.log(req.body)
         
         const newOrder = await Order.create(req.body);
 

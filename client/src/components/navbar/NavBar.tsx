@@ -1,25 +1,13 @@
 import { useAppSelector } from '../../redux/hooks/hooks';
-import { NavLink, useNavigate, Outlet } from 'react-router-dom'
-import { useAppDispatch } from '../../redux/hooks/hooks';
-import { logOutUserThunk } from '../../redux/thunks/AuthThunk';
+import { NavLink, Outlet } from 'react-router-dom'
 import SearchBar from '../searchBar/SearchBar';
 import Footer from '../footer/Footer';
 
 
 const NavBar = () => {
-    const dispatch = useAppDispatch();
-    const Navigate = useNavigate();
+ 
     const { isAuthenticated, user } = useAppSelector(state => state.auth)
 
-    const hanldeLogOut = () => {
-        dispatch(logOutUserThunk())
-            .then(() => {
-                Navigate('/login')
-            })
-            .catch((error) => {
-                return error
-            })
-    }
     return (
         <>
             <main className='flex gap-4 justify-around items-center w-full bg-blue-800 p-4 relative'>
@@ -40,7 +28,10 @@ const NavBar = () => {
                                         <img className='w-[35px] ' src="/images/user.svg" alt="image-user" />
                                     </NavLink>
                                     <p className='text-white'>Hello, {user?.name}</p>
-
+                                    <NavLink to='/admin'>
+                                        <img className='w-[30px] mt-2' src="/images/admin.png" alt="img-admin" />
+                                      
+                                    </NavLink>
                                 </div>
                             ) :
                                 <>

@@ -16,15 +16,18 @@ const Cart: React.FC = () => {
   const { cart, isLoading } = useAppSelector(state => state.cart);
   const [refreshData, setRefresData] = useState(false);
 
+
   useEffect(() => {
-    dispatch(getAllOrdersThunk())
-      .then((data) => {
-        console.log(data)
-      })
+    const getOrders = async () => {
+     await dispatch(getAllOrdersThunk())
+    }
+    getOrders()
+  
   }, [refreshData, dispatch]);
 
 
   const filterOrdersByDelete = (id: number) => {
+    
     setRefresData(true);
 
     dispatch(deleteOrderByIdThunk(id));

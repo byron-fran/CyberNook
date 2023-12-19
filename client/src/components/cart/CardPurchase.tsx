@@ -1,10 +1,10 @@
-import { Order } from "../../types/cart/Order"
 import { FC,  } from "react"
 import { formaterDinero } from "../../helpers"
 import { NavLink } from "react-router-dom"
+import { ProductType } from "../../interface/Product"
 
 type ProductOrder = {
-  purchase: Order,
+  purchase: ProductType,
   filterOrdersByDelete : (id: number) => void
 
 }
@@ -19,7 +19,7 @@ const CardPurchase: FC<ProductOrder> = ({ purchase, filterOrdersByDelete }) => {
 
     <div className="flex border border-slate-300 w-full items-center p-4 gap-4 justify-between">
       <div className="flex items-center gap-4">
-        <NavLink to={`/detail/${purchase.id}`}>
+        <NavLink to={`/detail/${purchase.ProductId}`}>
           <img className="w-[60px] md:w-[80px] object-contain md:h-[80px]" src={purchase?.image} alt="img-purchase" />
         </NavLink>
 

@@ -10,11 +10,15 @@ import { useNavigate } from 'react-router-dom';
 import Spinner from '../../spinner/Spinner';
 import SweetAlert from '../../libs/SweetAlert';
 
+type  MarkType = {
+    name : string,
+    id : number
+}
 const FormProduct = () => {
     const { handleSubmit, register, reset, } = useForm<ProductType>();
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [categories, setCategories] = useState<Category[]>([]);
-    const [marks, setMarks] = useState([])
+    const [marks, setMarks] = useState<MarkType[]>([])
     const [imgProduct, setImgProduct] = useState<FormData>();
     const [showAlert, setShowAlert] = useState<boolean>(false)
 

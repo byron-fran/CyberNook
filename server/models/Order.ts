@@ -13,10 +13,14 @@ import Product from './Product';
 
 class Order extends Model<Order>{
 
-    @AutoIncrement
+    @Default(DataType.UUIDV4)
     @PrimaryKey
-    @Column(DataType.INTEGER)
-    id! : number | string
+    @Column({
+      type: DataType.UUID,
+      defaultValue: DataType.UUIDV4,
+      
+    })
+    id?: string | number;
 
 
     @Column(DataType.STRING)

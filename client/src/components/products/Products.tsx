@@ -20,7 +20,7 @@ const Products = () => {
 
 
   useEffect(() => {
-    const getProductFilters = async () : Promise<void> => {
+    const getProductFilters = async ()  => {
 
       if (filter || search) {
 

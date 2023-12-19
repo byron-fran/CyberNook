@@ -1,9 +1,9 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Order } from "../../types/cart/Order";
-import { ProductType } from "../../interface/Product";
 
-export const createOrderThunk = createAsyncThunk('create_order/cart', async (order : ProductType , {rejectWithValue}) => {
+
+export const createOrderThunk = createAsyncThunk('create_order/cart', async (order : Order , {rejectWithValue}) => {
     try {
         const {data} = await axios.post('http://localhost:4000/order', order, {
             withCredentials : true

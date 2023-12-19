@@ -35,7 +35,7 @@ export interface Session {
     created:                              number;
     currency:                             string;
     currency_conversion:                  null;
-    custom_fields:                        any[];
+    custom_fields:                        unknown[];
     custom_text:                          CustomText;
     customer:                             null;
     customer_creation:                    string;
@@ -61,7 +61,7 @@ export interface Session {
     shipping_address_collection:          null;
     shipping_cost:                        null;
     shipping_details:                     null;
-    shipping_options:                     any[];
+    shipping_options:                     unknown[];
     status:                               string;
     submit_type:                          null;
     subscription:                         null;

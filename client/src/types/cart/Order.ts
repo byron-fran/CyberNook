@@ -1,5 +1,5 @@
 export interface Order  {
-    updatedAt: string | number | Date;
+    updatedAt?: string | number | Date;
     name : string,
     quantity : number,
     price : number,
@@ -8,6 +8,7 @@ export interface Order  {
     category? : string,
     stock?: number,
     unitPrice: number,
-    id : number,
-    mark? : string
+    id? : number,
+    mark? : string,
+    ProductId? : string | number
 }

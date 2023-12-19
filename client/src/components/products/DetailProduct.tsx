@@ -1,22 +1,39 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { formaterDinero } from "../../helpers";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { createOrderThunk, updateOrderThunk } from "../../redux/thunks/CartThunks";
 import { getDetailProduct } from "../../redux/thunks/ProductsThunk";
 import { clearDetailProduct } from "../../redux/slices/ProductsSilce";
+import { Order } from "../../types/cart/Order";
+
 
 const DetailProduct: React.FC = (): JSX.Element => {
     const Navigate = useNavigate();
     const [quantity, setQuantity] = useState(1);
     const dispatch = useAppDispatch();
     const { id } = useParams();
-    const { user } = useAppSelector(state => state.auth);
     const { detailProduct: product } = useAppSelector(state => state.products);
+    const { cart } = useAppSelector(state => state.cart);
+    const {isAuthenticated} = useAppSelector(state => state.auth)
 
 
-   
+    const purchase: Order = {
+        image: '',
+        name: '',
+        paid: false,
+        quantity: 0,
+        price: 0,
+        unitPrice: 0,
+        category: '',
+        mark: '',
+        ProductId: ''
+
+
+    }
+
+
     useEffect(() => {
         if (id) {
             dispatch(getDetailProduct(id))
@@ -32,7 +49,7 @@ const DetailProduct: React.FC = (): JSX.Element => {
         setQuantity(value => value + 1);
 
 
-        
+
     };
     const handleLessQuantityProduct = () => {
         setQuantity(value => value - 1);
@@ -41,19 +58,31 @@ const DetailProduct: React.FC = (): JSX.Element => {
             return
         }
     };
-
+    
     const handleAddPurchase = async () => {
         const unitPrice = product.price;
         const priceTotal = product.price * quantity;
-        const productExist = user.Orders?.find(order => order.id === product.id);
+
+        purchase.unitPrice = unitPrice
+        purchase.price = priceTotal
+        purchase.quantity = quantity
+        purchase.image = product.image
+        purchase.category = product.category
+        purchase.mark = product.mark
+        purchase.name = product.name;
+        purchase.paid = false;
+        purchase.ProductId = product.id
+
+        const productExist = cart?.find(order => order.ProductId === product.id);
+
         if (productExist) {
-            dispatch(updateOrderThunk({ id: productExist.id, order: { ...product, quantity, price: priceTotal, paid: false, unitPrice } }))
+            dispatch(updateOrderThunk({ id: productExist.id, order: { ...purchase, quantity, price: priceTotal, paid: false, unitPrice } }))
                 .then(() => {
                     Navigate('/cart')
                 })
             return
         }
-        dispatch(createOrderThunk({ ...product, quantity, price: priceTotal,unitPrice, paid : false  }))
+        dispatch(createOrderThunk(purchase))
             .then(() => {
                 Navigate('/cart')
             })
@@ -63,6 +92,7 @@ const DetailProduct: React.FC = (): JSX.Element => {
 
     return (
         <>
+ 
             <div className="grid md:grid-cols-2 w-full lg:w-3/4 mx-auto gap-10   p-8 mt-10">
                 <div>
                     <h2 className="text-center mb-4 text-2xl">{product.name}</h2>
@@ -81,8 +111,16 @@ const DetailProduct: React.FC = (): JSX.Element => {
                         <img className="w-[30px] cursor-pointer" src="/images/basura.png" alt="image-garbage" />
                     </div>
                     <div className="w-full">
+                        {!isAuthenticated && (
+                            <NavLink className='bg-blue-800 text-white mx-auto  w-[50%] text-center block mb-4 p-2 rounded-md text-[0.7rem] uppercase' to='/login'>create account or sign In</NavLink>
+                        )}
                         <button className=" bg-orange-500 hover:bg-orange-600 cursor-pointer text-white font-bold p-2 w-full block rounded-md uppercase"
-                            onClick={handleAddPurchase}>add to cart</button>
+                            onClick={() => {
+                                if(!isAuthenticated){
+                                    return
+                                }
+                                handleAddPurchase()
+                            }}>add to cart</button>
                     </div>
                 </div>
             </div>

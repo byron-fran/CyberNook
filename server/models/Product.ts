@@ -1,4 +1,4 @@
-import {Table, Column, Model, DataType,AutoIncrement, PrimaryKey,HasMany, BelongsToMany, Unique} from 'sequelize-typescript'
+import {Table, Column, Model, DataType,AutoIncrement, PrimaryKey,HasMany, BelongsToMany, Unique, Default} from 'sequelize-typescript'
 import { sequelize } from '../connection/db';
 import Order from './Order';
 import ProductOrder from './ProductOrder';
@@ -9,11 +9,14 @@ import ProductOrder from './ProductOrder';
 })
 
 class Product extends Model <Product> {
+    @Default(DataType.UUIDV4)
     @PrimaryKey
-    @AutoIncrement
-    
-    @Column(DataType.INTEGER)
-    id!: number;
+    @Column({
+      type: DataType.UUID,
+      defaultValue: DataType.UUIDV4,
+      
+    })
+    id?: string | number;
 
     @Column(DataType.STRING)
     name! : string

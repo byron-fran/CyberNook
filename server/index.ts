@@ -19,7 +19,7 @@ const app = express();
 
 app.use(morgan('dev'))
 app.use(express.json())
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: false}));
 app.use(cors({
     origin : 'http://localhost:5173',
     credentials : true
@@ -36,7 +36,7 @@ app.use('/', routersAddress);
 app.use('/cart', routersPayment)
 
 
-sequelize.sync({force : false})
+sequelize.sync({force :false})
     .then(() => {
         app.listen(process.env.PORT, () => {
             console.log(`El puerto ${process.env.PORT}`);
