@@ -1,4 +1,5 @@
 // import { Order } from "../types/cart/Order"
+import { Review } from "./Review"
 export type ProductType = {
     name: string,
     quantity: number,
@@ -10,7 +11,9 @@ export type ProductType = {
     id: number ,
     unitPrice? : number,
     mark? : string,
-    ProductId? : number | string
+    ProductId? : number | string,
+    Reviews? : Review[]
+    
 
     
 }

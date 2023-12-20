@@ -7,7 +7,7 @@ import { CategoryInterface } from '../interfaces/Category';
 import fs from 'fs'
 import path from 'path';
 import { Op, } from 'sequelize';
-
+import Reviews from '../models/Reviews';
 
 const createProduct = async (req = request, res = response) => {
     const {name,  price, category, stock, image,  }  = req.body
@@ -37,7 +37,9 @@ const createProduct = async (req = request, res = response) => {
 const getProductById = async (req = request, res = response) => {
     const {id} = req.params;
     try{
-        const productFind = await Product.findByPk(id);
+        const productFind = await Product.findByPk(id, {
+            include : Reviews
+        });
         if(!productFind){return res.status(404).json({ error : `Product ${id} does not exist`})};
 
         return res.status(200).json(productFind)

@@ -1,6 +1,7 @@
 import {Model, Column, Table, DataType, PrimaryKey, AutoIncrement} from 'sequelize-typescript';
 
 
+
 @Table({
     tableName : 'reviews',
     timestamps : true
@@ -8,7 +9,7 @@ import {Model, Column, Table, DataType, PrimaryKey, AutoIncrement} from 'sequeli
 class Reviews extends Model<Reviews>{
     @PrimaryKey
     @AutoIncrement
-    @Column(DataType.INTEGER)
+    @Column(DataType.INTEGER, )
     id! : number
 
     @Column(DataType.STRING)
@@ -17,9 +18,11 @@ class Reviews extends Model<Reviews>{
     @Column(DataType.INTEGER)
     stars!: number
 
-    @Column(DataType.INTEGER)
+    @Column(DataType.INTEGER )
     likes! : number
 
+    @Column(DataType.STRING)
+    ProductId! : string
 
 
     

@@ -31,7 +31,7 @@ function App(): JSX.Element {
       await dispatch(verifyTokenThunk())
       await dispatch(getUserProfileThunk());
       await dispatch(getProductsThunk())
-      
+      await dispatch(getAllOrdersThunk())
       setLoading(false);
     }
     fetchData()

@@ -7,7 +7,7 @@ import { createOrderThunk, updateOrderThunk } from "../../redux/thunks/CartThunk
 import { getDetailProduct } from "../../redux/thunks/ProductsThunk";
 import { clearDetailProduct } from "../../redux/slices/ProductsSilce";
 import { Order } from "../../types/cart/Order";
-
+import Reviews from "../reviews/Reviews";
 
 const DetailProduct: React.FC = (): JSX.Element => {
     const Navigate = useNavigate();
@@ -124,6 +124,9 @@ const DetailProduct: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
+            <Reviews 
+            
+            product={product}/>
 
         </>
     )
