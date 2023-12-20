@@ -1,15 +1,16 @@
 import { FC,  } from "react"
 import { formaterDinero } from "../../helpers"
 import { NavLink } from "react-router-dom"
-import { ProductType } from "../../interface/Product"
 
-type ProductOrder = {
-  purchase: ProductType,
+import { Order } from "../../types/cart/Order"
+
+type OrderProps = {
+  purchase: Order,
   filterOrdersByDelete : (id: number) => void
 
 }
 
-const CardPurchase: FC<ProductOrder> = ({ purchase, filterOrdersByDelete }) => {
+const CardPurchase: FC<OrderProps> = ({ purchase, filterOrdersByDelete }) => {
 
 
   const handleDeleteById = (id : number) => {
@@ -30,7 +31,7 @@ const CardPurchase: FC<ProductOrder> = ({ purchase, filterOrdersByDelete }) => {
         </div>
       </div>
 
-      <img onClick={() => handleDeleteById(purchase.id)}  className="w-[20px] h-[20px] cursor-pointer" src="/images/basura.png" alt="img-trash" />
+      <img onClick={() => handleDeleteById(purchase.id!)}  className="w-[20px] h-[20px] cursor-pointer" src="/images/basura.png" alt="img-trash" />
     </div>
 
 

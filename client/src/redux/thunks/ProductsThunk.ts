@@ -30,6 +30,17 @@ export const getDetailProduct = createAsyncThunk('detail/product', async (id : n
     }
 });
 
+export const clearDetailProductThunk = createAsyncThunk('clear/product', (_, {rejectWithValue}) => {
+    try {
+      
+        return 
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+          
+            return rejectWithValue(error.response?.data.message );
+        }
+    }
+})
 //Crud Procducts
 
 export const createProduct = createAsyncThunk('create/product', async(product: ProductType, {rejectWithValue}) => {

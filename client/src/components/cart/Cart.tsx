@@ -10,6 +10,7 @@ import AnimationCart from '../../libs/CartAnimation.json'
 
 import Payment from "./Payment";
 import { NavLink } from "react-router-dom";
+
 const Cart: React.FC = () => {
 
   const dispatch = useAppDispatch()

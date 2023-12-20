@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Product } from "../../interface/Product";
+import { ProductType } from "../../interface/Product";
 import { Products } from "../../interface/Products";
-import { getProductsThunk, getDetailProductThunk} from "../thunks/ProductsThunk";
-import { Order } from "../../types/cart/Order";
+import { getProductsThunk, getDetailProductThunk,clearDetailProductThunk} from "../thunks/ProductsThunk";
+
 
 const initialState : Products ={
     products : [],
@@ -13,7 +13,8 @@ const initialState : Products ={
         image : '',
         price : 0,
         stock : 0,
-        quantity : 0
+        quantity : 0,
+        id : 0
 
     }
 }
@@ -21,18 +22,7 @@ const initialState : Products ={
 const ProductsSlice = createSlice({
     name : 'products',
     initialState,
-    reducers : {
-        clearDetailProduct : (state) => {
-            state.detailProduct = {
-                name : '',
-                category : '',
-                image : '',
-                price : 0,
-                stock : 0,
-                quantity : 0
-            }
-        }
-    },
+    reducers : {},
     extraReducers : (builder) => {
         builder
             .addCase(getProductsThunk.pending, state => {
@@ -52,7 +42,7 @@ const ProductsSlice = createSlice({
             .addCase(getDetailProductThunk.pending, state => {
                 state.isLoading = true
             })
-            .addCase(getDetailProductThunk.fulfilled, (state, action ) => {
+            .addCase(getDetailProductThunk.fulfilled, (state, action : PayloadAction<ProductType> ) => {
                 state.detailProduct = action.payload
                 state.isLoading = false
             })
@@ -62,8 +52,30 @@ const ProductsSlice = createSlice({
 
         //clean 
         builder
+            .addCase(clearDetailProductThunk.pending, state => {
+                state.isLoading = false
+            })
+            .addCase(clearDetailProductThunk.fulfilled, state => {
+                state.detailProduct = {
+                    category : '',
+                    id : 0,
+                    image : '',
+                    name : '',
+                    price : 0,
+                    quantity : 0,
+                    mark : '',
+                    paid : false,
+                    ProductId : '',
+                    Reviews : [],
+                    stock : 0,
+                    unitPrice : 0
+                }
+                
+
+            })
+       
                 
     }
 });
-export const {clearDetailProduct} = ProductsSlice.actions
+
 export default ProductsSlice

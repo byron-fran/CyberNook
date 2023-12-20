@@ -36,7 +36,6 @@ export const sequelize = new Sequelize({
 })
 
 
-
 User.hasMany(Order, {
 
      onDelete : 'CASCADE'
