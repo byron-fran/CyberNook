@@ -112,15 +112,16 @@ const DetailProduct: React.FC = (): JSX.Element => {
 
                         <div className="flex flex-col justify-center items-center">
                             <p className="text-2xl ">Price: {product.price && formaterDinero(product.price)}</p>
-                            <div className="mt-40 flex gap-8 justify-center mb-10 w-full">
+                            <div className="mt-40 flex gap-8 justify-center mb-4 w-full">
                                 <button className="text-red-500 hover:text-white hover:bg-red-600  border border-1 border-red-500 w-10 rounded-sm text-2xl font-bold"
                                     onClick={handleLessQuantityProduct}>-</button>
                                 <button className="text-2xl">{quantity}</button>
                                 <button className="text-blue-500 hover:text-white hover:bg-blue-600  border border-1 border-blue-500 w-10 rounded-sm text-2xl font-bold"
                                     onClick={handleAddQuantityProduct}>+</button>
-                                <img className="w-[30px] cursor-pointer" src="/images/basura.png" alt="image-garbage" />
+                                
                             </div>
-                            <div className="w-full">
+                            <p className="font-bold uppercase">Stock: <span className={`${product.stock! <= 5? 'text-red-500' : 'text-blue-800'}`}>{product.stock}</span></p>
+                            <div className="w-full mt-4">
                                 {!isAuthenticated && (
                                     <NavLink className='bg-blue-800 text-white mx-auto  w-[50%] text-center block mb-4 p-2 rounded-md text-[0.7rem] uppercase' to='/login'>create account or sign In</NavLink>
                                 )}

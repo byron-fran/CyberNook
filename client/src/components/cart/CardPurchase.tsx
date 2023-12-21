@@ -27,7 +27,7 @@ const CardPurchase: FC<OrderProps> = ({ purchase, filterOrdersByDelete }) => {
         <div className="flex flex-col items-start">
           <p className="font-bold text-[0.8rem]">Product: <span className="text-blue-800">{purchase.name}</span></p>
           <p className="font-bold text-[0.8rem]">Quantity:<span className="text-blue-800"> {purchase.quantity}</span></p>
-          <p className="font-bold text-[0.8rem]">Price: <span className="text-blue-800"> {formaterDinero(purchase.price)}</span></p>
+          <p className="font-bold text-[0.8rem]">Price: <span className="text-blue-800"> {formaterDinero(purchase.unitPrice)}</span></p>
         </div>
       </div>
 

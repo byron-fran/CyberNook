@@ -19,7 +19,8 @@ import UserPage from './pages/profile/UserPage';
 import CategoryPage from './pages/Category/CategoryPage';
 //protected routes
 import UserRouters from './private/UserRouters';
-
+import CancelPayment from './components/cart/CancelPayment';
+import SuccessPayment from './components/cart/SuccessPayment';
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -51,6 +52,8 @@ function App(): JSX.Element {
           <Route path='/category/:category' element={<CategoryPage />} />
           <Route element={<UserRouters loading={loading} />}>
             <Route path='/cart' element={<Cart />} />
+            <Route path='/success-payment' element={<SuccessPayment/>}/>
+            <Route path='/cancel-payment' element={<CancelPayment/>}/>
           </Route>
         </Route>
 

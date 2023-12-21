@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form'
 import { UserType } from '../../types/auth/User';
 import PhoneInput from 'react-phone-input-2';
@@ -8,11 +7,8 @@ import { NavLink } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/hooks/hooks';
 import { useAppSelector } from '../../redux/hooks/hooks';
 import { registerUserThunk } from '../../redux/thunks/AuthThunk';
-import Cookies from 'js-cookie';
-import axios from 'axios';
-import { tokenVerify } from './api/auth';
-
 import { useNavigate } from 'react-router-dom';
+
 const Register = () => {
 
     const { register, formState: { errors }, handleSubmit, control, reset } = useForm<UserType>();
@@ -34,14 +30,14 @@ const Register = () => {
     })
     return (
         <div className='flex h-screen justify-center items-center w-[95%] md:w-[60%] lg:w-[40%] mx-auto'>
-            <form action="" method='post' className='w-full border rounded-md  border-gray-300 p-4 '
+            <form action="" method='post' className='w-full border rounded-md  border-slate-300 p-4 '
                 onSubmit={onSubmit}>
                 {/* field name */}
                 <div className='w-full'>
                     <label htmlFor="name" className='block p-2'>Name</label>
                     {errors.name?.type === 'required' && (<p className='text-red-500'>name is required</p>)}
                     <input type='text' placeholder='Juan pedro' id='name'
-                        className='border border-gray-200 w-full p-2 rounded-md mb-2'
+                        className='border border-slate-200 w-full p-2 rounded-md mb-2 focus:outline-blue-800'
                         {...register('name', { required: true, minLength: 1, maxLength: 50 })} />
                 </div>
                 {/* field email */}
@@ -50,7 +46,7 @@ const Register = () => {
                     {errors.email?.type === 'required' && (<p className='text-red-500'>Email is required</p>)}
                     {errors.email?.type === 'pattern' && (<p className='text-red-500'>Must be a email valid </p>)}
                     <input type='text' placeholder='pedro123@gmail.com' id='email'
-                        className='border border-gray-200 w-full p-2 rounded-md mb-2'
+                        className='border border-slate-200 w-full p-2 rounded-md mb-2 focus:outline-blue-800'
                         {...register('email', {
                             required: true, minLength: 1, maxLength: 50, pattern: {
                                 value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/, // Expresión regular para validar el correo
@@ -64,7 +60,7 @@ const Register = () => {
                     {errors.password?.type === 'required' && (<p className='text-red-500'>Password is required</p>)}
                     {errors.password?.type === 'pattern' && (<p className='text-red-500'>Password must be have a number and a letter </p>)}
                     <input type='text' placeholder='pedro123' id='password'
-                        className='border border-gray-200 w-full p-2 rounded-md mb-2'
+                        className='border border-slate-200 w-full p-2 rounded-md mb-2 focus:outline-blue-800'
                         {...register('password', {
                             required: true, minLength: 1, maxLength: 50, pattern: {
                                 value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
@@ -93,7 +89,7 @@ const Register = () => {
                                     localization={es}
                                     inputStyle={{
                                         width: '100%',
-                                        border: 'solid 1px rgb(229 231 235 / var(--tw-border-opacity))',
+                                        border: 'solid 1px  rgb(226 232 240 / var(--tw-border-opacity))',
                                         borderRadius: '6px',
                                         marginBottom: '0.5rem'
                                     }}
@@ -108,7 +104,7 @@ const Register = () => {
                     />
 
                 </div>
-                <button type='submit' className='text-white bg-black p-2 w-full rounded-md mt-4 '>Create account</button>
+                <button type='submit' className='text-white bg-blue-800 p-2 w-full rounded-md mt-4 '>Create account</button>
                 <div className='flex gap-2'>
                     <p>Do you have account?</p>
                     <NavLink to='/login' className='text-indigo-500'>Login</NavLink>
