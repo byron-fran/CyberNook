@@ -610,6 +610,10 @@ video {
   margin-left: 0.5rem;
 }
 
+.ml-4 {
+  margin-left: 1rem;
+}
+
 .mt-10 {
   margin-top: 2.5rem;
 }
@@ -632,6 +636,10 @@ video {
 
 .mt-5 {
   margin-top: 1.25rem;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
 }
 
 .mt-8 {
@@ -968,6 +976,10 @@ video {
   font-size: 0.8rem;
 }
 
+.text-\[13px\] {
+  font-size: 13px;
+}
+
 .text-\[1rem\] {
   font-size: 1rem;
 }
@@ -982,6 +994,10 @@ video {
 
 .font-extrabold {
   font-weight: 800;
+}
+
+.font-thin {
+  font-weight: 100;
 }
 
 .uppercase {

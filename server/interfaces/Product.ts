@@ -4,6 +4,7 @@ export interface Product {
     image : string,
     category : string
     stock : number,
+    mark : string,
     id : number | string
 
 };

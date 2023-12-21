@@ -32,14 +32,11 @@ const createSession = async (req =request, res = response) => {
                 quantity: order.quantity,
             })),
             mode : 'payment',
-            success_url : 'http://localhost:4000/cart/payment-success',
-            cancel_url : 'http://localhost:4000/cart/payment-cancel',
+            success_url : 'http://localhost:5173/success-payment',
+            cancel_url : 'http://localhost:5173/cancel-payment',
         })
 
-        return res.status(200).json({
-            session,
-            cart
-        })
+        return res.status(200).json(session)
         
     }
     catch(error : unknown){

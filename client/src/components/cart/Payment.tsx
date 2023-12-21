@@ -36,7 +36,8 @@ const Payment = () => {
     //   const res = await Promise.all(updatePromises);
     try {
       const { data } = await axios<StripeInterface>('http://localhost:4000/cart/payment-checkout', { withCredentials: true })
-      window.location.href = data.session.url;
+      console.log(data)
+     // window.location.href = data.session.url;
     }
     catch (error) {
       console.log(error)

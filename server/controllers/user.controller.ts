@@ -158,6 +158,24 @@ const updateProfile = async (req = request, res = response) => {
         return res.status(500).json({ message:error })
     }
 }
+const getAllUsers = async (req = request, res = response) => {
+    try{
+        
+        const users = await User.findAll();
+        if(!users){return res.status(404).json({message : "users not found"})};
+
+        return res.status(200).json(users);
+
+    }
+    catch(error : unknown){
+        if(error instanceof AxiosError){
+            return res.status(500).json({message : error.message})
+        }
+        else{
+        return res.status(500).json({message : 'Error unknown'})
+        }
+    }
+}
 
 const verify = async (req =request, res = response) => {
     const {token} = req.cookies;
@@ -177,6 +195,8 @@ const verify = async (req =request, res = response) => {
     }
 
 }
+
+
 export {
     register,
     login,
@@ -184,6 +204,7 @@ export {
     getProfile,
     deleteProfile,
     updateProfile,
+    getAllUsers,
     verify
 }
 

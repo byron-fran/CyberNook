@@ -12,23 +12,30 @@ import { getAllOrdersThunk } from './redux/thunks/CartThunks';
 import { getProductsThunk } from './redux/thunks/ProductsThunk';
 import NavBar from './components/navbar/NavBar';
 import AdminPage from './pages/admin/AdminPage';
-import FormPage from './pages/admin/FormPage';
-import FormProduct from './components/admin/FormProduct';
-import FormCategory from './components/admin/FormCategory';
 import UserPage from './pages/profile/UserPage';
 import CategoryPage from './pages/Category/CategoryPage';
 //protected routes
 import UserRouters from './private/UserRouters';
 import CancelPayment from './components/cart/CancelPayment';
 import SuccessPayment from './components/cart/SuccessPayment';
+//Admin Page
+import FormProduct from './components/admin/FormProduct';
+import FormCategory from './components/admin/FormCategory';
+import FormPage from './pages/admin/FormPage';
+import UsersPage from './pages/admin/UsersPage';
+import CommentsPage from './pages/admin/CommentsPage';
+import OrdersPage from './pages/admin/OrdersPage';
+import ProductsPage from './pages/admin/ProductsPage';
+
+
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   //get user profile
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async () : Promise<void> => {
       await dispatch(verifyTokenThunk())
       await dispatch(getUserProfileThunk());
       await dispatch(getProductsThunk())
@@ -60,8 +67,14 @@ function App(): JSX.Element {
         {/* Routes Admin */}
         <Route path='/admin' element={<AdminPage />} >
           <Route index element={<FormPage />} />
+          <Route path='/admin/*' element={< FormPage/>} />
           <Route path='/admin/create-product' element={<FormProduct />} />
+          <Route path='/admin/update-product/:id' element={<FormProduct />} />
           <Route path='/admin/create-category' element={<FormCategory />} />
+          <Route path='/admin/orders' element={<OrdersPage/>}/>
+          <Route path='/admin/users' element={<UsersPage/>}/>
+          <Route path='/admin/comments' element={<CommentsPage/>}/>
+          <Route path='/admin/products' element={<ProductsPage/>}/>
         </Route>
         {/* Routes Auth */}
 

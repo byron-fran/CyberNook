@@ -8,7 +8,7 @@ export type ProductType = {
     paid?: boolean
     category: string,
     stock?: number,
-    id: number ,
+    id: number  | string,
     unitPrice? : number,
     mark? : string,
     ProductId? : number | string,

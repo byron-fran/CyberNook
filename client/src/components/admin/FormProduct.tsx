@@ -4,26 +4,31 @@ import { ProductType } from '../../interface/Product';
 import axios, { AxiosError } from 'axios';
 import { Category } from '../../interface/Category';
 import { uploadImageClodinary } from './cloudinary';
-import { useAppDispatch } from '../../redux/hooks/hooks';
-import { createProduct } from '../../redux/thunks/ProductsThunk';
-import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks/hooks';
+import { createProduct, getDetailProductThunk, updateProductByIdThunk } from '../../redux/thunks/ProductsThunk';
+import {  useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../../spinner/Spinner';
 import SweetAlert from '../../libs/SweetAlert';
 
-type  MarkType = {
-    name : string,
-    id : number
+
+type MarkType = {
+    name: string,
+    id: number
 }
 const FormProduct = () => {
-    const { handleSubmit, register, reset, } = useForm<ProductType>();
+
+    const { products } = useAppSelector(state => state.products)
+    const { handleSubmit, register, reset, setValue } = useForm<ProductType>();
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [categories, setCategories] = useState<Category[]>([]);
     const [marks, setMarks] = useState<MarkType[]>([])
     const [imgProduct, setImgProduct] = useState<FormData>();
     const [showAlert, setShowAlert] = useState<boolean>(false)
-
+    const { id } = useParams()
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+
+
 
     useEffect(() => {
         const getCategories = async () => {
@@ -39,11 +44,11 @@ const FormProduct = () => {
             }
         };
         const getMarks = async () => {
-            try{
-                const {data} = await axios('http://localhost:4000/mark');
+            try {
+                const { data } = await axios('http://localhost:4000/mark');
                 setMarks(data)
             }
-            catch(error : unknown){
+            catch (error: unknown) {
                 if (error instanceof AxiosError) {
                     console.log(error.response?.data)
                 }
@@ -53,10 +58,29 @@ const FormProduct = () => {
         getCategories();
 
     }, []);
-    console.log(marks)
+
+    useEffect(() => {
+        const getProductDetail = async () => {
+            if (id) {
+                const { payload: product } = await dispatch(getDetailProductThunk(id))
+                setValue('name', product.name)
+                setValue('price', product.price)
+                setValue('stock', product.stock)
+                setValue('mark', product.mark);
+                setValue('category', product.category)
+                setValue('image', product.image)
+                return
+            }
+        }
+        getProductDetail()
+
+    }, [id, dispatch, setValue]);
+
+
     const onSubmit = handleSubmit(async (data) => {
 
         setIsLoading(true)
+        const productFind = products.find(product => product.id === id);
 
 
         const urlProductImage = await uploadImageClodinary(imgProduct!);
@@ -64,8 +88,13 @@ const FormProduct = () => {
         const updateProduct = {
             ...data,
             image: urlProductImage
-        }
+        };
 
+        if (productFind) {
+            dispatch(updateProductByIdThunk({ id: id!, product: updateProduct }))
+                .then(() => navigate('/admin/products'))
+            return
+        }
 
         //submit a new product
         dispatch(createProduct(updateProduct))
@@ -75,7 +104,7 @@ const FormProduct = () => {
                 setShowAlert(true);
                 setTimeout(() => {
                     setShowAlert(false);
-                    navigate('/');
+                    navigate('/admin/products');
                 }, 3000)
             })
             .catch(error => {
@@ -135,7 +164,7 @@ const FormProduct = () => {
                 </div>
                 {/* field mark */}
                 <div className='w-full'>
-                <label className='block w-full my-2' htmlFor="mark" >Mark</label>
+                    <label className='block w-full my-2' htmlFor="mark" >Mark</label>
                     <select className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800' id="mark"
                         {...register('mark', { required: true })}>
                         {marks.length > 0 && marks?.map(mark => (

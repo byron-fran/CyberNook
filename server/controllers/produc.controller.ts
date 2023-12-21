@@ -8,6 +8,7 @@ import fs from 'fs'
 import path from 'path';
 import { Op, } from 'sequelize';
 import Reviews from '../models/Reviews';
+import { Product as ProductInterface } from '../interfaces/Product';
 
 const createProduct = async (req = request, res = response) => {
     const {name,  price, category, stock, image,  }  = req.body
@@ -116,8 +117,48 @@ const getProducts = async (req = request, res = response) => {
     }   
 }
 
+const deleteProductById = async (req = request, res = response) => {
+    const {id} = req.params
+    try{
+        
+        const product = await Product.findByPk(id);
+        if(!product){return res.status(404).json({message : "product not found"})}
+        await product.destroy();
+        return res.status(204).json({message : "delete Success"})
+    }
+    catch(error : unknown){
+        if(error instanceof AxiosError){
+            return res.status(500).json({message : error.message})
+        }
+        else{
+        return res.status(500).json({message : 'Error unknown'})
+        }
+    }
+};
+const updateProductById = async (req = request, res = response) => {
+    const {name,price, stock, category, image} : ProductInterface = req.body;
+    const {id} = req.params;
+    try{
+        const productFound = await Product.findByPk(id);
+        if(!productFound){return res.status(404).json({message : "Product not found"})};
+        productFound.name = name;
+        productFound.price = price;
+        productFound.stock = stock;
+        productFound.category = category;
+        productFound.image = image;
+        await productFound.save()
 
-
+        return res.status(200).json(productFound)
+    }
+    catch(error : unknown){
+        if(error instanceof AxiosError){
+            return res.status(500).json({message : error.message})
+        }
+        else{
+        return res.status(500).json({message : 'Error unknown'})
+        }
+    }
+}
 const getImageProduct = (req = request, res = response) => {
     const {fichero} = req.params;
     //console.log(fichero)
@@ -139,5 +180,7 @@ export {
     createProduct,
     getProductById,
     getProducts,
-    getImageProduct
+    getImageProduct,
+    deleteProductById,
+    updateProductById
 }

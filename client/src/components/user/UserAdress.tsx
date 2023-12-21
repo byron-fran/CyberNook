@@ -42,7 +42,7 @@ const UserAddress = () => {
        dispatch(deleteAddressThunk(id))
     }
     return (
-        <div className='border border-slate-300 w-full '>
+        <div className='border border-slate-300 w-full mb-10'>
             <h2 className='bg-blue-800 text-white p-2 font-bold'>Your Address</h2>
             <form action="" className='mt-4 w-full'
                 onSubmit={onSubmit}>

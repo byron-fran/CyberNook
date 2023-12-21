@@ -89,7 +89,7 @@ const Reviews: FC<ReviewsProps> = ({ product }) => {
                                 <label htmlFor="" className='block text-center mb-2'>Add comment</label>
                                 {errors.comment?.type === 'required' && (<p className='text-red-500 '>Comment not must be empty</p>)}
                                 <textarea className='border border-slate-300 resize-none w-full md:w-[50%]  h-[200px] mx-auto block focus:outline-blue-800 p-2' id=""
-                                    {...register('comment', { required: true, minLength: 2, maxLength: 100 })}></textarea>
+                                    {...register('comment', { required: true, minLength: 2, maxLength: 200 })}></textarea>
                             </div>
                             <button className={`bg-blue-800 ${isAuthenticated ? ' cursor-pointer' : 'opacity-70  cursor-not-allowed'} text-white p-2 rounded-md mt-4 w-full md:w-[50%] `} type='submit' disabled={isAuthenticated ? false : true}>Add comment</button>
                         </form>

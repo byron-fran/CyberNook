@@ -45,7 +45,8 @@ export const deleteOrderByIdThunk = createAsyncThunk('delete/cart', async(id : n
             return rejectWithValue(error.response?.data.message );
         }
     }
-})
+});
+
 
 
 export const updateOrderThunk = createAsyncThunk<number, { id: number; order: object }, { rejectValue: string }>(

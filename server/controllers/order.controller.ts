@@ -26,7 +26,7 @@ const createOrder = async (req = request, res = response) => {
         }
     }
 };
-const getAllOrders = async (req = request, res = response) => {
+const getAllOrdersByUser = async (req = request, res = response) => {
     const { UserId }: OrderInterface = req.body;
 
 
@@ -93,9 +93,26 @@ const deleteOrderById = async (req = request, res = response) => {
     }
 };
 
+const getAllOrdersByAdmin = async (req= request, res = response) => {
+    try{
+        
+        const orders = await Order.findAll();
+        if(!orders){return res.status(404).json({message : 'not found orders'})};
+        return res.status(200).json(orders)
+    }
+    catch(error : unknown){
+        if(error instanceof AxiosError){
+            return res.status(500).json({message : error.message})
+        }
+        else{
+        return res.status(500).json({message : 'Error unknown'})
+        }
+    }
+}
 export {
     createOrder,
-    getAllOrders,
+    getAllOrdersByUser,
     updateOrder,
-    deleteOrderById
+    deleteOrderById,
+    getAllOrdersByAdmin
 }
