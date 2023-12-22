@@ -6,6 +6,8 @@ import AddressSlice from '../slices/Adress';
 import CategorySlice from '../slices/CategorySlice';
 import ReviewSlice from '../slices/ReviewSlice';
 import OrderSlice from '../slices/OrderSlice';
+import UsersSlice from '../slices/UsersSlice';
+import MarkSclice from '../slices/MarksSlice';
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +17,9 @@ export const store = configureStore({
     address : AddressSlice.reducer,
     category : CategorySlice.reducer,
     reviews : ReviewSlice.reducer,
-    orders : OrderSlice.reducer
+    orders : OrderSlice.reducer,
+    users : UsersSlice.reducer,
+    marks : MarkSclice.reducer
   },
 })
 

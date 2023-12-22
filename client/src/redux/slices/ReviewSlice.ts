@@ -1,16 +1,24 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Review } from "../../interface/Review";
-import { createReviewThunk, getReviewsByProductThunk, clearReviewsThunk } from "../thunks/ReviewsThunk";
+import {
+    createReviewThunk,
+    getReviewsByProductThunk,
+    clearReviewsThunk,
+    getAllReviewsThunk,
+    deleteReviewByIdThunk
+} from "../thunks/ReviewsThunk";
 
 type ReviewType = {
     reviews: Review[],
-    isLoading: boolean
+    isLoading: boolean,
+    allReviews: Review[]
 };
 
 
 const initialState: ReviewType = {
     reviews: [],
-    isLoading: false
+    isLoading: false,
+    allReviews: []
 };
 
 
@@ -32,6 +40,15 @@ const ReviewSlice = createSlice({
                 state.isLoading = false
             })
 
+        //get all reviews
+        builder
+            .addCase(getAllReviewsThunk.pending, state => {
+                state.isLoading = true
+            })
+            .addCase(getAllReviewsThunk.fulfilled, (state, action: PayloadAction<Review[]>) => {
+                state.isLoading = false
+                state.allReviews = action.payload
+            })
         builder
             .addCase(createReviewThunk.pending, state => {
                 state.isLoading = true
@@ -41,6 +58,21 @@ const ReviewSlice = createSlice({
                 state.reviews.push(action.payload)
             })
             .addCase(createReviewThunk.rejected, state => {
+                state.isLoading = false
+            })
+        //Delete review
+        builder
+            .addCase(deleteReviewByIdThunk.pending, state => {
+                state.isLoading = true
+            })
+            .addCase(deleteReviewByIdThunk.fulfilled, (state, action) => {
+              
+                const reviewsFilters = state.allReviews.filter(review => review.id !== action.payload)
+                state.allReviews = reviewsFilters
+                state.isLoading = false
+
+            })
+            .addCase(deleteReviewByIdThunk.rejected, state => {
                 state.isLoading = false
             })
         builder

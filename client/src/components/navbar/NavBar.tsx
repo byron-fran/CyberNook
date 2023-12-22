@@ -2,7 +2,7 @@ import { useAppSelector } from '../../redux/hooks/hooks';
 import { NavLink, Outlet } from 'react-router-dom'
 import SearchBar from '../searchBar/SearchBar';
 import Footer from '../footer/Footer';
-
+import NavCategories from './NavCategories';
 
 const NavBar = () => {
  
@@ -12,11 +12,11 @@ const NavBar = () => {
         <>
             <main className='flex gap-4 justify-around items-center w-full bg-blue-800 p-4 relative'>
                 <div className='flex flex-col w-full'>
-                    <div className='flex justify-between w-[95%] mx-auto md:w-[85%] '>
+                    <div className=' flex flex-col md:flex-row justify-between w-[95%] mx-auto md:w-[85%] '>
                         <NavLink to='/'>
-                            <h1 className='text-white text-2xl md:text-4xl md:font-bold'>CyberNook</h1>
+                            <h1 className='text-white text-center md:text-left text-2xl md:text-4xl md:font-bold '>CyberNook</h1>
                         </NavLink>
-                        <nav className='flex gap-2'>
+                        <nav className='flex gap-2 justify-center'>
                             {isAuthenticated ? (
                                 <div className='flex gap-8 items-center'>
 
@@ -45,6 +45,7 @@ const NavBar = () => {
                     <SearchBar />
                 </div>
             </main>
+            <NavCategories/>
             <Outlet />
             <Footer />
         </>

@@ -1,10 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { getProductsByCategoryThunk } from "../thunks/CategoryThunks";
+import { getProductsByCategoryThunk, getListCategories } from "../thunks/CategoryThunks";
 import { Order } from "../../types/cart/Order";
+import { Category } from "../../interface/Category";
 
 type CategoryType = {
     productByCategory : Order[],
-    listCategory : string[],
+    listCategory : Category[],
     isLoading : boolean
 }
 
@@ -28,6 +29,17 @@ const CategorySlice = createSlice({
                 state.productByCategory = action.payload
             })
             .addCase(getProductsByCategoryThunk.rejected, state => {
+                state.isLoading = false
+            })
+         builder
+            .addCase(getListCategories.pending, state => {
+                state.isLoading = true
+            }) 
+            .addCase(getListCategories.fulfilled, (state, action : PayloadAction<Category[]>) => {
+                state.isLoading = false
+                state.listCategory = action.payload
+            })  
+            .addCase(getListCategories.rejected, state => {
                 state.isLoading = false
             })
     }

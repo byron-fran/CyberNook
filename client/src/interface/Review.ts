@@ -7,5 +7,7 @@ export interface Review {
     likes : number,
     ProductId?: string | number,
     UserId? : number | string,
-    User? : UserType
+    User? : UserType,
+    updatedAt? : string
+
 }

@@ -6,7 +6,7 @@ import { deleteProductByIdThunk } from '../../redux/thunks/ProductsThunk';
 
 const ProductsPage = (): JSX.Element => {
     const { products } = useAppSelector(state => state.products);
-    const { productsPerPage, pageButtons, totalPages, currentPage, setCurrentPage } = UsePagination(products);
+    const { productsPerPage, pageButtons, totalPages, currentPage, setCurrentPage } = UsePagination(products, 8);
     const dispatch = useAppDispatch();
     const Navigate = useNavigate()
 
@@ -22,7 +22,7 @@ const ProductsPage = (): JSX.Element => {
             <main className='w-[95%] md:w-[85%] mx-auto mt-10 col-span-3  '>
                 <div className='h-[55vh] md:h-[80vh] overflow-y-scroll no-scrollbar'>
                     <div className='grid md:grid-cols-2 w-full gap-4'>
-                        {productsPerPage && productsPerPage?.map(product => {
+                        {productsPerPage.length > 0 ? productsPerPage?.map(product => {
                             return (
                                 <div key={product.id} className='flex w-full justify-between border border-slate-300 p-2'>
                                     <div className='flex items-center'>
@@ -37,19 +37,19 @@ const ProductsPage = (): JSX.Element => {
                                     </div>
                                     <div className='flex items-center flex-col justify-around'>
                                         <button
-                                            onClick={() => handleDeleteProduct(product.id)}><img className='w-[20px]' src="/images/basura.png" alt="icon-trash" /></button>
+                                            onClick={() => handleDeleteProduct(product.id!)}><img className='w-[20px]' src="/images/basura.png" alt="icon-trash" /></button>
 
                                         <button
-                                            onClick={() => handleUpdateProduct(product.id)}
+                                            onClick={() => handleUpdateProduct(product.id!)}
                                         ><img className='w-[20px]' src="/images/edit.png" alt="img-edit" /></button>
                                     </div>
 
                                 </div>
                             )
-                        })}
+                        }) :(<p className=' uppercase font-bold text-2xl text-center '>There are no users registers yet</p>)}
                     </div>
                 </div>
-
+            
                 <div className='mt-6 flex justify-center items-center gap-4'>
                     {currentPage !== 1 && (
                         <button

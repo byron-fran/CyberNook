@@ -176,11 +176,30 @@ const getImageProduct = (req = request, res = response) => {
     })
 };
 
+const getProductByMark = async (req = request, res = response) => {
+    const {mark}= req.params;
+    console.log(req.params, 'hola')
+    try{
+        const productMark = await Product.findAll({where : {mark}});
+        if(!productMark){ return res.status(200).json({message : "not found"})};
+        return res.status(200).json(productMark)
+    }
+    catch(error : unknown){
+        if(error instanceof AxiosError){
+            return res.status(500).json({message : error.message})
+        }
+        else{
+        return res.status(500).json({message : 'Error unknown'})
+        }
+    }
+};
+
 export {
     createProduct,
     getProductById,
     getProducts,
     getImageProduct,
     deleteProductById,
+    getProductByMark,
     updateProductById
 }

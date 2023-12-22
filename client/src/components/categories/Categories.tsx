@@ -1,26 +1,11 @@
-import {useEffect, useState}from 'react'
 import { NavLink, } from 'react-router-dom'
-import axios, { AxiosError } from 'axios';
-import { Category } from '../../interface/Category';
+import { useAppSelector ,} from '../../redux/hooks/hooks';
+
 
 const Categories = () => {
+    const {listCategory :categories } = useAppSelector(state => state.category);
 
-    const [categories, setCategories] = useState<Category[]>([]);
 
-    useEffect(() => {
-        const getCategories = async () => {
-           try{
-            const {data} = await axios('http://localhost:4000/category');
-            setCategories(data)
-           }
-           catch(error : unknown){
-            if(error instanceof AxiosError){
-                console.log(error.response?.data)
-            }
-           }
-        };
-        getCategories();
-    }, [])
     return (
         <main className='w-full mt-10 mb-10'>
             <h2 className='text-center mb-4 font-bold text-2xl uppercase'>Categories</h2>

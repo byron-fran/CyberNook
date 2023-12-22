@@ -1,8 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form'
 import { ProductType } from '../../interface/Product';
-import axios, { AxiosError } from 'axios';
-import { Category } from '../../interface/Category';
 import { uploadImageClodinary } from './cloudinary';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks/hooks';
 import { createProduct, getDetailProductThunk, updateProductByIdThunk } from '../../redux/thunks/ProductsThunk';
@@ -11,53 +9,17 @@ import Spinner from '../../spinner/Spinner';
 import SweetAlert from '../../libs/SweetAlert';
 
 
-type MarkType = {
-    name: string,
-    id: number
-}
 const FormProduct = () => {
-
+    const {listCategory : categories} = useAppSelector(state => state.category);
+    const {marks} = useAppSelector(state => state.marks)
     const { products } = useAppSelector(state => state.products)
     const { handleSubmit, register, reset, setValue } = useForm<ProductType>();
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [marks, setMarks] = useState<MarkType[]>([])
     const [imgProduct, setImgProduct] = useState<FormData>();
     const [showAlert, setShowAlert] = useState<boolean>(false)
     const { id } = useParams()
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-
-
-
-    useEffect(() => {
-        const getCategories = async () => {
-            try {
-                const { data } = await axios('http://localhost:4000/category');
-                setCategories(data);
-                return data
-            }
-            catch (error: unknown) {
-                if (error instanceof AxiosError) {
-                    console.log(error.response?.data)
-                }
-            }
-        };
-        const getMarks = async () => {
-            try {
-                const { data } = await axios('http://localhost:4000/mark');
-                setMarks(data)
-            }
-            catch (error: unknown) {
-                if (error instanceof AxiosError) {
-                    console.log(error.response?.data)
-                }
-            }
-        }
-        getMarks()
-        getCategories();
-
-    }, []);
 
     useEffect(() => {
         const getProductDetail = async () => {

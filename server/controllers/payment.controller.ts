@@ -32,7 +32,7 @@ const createSession = async (req =request, res = response) => {
                 quantity: order.quantity,
             })),
             mode : 'payment',
-            success_url : 'http://localhost:5173/success-payment',
+            success_url : 'http://localhost:5173/success-payment/',
             cancel_url : 'http://localhost:5173/cancel-payment',
         })
 

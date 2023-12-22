@@ -3,6 +3,7 @@ import { formaterDinero } from "../../helpers";
 import { Fragment, useEffect, useState } from "react";
 import { StripeInterface } from "../../interface/Stripe";
 
+
 import axios from "axios";
 
 const Payment = () => {
@@ -36,16 +37,11 @@ const Payment = () => {
     //   const res = await Promise.all(updatePromises);
     try {
       const { data } = await axios<StripeInterface>('http://localhost:4000/cart/payment-checkout', { withCredentials: true })
-      console.log(data)
-     // window.location.href = data.session.url;
+     window.location.href = data.url!;
     }
     catch (error) {
       console.log(error)
     }
-
-
-
-
 
 
   }

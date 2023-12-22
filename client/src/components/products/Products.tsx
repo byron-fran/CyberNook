@@ -3,8 +3,8 @@ import CardProduct from "./CardProduct"
 import { useAppSelector } from "../../redux/hooks/hooks"
 import { useParams } from "react-router-dom";
 import axios, { AxiosError } from "axios";
-import { Order } from "../../types/cart/Order";
 import Spinner from "../../spinner/Spinner";
+import { ProductType } from "../../interface/Product";
 
 type ParamsType = {
   search?: string,
@@ -15,7 +15,7 @@ const Products = () => {
 
   const { products } = useAppSelector(state => state.products);
   const { filter, search } = useParams<ParamsType>();
-  const [productsFilterBySearch, setProductsFilterBySearch] = useState<Order[]>([]);
+  const [productsFilterBySearch, setProductsFilterBySearch] = useState<ProductType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
 
@@ -26,7 +26,7 @@ const Products = () => {
 
         try {
           setIsLoading(true)
-          const { data } = await axios<Order[]>(`http://localhost:4000/store/products/?filter=${filter}&name=${search}`);
+          const { data } = await axios(`http://localhost:4000/store/products/?filter=${filter}&name=${search}`);
           setIsLoading(false)
           setProductsFilterBySearch(data);
 

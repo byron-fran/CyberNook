@@ -1,14 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { ProductType } from '../interface/Product';
+import { Order } from '../types/cart/Order';
 
-const UsePagination = ( products : ProductType[]) => {
+const UsePagination = ( products : ProductType[] | Order[], itemsPerPage : number) => {
 
-    const [productsPerPage, setProductsPerPage] = useState<ProductType[]>([]);
+    const [productsPerPage, setProductsPerPage] = useState<ProductType[]  | Order[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1)
 
     const data = Array.from({length : products?.length}, (_, index ) => index + 1);
 
-    const itemsPerPage : number = 8;
+    
 
     const totalPages = Math.ceil(data?.length / itemsPerPage);
 

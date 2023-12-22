@@ -2,6 +2,7 @@
 
 export interface StripeInterface {
     session: Session;
+    url? : string,
     cart:    Cart[];
 }
 
@@ -17,6 +18,7 @@ export interface Cart {
     createdAt: string;
     updatedAt: string;
 }
+
 
 export interface Session {
     id:                                   string;

@@ -134,7 +134,7 @@ const updateProfile = async (req = request, res = response) => {
 
     const { UserId, name, email, phone } = req.body;
     try {
-        console.log(req.body)
+        
         const user  = await User.findOne({where : {id : UserId}});
 
         if (user) {
@@ -175,8 +175,27 @@ const getAllUsers = async (req = request, res = response) => {
         return res.status(500).json({message : 'Error unknown'})
         }
     }
-}
+};
 
+
+const deleteUserById = async (req = request, res = response) => {
+    const {id} = req.params
+    try{
+        
+        const userFound = await User.findByPk(id);
+        if(!userFound) {return res.status(404).json({message : "Not found"})};
+        await userFound.destroy()
+        return res.status(204).json({message : "Success delete"})
+    }
+    catch(error : unknown){
+        if(error instanceof AxiosError){
+            return res.status(500).json({message : error.message})
+        }
+        else{
+        return res.status(500).json({message : 'Error unknown'})
+        }
+    }
+}
 const verify = async (req =request, res = response) => {
     const {token} = req.cookies;
     if(!token){return res.status(404).json({message: 'Token no provided'})};
@@ -205,6 +224,7 @@ export {
     deleteProfile,
     updateProfile,
     getAllUsers,
+    deleteUserById,
     verify
 }
 

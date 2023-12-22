@@ -10,10 +10,12 @@ import { useAppDispatch } from './redux/hooks/hooks';
 import { getUserProfileThunk, verifyTokenThunk } from './redux/thunks/AuthThunk';
 import { getAllOrdersThunk } from './redux/thunks/CartThunks';
 import { getProductsThunk } from './redux/thunks/ProductsThunk';
+import { getAllReviewsThunk } from './redux/thunks/ReviewsThunk';
 import NavBar from './components/navbar/NavBar';
 import AdminPage from './pages/admin/AdminPage';
 import UserPage from './pages/profile/UserPage';
 import CategoryPage from './pages/Category/CategoryPage';
+import MarkPage from './pages/Mark/MarkPage';
 //protected routes
 import UserRouters from './private/UserRouters';
 import CancelPayment from './components/cart/CancelPayment';
@@ -23,12 +25,16 @@ import FormProduct from './components/admin/FormProduct';
 import FormCategory from './components/admin/FormCategory';
 import FormPage from './pages/admin/FormPage';
 import UsersPage from './pages/admin/UsersPage';
-import CommentsPage from './pages/admin/CommentsPage';
+import ReviewsPage from './pages/admin/ReviewsPage';
 import OrdersPage from './pages/admin/OrdersPage';
 import ProductsPage from './pages/admin/ProductsPage';
+import SalesPage from './pages/admin/SalesPage';
+import CuponsPage from './pages/admin/CuponsPage';
+
 import { getAllOrdersByAdmin } from './redux/thunks/OrdersThunks';
-
-
+import { getAllUsers } from './redux/thunks/UsersThunk';
+import { getListCategories } from './redux/thunks/CategoryThunks';
+import { getAllMarks } from './redux/thunks/MarksThunk';
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -42,6 +48,10 @@ function App(): JSX.Element {
       await dispatch(getProductsThunk())
       await dispatch(getAllOrdersThunk())
       await dispatch(getAllOrdersByAdmin())
+      await dispatch(getAllUsers());
+      await dispatch(getAllReviewsThunk())
+      await dispatch(getListCategories());
+      await dispatch(getAllMarks())
       setLoading(false);
     }
     fetchData()
@@ -59,9 +69,10 @@ function App(): JSX.Element {
           <Route path='/store/*' element={<Products />} />
           <Route path='/detail/:id' element={<DetailProduct />} />
           <Route path='/category/:category' element={<CategoryPage />} />
+          <Route path='/mark/:mark' element={<MarkPage/>}/>
           <Route element={<UserRouters loading={loading} />}>
             <Route path='/cart' element={<Cart />} />
-            <Route path='/success-payment' element={<SuccessPayment/>}/>
+            <Route path='/success-payment/:algo' element={<SuccessPayment/>}/>
             <Route path='/cancel-payment' element={<CancelPayment/>}/>
           </Route>
         </Route>
@@ -75,8 +86,10 @@ function App(): JSX.Element {
           <Route path='/admin/create-category' element={<FormCategory />} />
           <Route path='/admin/orders' element={<OrdersPage/>}/>
           <Route path='/admin/users' element={<UsersPage/>}/>
-          <Route path='/admin/comments' element={<CommentsPage/>}/>
+          <Route path='/admin/reviews' element={<ReviewsPage/>}/>
           <Route path='/admin/products' element={<ProductsPage/>}/>
+          <Route path='/admin/sales' element={<SalesPage/>}/>
+          <Route path='/admin/cupons' element={<CuponsPage/>}/>
         </Route>
         {/* Routes Auth */}
 

@@ -9,6 +9,7 @@ router.get('/payment-checkout', verifyToken, createSession);
 
 
 router.get('/payment-success', (req = request, res = response) => {
+    
     try{
         
         return res.status(200).json({message : 'success'})

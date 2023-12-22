@@ -12,20 +12,20 @@ const Sidebar = () => {
                 <NavLink  className='text-blue-800 uppercase md:mt-2' to='/admin/products'>
                     Productos
                 </NavLink>
-                <NavLink  className='text-blue-800 uppercase  md:mt-2' to='/admin/users'>
-                    Users
-                </NavLink>
                 <NavLink  className='text-blue-800 uppercase  md:mt-2' to='/admin/orders'>
                     Orders
                 </NavLink>
-                <NavLink  className='text-blue-800  uppercase  md:mt-2' to='/admin/comments'>
-                    Commnets
+                <NavLink  className='text-blue-800 uppercase  md:mt-2' to='/admin/users'>
+                    Users
                 </NavLink>
-                <NavLink  className='text-blue-800  uppercase  md:mt-2' to=''>
-                    Orders
+                <NavLink  className='text-blue-800  uppercase  md:mt-2' to='/admin/reviews'>
+                    Reviews
                 </NavLink>
-                <NavLink  className='text-blue-800  uppercase  md:mt-2' to=''>
-                    Orders
+                <NavLink  className='text-blue-800  uppercase  md:mt-2' to='/admin/sales'>
+                    Sales
+                </NavLink>
+                <NavLink  className='text-blue-800  uppercase  md:mt-2' to='/admin/cupons'>
+                    Cupons
                 </NavLink>
             </nav>
         </div>
