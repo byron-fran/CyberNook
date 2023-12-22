@@ -1,3 +1,4 @@
+import { UserType } from "../auth/User";
 export interface Order  {
     updatedAt?: string | number | Date;
     name : string,
@@ -10,5 +11,7 @@ export interface Order  {
     unitPrice: number,
     id? : number,
     mark? : string,
-    ProductId? : string | number
+    ProductId? : string | number,
+    User? : UserType
+    
 }

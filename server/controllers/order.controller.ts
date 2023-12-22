@@ -3,6 +3,7 @@ import Order from '../models/Order'
 import { Order as OrderInterface } from '../interfaces/Order';
 import { AxiosError } from 'axios';
 import { log } from 'console';
+import User from '../models/User';
 
 //userId
 
@@ -96,7 +97,10 @@ const deleteOrderById = async (req = request, res = response) => {
 const getAllOrdersByAdmin = async (req= request, res = response) => {
     try{
         
-        const orders = await Order.findAll();
+        const orders = await Order.findAll({
+            include : User,
+        
+        });
         if(!orders){return res.status(404).json({message : 'not found orders'})};
         return res.status(200).json(orders)
     }

@@ -26,6 +26,7 @@ import UsersPage from './pages/admin/UsersPage';
 import CommentsPage from './pages/admin/CommentsPage';
 import OrdersPage from './pages/admin/OrdersPage';
 import ProductsPage from './pages/admin/ProductsPage';
+import { getAllOrdersByAdmin } from './redux/thunks/OrdersThunks';
 
 
 
@@ -40,6 +41,7 @@ function App(): JSX.Element {
       await dispatch(getUserProfileThunk());
       await dispatch(getProductsThunk())
       await dispatch(getAllOrdersThunk())
+      await dispatch(getAllOrdersByAdmin())
       setLoading(false);
     }
     fetchData()

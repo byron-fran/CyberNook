@@ -60,7 +60,7 @@ const ProductsSlice = createSlice({
             .addCase(deleteProductByIdThunk.pending, state => {
                 state.isLoading = true
             })
-            .addCase(deleteProductByIdThunk.fulfilled, (state, action: PayloadAction<number | undefined>) => {
+            .addCase(deleteProductByIdThunk.fulfilled, (state, action: PayloadAction<number | string | undefined>) => {
 
                 const prodcutsFilters = state.products.filter(product => product.id !== action.payload);
                 state.products = prodcutsFilters;

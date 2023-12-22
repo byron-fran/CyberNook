@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ProductType, ProductType } from "../../interface/Product";
+import { ProductType,  } from "../../interface/Product";
 
 export const getProductsThunk = createAsyncThunk('get/product', async (_, { rejectWithValue }) => {
     try {
@@ -74,7 +74,7 @@ export const getDetailProductThunk = createAsyncThunk('detail/product', async (i
     }
 });
 
-export const deleteProductByIdThunk = createAsyncThunk('delete/product', async (id: number, { rejectWithValue }) => {
+export const deleteProductByIdThunk = createAsyncThunk('delete/product', async (id: number |string, { rejectWithValue }) => {
     try {
 
          await axios.delete(`http://localhost:4000/store/product/${id}`, {
