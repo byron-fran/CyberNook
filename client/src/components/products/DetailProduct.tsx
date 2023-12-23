@@ -49,6 +49,7 @@ const DetailProduct: React.FC = (): JSX.Element => {
 
     const handleAddQuantityProduct = () => {
         setQuantity(value => value + 1);
+    
 
     };
     const handleLessQuantityProduct = () => {
@@ -80,27 +81,27 @@ const DetailProduct: React.FC = (): JSX.Element => {
                 .then(() => {
                     Navigate('/cart')
                 })
-                .catch((error : unknown) => {
+                .catch((error: unknown) => {
                     return error
                 })
-    
+
             return
         }
         dispatch(createOrderThunk(purchase))
             .then(() => {
                 Navigate('/cart')
             })
-            .catch((error : unknown) => {
+            .catch((error: unknown) => {
                 return error
             })
     }
 
     return (
-        <>     
+        <>
             {isLoading ? (
                 <div className="bg-white h-[60vh] w-full flex items-center justify-center">
                     <Spinner />
-                </div> 
+                </div>
             ) : (
                 <>
                     <div className="grid md:grid-cols-2 w-full lg:w-3/4 mx-auto gap-10   p-8 mt-10">
@@ -112,22 +113,30 @@ const DetailProduct: React.FC = (): JSX.Element => {
 
                         <div className="flex flex-col justify-center items-center">
                             <p className="text-2xl ">Price: {product.price && formaterDinero(product.price)}</p>
-                            <div className="mt-40 flex gap-8 justify-center mb-4 w-full">
-                                <button className="text-red-500 hover:text-white hover:bg-red-600  border border-1 border-red-500 w-10 rounded-sm text-2xl font-bold"
-                                    onClick={handleLessQuantityProduct}>-</button>
-                                <button className="text-2xl">{quantity}</button>
-                                <button className="text-blue-500 hover:text-white hover:bg-blue-600  border border-1 border-blue-500 w-10 rounded-sm text-2xl font-bold"
-                                    onClick={handleAddQuantityProduct}>+</button>
-                                
-                            </div>
-                            <p className="font-bold uppercase">Stock: <span className={`${product.stock! <= 5? 'text-red-500' : 'text-blue-800'}`}>{product.stock}</span></p>
+                            {product.stock! >= 1 && (
+                                <div className="mt-40 flex gap-8 justify-center mb-4 w-full">
+                                    <button className="text-red-500 hover:text-white hover:bg-red-600  border border-1 border-red-500 w-10 rounded-sm text-2xl font-bold"
+                                        onClick={handleLessQuantityProduct}>-</button>
+                                    <button className="text-2xl">{quantity}</button>
+                                    <button className="text-blue-500 hover:text-white hover:bg-blue-600  border border-1 border-blue-500 w-10 rounded-sm text-2xl font-bold"
+                                        disabled={quantity >= product.stock! ? true : false}
+                                        onClick={handleAddQuantityProduct}>+</button>
+
+                                </div>
+                            )}
+
+                            {product.stock! <= 0 ?
+                                (<p className="text-red-500 font-bold uppercase">sold out</p>) :
+                                (<p className="font-bold uppercase">Stock: <span className={`${product.stock! <= 5 ? 'text-red-500' : 'text-blue-800'}`}>{product.stock}</span></p>)}
+
                             <div className="w-full mt-4">
                                 {!isAuthenticated && (
                                     <NavLink className='bg-blue-800 text-white mx-auto  w-[50%] text-center block mb-4 p-2 rounded-md text-[0.7rem] uppercase' to='/login'>create account or sign In</NavLink>
                                 )}
                                 <button className=" bg-orange-500 hover:bg-orange-600 cursor-pointer text-white font-bold p-2 w-full block rounded-md uppercase"
+                                    disabled={product.stock! <= 0 || !isAuthenticated ? true : false}
                                     onClick={() => {
-                                        if (!isAuthenticated) {
+                                        if (!isAuthenticated || product.stock! <= 0) {
                                             return
                                         }
                                         handleAddPurchase()
