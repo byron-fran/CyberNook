@@ -100,11 +100,22 @@ const updateOrder = async (req = request, res = response) => {
     }
 }
 const deleteOrderById = async (req = request, res = response) => {
-    const { id } = req.params
-    try {
-        const success = await Order.destroy({ where: { id } });
-        if (!success) { return res.status(404).json({ message: 'Cannot delete purchase' }) };
+    const { id } = req.params;
+    
 
+
+    try {
+        const orderFound = await Order.findOne({where : {id}})
+       
+        const product = await Product.findOne({where : {id : orderFound?.ProductId}});
+        if (!orderFound) { return res.status(404).json({ message: 'Cannot delete purchase' }) };
+        if(!product){return res.status(404).json({message : "not found"})};
+
+        const { quantity } = orderFound;
+        product.stock = product.stock + quantity;
+
+        await product.save();
+        await orderFound.destroy();
         return res.status(200).json({ message: `Your purchase ${id} has been deleted` })
 
     }

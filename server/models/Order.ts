@@ -44,6 +44,8 @@ class Order extends Model<Order>{
     @Column(DataType.INTEGER || DataType.STRING)
     UserId!: number | string
 
+    @Column(DataType.STRING)
+    ProductId! : string
     // @HasMany(() => User, 'UserId')
     // userOrders!: Order[]
 
