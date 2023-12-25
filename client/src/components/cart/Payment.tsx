@@ -1,4 +1,4 @@
-import { useAppSelector} from "../../redux/hooks/hooks"
+import { useAppSelector } from "../../redux/hooks/hooks"
 import { formaterDinero } from "../../helpers";
 import { Fragment, useEffect, useState } from "react";
 import { StripeInterface } from "../../interface/Stripe";
@@ -18,8 +18,11 @@ const Payment = () => {
     let totalQuantity = 0;
     if (cart) {
       for (let i = 0; i < cart.length; i++) {
-        total += cart[i].price
-        totalQuantity += cart[i].quantity
+        if (cart[i].paid !== true) {
+          total += cart[i].price
+          totalQuantity += cart[i].quantity
+        }
+
       }
     }
 
@@ -36,8 +39,9 @@ const Payment = () => {
 
     //   const res = await Promise.all(updatePromises);
     try {
-      const { data } = await axios<StripeInterface>('http://localhost:4000/cart/payment-checkout', { withCredentials: true })
-     window.location.href = data.url!;
+      const { data } = await axios<StripeInterface>('http://localhost:4000/cart/payment-checkout', { withCredentials: true });
+
+      window.location.href = data.url!;
     }
     catch (error) {
       console.log(error)

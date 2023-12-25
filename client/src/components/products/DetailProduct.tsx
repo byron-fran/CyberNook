@@ -49,7 +49,7 @@ const DetailProduct: React.FC = (): JSX.Element => {
 
     const handleAddQuantityProduct = () => {
         setQuantity(value => value + 1);
-    
+
 
     };
     const handleLessQuantityProduct = () => {
@@ -59,11 +59,12 @@ const DetailProduct: React.FC = (): JSX.Element => {
             return
         }
     };
+  
 
     const handleAddPurchase = async () => {
         const unitPrice = product.price;
         const priceTotal = product.price * quantity;
-        //
+    
         purchase.unitPrice = unitPrice
         purchase.price = priceTotal
         purchase.quantity = quantity
@@ -73,28 +74,22 @@ const DetailProduct: React.FC = (): JSX.Element => {
         purchase.name = product.name;
         purchase.paid = false;
         purchase.ProductId = product.id
-
+    
         const productExist = cart?.find(order => order.ProductId === product.id);
-
+ 
         if (productExist) {
+            // Actualizar producto en el carrito
             dispatch(updateOrderThunk({ id: productExist.id!, order: { ...purchase, quantity, price: priceTotal, paid: false, unitPrice } }))
-                .then(() => {
-                    Navigate('/cart')
-                })
-                .catch((error: unknown) => {
-                    return error
-                })
-
-            return
-        }
-        dispatch(createOrderThunk(purchase))
-            .then(() => {
-                Navigate('/cart')
-            })
-            .catch((error: unknown) => {
-                return error
-            })
+                .then(() => { Navigate('/cart') })
+                .catch((error: unknown) => { console.error(error) });
+        } else  {
+            // Crear una nueva orden
+            dispatch(createOrderThunk({ ...purchase, paid: false }))
+                .then(() => { Navigate('/cart') })
+                .catch((error: unknown) => { console.error(error) });
+        } 
     }
+    
 
     return (
         <>
@@ -113,14 +108,25 @@ const DetailProduct: React.FC = (): JSX.Element => {
 
                         <div className="flex flex-col justify-center items-center">
                             <p className="text-2xl ">Price: {product.price && formaterDinero(product.price)}</p>
+
+                            <ul className="mt-4">
+                                <li>memory: <span>12gb</span></li>
+                                <li>size: <span>6.4 inch</span></li>
+                                <li>ram <span>16gb</span></li>
+                                <li>Color : <span>blue</span></li>
+                                <li>weight: <span>1 kg</span></li>
+                                <li> mesasures: <span>12 x 13 ml</span></li>
+                            </ul>
+
                             {product.stock! >= 1 && (
-                                <div className="mt-40 flex gap-8 justify-center mb-4 w-full">
+                                <div className="mt-8 flex gap-8 justify-center mb-4 w-full">
                                     <button className="text-red-500 hover:text-white hover:bg-red-600  border border-1 border-red-500 w-10 rounded-sm text-2xl font-bold"
                                         onClick={handleLessQuantityProduct}>-</button>
                                     <button className="text-2xl">{quantity}</button>
                                     <button className="text-blue-500 hover:text-white hover:bg-blue-600  border border-1 border-blue-500 w-10 rounded-sm text-2xl font-bold"
                                         disabled={quantity >= product.stock! ? true : false}
-                                        onClick={handleAddQuantityProduct}>+</button>
+                                        onClick={handleAddQuantityProduct}>+
+                                    </button>
 
                                 </div>
                             )}
@@ -143,6 +149,10 @@ const DetailProduct: React.FC = (): JSX.Element => {
                                     }}>add to cart</button>
                             </div>
                         </div>
+                    </div>
+                    <div className=' md:w-[90%] mx-auto  mb-4'>
+                        <h2 className="text-center text-[1.4rem]">Description</h2>
+                        <p className="">{product.description && product.description}</p>
                     </div>
                     <Reviews product={product} />
                 </>

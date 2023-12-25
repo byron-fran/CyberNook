@@ -4,12 +4,11 @@ import Product from '../models/Product';
 import User from '../models/User';
 import Order from '../models/Order';
 import Spces from '../models/Specs';
-import UserOrder from '../models/UserOrder';
 import Category from '../models/Categories';
 import Address from '../models/Address';
 import Mark from '../models/Mark';
 import Reviews from '../models/Reviews';
-
+import OrderPaid from '../models/OrdersPaid';
 
 
 dotenv.config()
@@ -27,24 +26,32 @@ export const sequelize = new Sequelize({
         Address, 
         Order, 
         Spces, 
-        UserOrder, 
         Category,
         Mark,
-        Reviews
+        Reviews,
+        OrderPaid
     ] 
 
 })
 
-
+//Order / User
 User.hasMany(Order, {
-
      onDelete : 'CASCADE'
 });
 
 Order.belongsTo(User, {
+    foreignKey : 'UserId',
+})
+
+//Relations orderpaids /user
+User.hasMany(OrderPaid, {
+    onDelete : 'CASCADE'
+})
+OrderPaid.belongsTo(User, {
     foreignKey : 'UserId'
 })
 
+//Relations address /user
 User.hasMany(Address, {
     onDelete : 'CASCADE'
 });
@@ -53,6 +60,7 @@ Address.belongsTo(User, {
     foreignKey : 'UserId'
 });
 
+//Relations marks /product
 Mark.hasMany(Product, {
     onDelete : "CASCADE"
 });
@@ -60,41 +68,42 @@ Product.belongsTo(Mark, {
     foreignKey : 'MarkId'
 })
 
-Product.hasMany(Product, {
+//Ralations Products / Order
+Product.hasMany(Order, {
     onDelete : 'CASCADE'
 });
 Order.belongsTo(Product, {
     foreignKey : 'ProductId'
 })
 
+//Relations Reviews / Product
 Product.hasMany(Reviews, {
     onDelete : 'CASCADE'
 })
 Reviews.belongsTo(Product, {
     foreignKey : 'ProductId'
 })
+
+//Relations Reviews / user
 User.hasMany(Reviews, {
     onDelete : 'CASCADE'
 })
 Reviews.belongsTo(User, {
     foreignKey : 'UserId'
 })
-User.belongsToMany(Order, {through : 'UserOrder' })
-Order.belongsToMany(User, {through : 'UserOrder'})
 
-//
+
+//Relations Category / Product
 Category.hasMany(Product, {
     onDelete : 'CASCADE'
 })
 Product.hasOne(Category, {
-    foreignKey : 'categoryId'
+    foreignKey : 'CategoryId'
 })
-
+//Relations specs / product
 Product.hasOne(Spces, {
     onDelete : 'CASCADE',
-
-
 })
 Spces.belongsTo(Product, {
-    onDelete : 'CASCADE'
+    foreignKey : 'ProductId'
 })

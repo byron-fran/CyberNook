@@ -1,5 +1,5 @@
 export interface Review {
-    id : number,
+    id : string,
     comment : string
     stars : number,
     likes : number

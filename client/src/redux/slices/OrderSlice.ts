@@ -4,12 +4,14 @@ import { getAllOrdersByAdmin } from "../thunks/OrdersThunks";
 
 type OrdersType = {
     orders : Order[],
-    isLoading : boolean
+    isLoading : boolean,
+   
 }
 
 const initialState : OrdersType= {
     orders : [],
-    isLoading : false
+    isLoading : false,
+    
 };
 
 const OrderSlice = createSlice({

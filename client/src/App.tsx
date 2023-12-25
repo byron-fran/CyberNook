@@ -72,7 +72,7 @@ function App(): JSX.Element {
           <Route path='/mark/:mark' element={<MarkPage/>}/>
           <Route element={<UserRouters loading={loading} />}>
             <Route path='/cart' element={<Cart />} />
-            <Route path='/success-payment/:algo' element={<SuccessPayment/>}/>
+            <Route path='/success-payment' element={<SuccessPayment/>}/>
             <Route path='/cancel-payment' element={<CancelPayment/>}/>
           </Route>
         </Route>

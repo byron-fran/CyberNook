@@ -1,4 +1,4 @@
-import {Model, AutoIncrement, Table, DataType, PrimaryKey, Column} from 'sequelize-typescript';
+import {Model, AutoIncrement, Table, DataType, PrimaryKey, Column, Default} from 'sequelize-typescript';
 
 @Table({
     tableName : 'specs',
@@ -6,11 +6,10 @@ import {Model, AutoIncrement, Table, DataType, PrimaryKey, Column} from 'sequeli
 })
 
 class Spces extends Model<Spces>{
-
     @AutoIncrement
     @PrimaryKey
     @Column(DataType.INTEGER)
-    id! : string
+    id!: number;
 
     @Column (DataType.STRING)
     model! : string
@@ -33,8 +32,8 @@ class Spces extends Model<Spces>{
     @Column (DataType.STRING)
     mesasures! : string
 
-    @Column(DataType.STRING || DataType.INTEGER)
-    productId! : number | string
+    @Column(DataType.INTEGER)
+    productId! : number
 
 };
 export default Spces

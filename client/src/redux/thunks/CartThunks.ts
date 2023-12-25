@@ -81,4 +81,25 @@ export const updateOrderThunk = createAsyncThunk<number, { id: number; order: ob
         // Handle other types of errors if needed
         throw error;
       }
+  });
+
+  export const paymentConfirmThunk = createAsyncThunk('confirm/cart', async (token : string, {rejectWithValue}) => {
+    try{
+        const {data } =await axios.post('http://localhost:4000/verifyToken-payment', {}, {
+        headers : {
+            Authorization: `Bearer ${token}`
+        }
+        })
+        return data
+    }
+    catch (error) {
+        if (axios.isAxiosError(error)) {
+          // Here, error is of type AxiosError
+             
+          return rejectWithValue(error.response?.data.message);
+      
+        }
+        // Handle other types of errors if needed
+        throw error;
+      }
   })

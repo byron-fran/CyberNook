@@ -6,16 +6,8 @@ import {Column, DataType, Table, Model, Default,PrimaryKey, AutoIncrement, } fro
     timestamps : false
 })
 class Mark extends Model<Mark>{
-    // @Default(DataType.UUIDV4)
-    // @PrimaryKey
-    // @Column({
-    //   type: DataType.UUID,
-    //   defaultValue: DataType.UUIDV4,
-      
-    // })
-  
-    @PrimaryKey
     @AutoIncrement
+    @PrimaryKey
     @Column(DataType.INTEGER)
     id!: number;
 

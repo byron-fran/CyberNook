@@ -1,48 +1,38 @@
-import {Table, Column, Model, DataType,AutoIncrement, PrimaryKey,HasMany, BelongsToMany, Unique, Default} from 'sequelize-typescript'
-import { sequelize } from '../connection/db';
-import Order from './Order';
-import ProductOrder from './ProductOrder';
+import { Table, Column, Model, DataType, AutoIncrement, PrimaryKey, HasMany, BelongsToMany, Unique, Default } from 'sequelize-typescript'
+
+
 
 @Table({
-    tableName : 'productos',
-    timestamps : true
+  tableName: 'productos',
+  timestamps: true
 })
 
-class Product extends Model <Product> {
-    @Default(DataType.UUIDV4)
-    @PrimaryKey
-    @Column({
-      type: DataType.UUID,
-      defaultValue: DataType.UUIDV4,
-      
-    })
-    id?: string | number;
+class Product extends Model<Product> {
+  @AutoIncrement
+  @PrimaryKey
+  @Column(DataType.INTEGER)
+  id!: number;
 
-    @Column(DataType.STRING)
-    name! : string
+  @Column(DataType.STRING)
+  name!: string
 
-    @Column(DataType.INTEGER)
-    price! : number
+  @Column(DataType.INTEGER)
+  price!: number
 
-    @Column(DataType.STRING)
-    image! : string
-    
-    @Column (DataType.STRING)
-    category!: string
+  @Column(DataType.STRING)
+  image!: string
 
-    @Column(DataType.INTEGER)
-    stock! : number
+  @Column(DataType.STRING)
+  category!: string
 
-    @Column(DataType.STRING)
-    mark! : string
+  @Column(DataType.INTEGER)
+  stock!: number
 
-    // @HasMany(() => ProductOrder, 'ProductId')
-    // productOrders! : Product[]
+  @Column(DataType.STRING)
+  mark!: string
 
-    // @BelongsToMany(() => Product, () => ProductOrder)
-    // orders! : Order[]
 
-    
+
 };
 
 export default Product;

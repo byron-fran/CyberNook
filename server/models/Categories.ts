@@ -1,4 +1,4 @@
-import {Column, Table, DataType, PrimaryKey, Model, AutoIncrement} from 'sequelize-typescript';
+import {Column, Table, DataType, PrimaryKey, Model, AutoIncrement, Default} from 'sequelize-typescript';
 
 
 @Table({
@@ -6,10 +6,10 @@ import {Column, Table, DataType, PrimaryKey, Model, AutoIncrement} from 'sequeli
     tableName : 'category'
 })
 class Category extends Model<Category>{
-    @PrimaryKey
     @AutoIncrement
+    @PrimaryKey
     @Column(DataType.INTEGER)
-    id!: number
+    id?: number;
 
     @Column(DataType.STRING)
     name! : string

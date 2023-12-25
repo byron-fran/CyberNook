@@ -1,16 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Order } from "../../types/cart/Order";
-import { createOrderThunk, getAllOrdersThunk, deleteOrderByIdThunk, paymentOrderThunk } from "../thunks/CartThunks";
+import { createOrderThunk, getAllOrdersThunk, deleteOrderByIdThunk, paymentOrderThunk, paymentConfirmThunk } from "../thunks/CartThunks";
 
 export interface CartType {
     cart: Order[],
     isLoading: boolean
-
+    payConfirm : boolean
+    errorToken : boolean
 }
 
 const initialState: CartType = {
     cart: [],
-    isLoading: false
+    isLoading: false,
+    payConfirm : false,
+    errorToken : false
+    
 
 }
 
@@ -69,7 +73,24 @@ const cartSlice = createSlice({
             .addCase(paymentOrderThunk.rejected, state => {
                 state.isLoading = false
             })
-
+        //confirm payment 
+        builder
+            .addCase(paymentConfirmThunk.pending, state => {
+                state.isLoading = true
+                state.errorToken = false
+            })
+            .addCase(paymentConfirmThunk.fulfilled, state => {
+                state.isLoading = false
+                state.payConfirm = true
+                state.errorToken = false
+                
+            })
+            .addCase(paymentConfirmThunk.rejected, (state) => {
+                
+                state.payConfirm = false
+                state.isLoading = false
+                state.errorToken = true
+            })
     }
 });
 

@@ -4,7 +4,7 @@ export interface Order  {
     price : number,
     image : string,
     paid : boolean,
-    id : number | string,
-    UserId : number | string,
+    id : string,
+    UserId : string,
     ProductId? : string
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAppSelector } from '../../redux/hooks/hooks';
 
@@ -22,7 +22,7 @@ const NavCategories = () => {
                         <p className="cursor-pointer"> Categories</p>
                         <div
                             className={`${optionNav ? 'opacity-100 visible' : 'opacity-0 invisible'
-                                } transition-opacity duration-300 ease-in-out w-[200px] absolute  flex flex-col bg-white p-4 rounded-sm shadow-lg z-10 mr-2`}
+                                } transition-opacity duration-300 ease-in-out w-[100px] md:w-[200px] absolute  flex flex-col bg-white p-4 rounded-sm shadow-lg z-10 mr-2`}
                         >
                             {categories?.map(category => (
                                 <NavLink
@@ -40,8 +40,8 @@ const NavCategories = () => {
                         className='relative'>
                         <p className="cursor-pointer">Marks</p>
                         <div className={`${optionMark ? 'opacity-100 visible' : 'opacity-0 invisible'}
-                            transition-opacity duration-300 ease-in-out w-[200px] absolute  flex flex-col bg-white p-4 rounded-sm shadow-lg z-10 mr-2`}>
-                            {marks.map(mark => (
+                            transition-opacity duration-300 ease-in-out w-[100px] md:w-[200px] absolute  flex flex-col bg-white p-4 rounded-sm shadow-lg z-10 mr-2 `}>
+                            {marks.map( mark => (
                                 <NavLink key={mark.id}
                                 className='hover:decoration-blue-950'
                                 onClick={() => setOptionMark(false)}
@@ -50,13 +50,6 @@ const NavCategories = () => {
                         </div>
 
                     </div>
-
-                    <NavLink to=''>
-                        hola
-                    </NavLink>
-                    <NavLink to=''>
-                        hola
-                    </NavLink>
 
                 </nav>
             </div>

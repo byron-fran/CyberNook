@@ -1,61 +1,56 @@
 import { Table, DataType, Model, Column, PrimaryKey, HasMany, BelongsToMany, Default, AutoIncrement } from 'sequelize-typescript';
-import UserOrder from './UserOrder';
+
 import User from './User';
 import { toDefaultValue } from 'sequelize/types/utils';
 import { UUID, UUIDV1, UUIDV4 } from 'sequelize';
-import ProductOrder from './ProductOrder';
 import Product from './Product';
 
 @Table({
-    tableName: 'order',
-    timestamps: true
+  tableName: 'order',
+  timestamps: true
 })
 
-class Order extends Model<Order>{
+class Order extends Model<Order> {
 
-    @Default(DataType.UUIDV4)
-    @PrimaryKey
-    @Column({
-      type: DataType.UUID,
-      defaultValue: DataType.UUIDV4,
-      
-    })
-    id?: string | number;
+  @AutoIncrement
+  @PrimaryKey
+  @Column(DataType.INTEGER)
+  id!: number;
 
 
-    @Column(DataType.STRING)
-    name!: string
+  @Column(DataType.STRING)
+  name!: string
 
-    @Column(DataType.INTEGER)
-    quantity!: number
+  @Column(DataType.INTEGER)
+  quantity!: number
 
-    @Column(DataType.INTEGER)
-    price!: number
+  @Column(DataType.INTEGER)
+  price!: number
 
-    @Column(DataType.STRING)
-    image!: string
+  @Column(DataType.STRING)
+  image!: string
 
-    @Column(DataType.BOOLEAN)
-    paid!: boolean
+  @Column(DataType.BOOLEAN)
+  paid!: boolean
 
-    @Column(DataType.INTEGER)
-    unitPrice! : number
+  @Column(DataType.INTEGER)
+  unitPrice!: number
 
-    @Column(DataType.INTEGER || DataType.STRING)
-    UserId!: number | string
+  @Column(DataType.INTEGER)
+  UserId!: number
 
-    @Column(DataType.STRING)
-    ProductId! : string
-    // @HasMany(() => User, 'UserId')
-    // userOrders!: Order[]
+  @Column(DataType.INTEGER)
+  ProductId!: number
+  // @HasMany(() => User, 'UserId')
+  // userOrders!: Order[]
 
-    // @BelongsToMany(() => User, () => UserOrder)
-    // usersOrders!: User[]
+  // @BelongsToMany(() => User, () => UserOrder)
+  // usersOrders!: User[]
 
-    // @HasMany(() => ProductOrder, 'OrderId')
-    // productOrders! : Order[]
-    // @BelongsToMany(() => Order, () => ProductOrder)
-    // products! : Product
+  // @HasMany(() => ProductOrder, 'OrderId')
+  // productOrders! : Order[]
+  // @BelongsToMany(() => Order, () => ProductOrder)
+  // products! : Product
 
 }
 

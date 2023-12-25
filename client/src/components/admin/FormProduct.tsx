@@ -4,16 +4,16 @@ import { ProductType } from '../../interface/Product';
 import { uploadImageClodinary } from './cloudinary';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks/hooks';
 import { createProduct, getDetailProductThunk, updateProductByIdThunk } from '../../redux/thunks/ProductsThunk';
-import {  useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../../spinner/Spinner';
 import SweetAlert from '../../libs/SweetAlert';
 
 
 const FormProduct = () => {
-    const {listCategory : categories} = useAppSelector(state => state.category);
-    const {marks} = useAppSelector(state => state.marks)
+    const { listCategory: categories } = useAppSelector(state => state.category);
+    const { marks } = useAppSelector(state => state.marks)
     const { products } = useAppSelector(state => state.products)
-    const { handleSubmit, register, reset, setValue } = useForm<ProductType>();
+    const { handleSubmit, register, reset, setValue, formState : {errors} } = useForm<ProductType>();
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [imgProduct, setImgProduct] = useState<FormData>();
     const [showAlert, setShowAlert] = useState<boolean>(false)
@@ -24,13 +24,14 @@ const FormProduct = () => {
     useEffect(() => {
         const getProductDetail = async () => {
             if (id) {
-                const { payload: product } = await dispatch(getDetailProductThunk(id))
+                const { payload : product } = await dispatch(getDetailProductThunk(id))
                 setValue('name', product.name)
                 setValue('price', product.price)
                 setValue('stock', product.stock)
                 setValue('mark', product.mark);
                 setValue('category', product.category)
                 setValue('image', product.image)
+                setValue('description', product.description)
                 return
             }
         }
@@ -88,7 +89,7 @@ const FormProduct = () => {
 
     };
     return (
-        <main className='w-full col-span-3 relative flex items-start justify-center mt-10'>
+        <main className='w-full col-span-3 relative flex items-start justify-center mt-4 md:h-[85vh] overflow-y-scroll no-scrollbar'>
             {isLoading && <Spinner />}
             {showAlert && (
                 <SweetAlert
@@ -146,10 +147,19 @@ const FormProduct = () => {
                         ))}
                     </select>
                 </div>
+                {/* field description */}
+                <div className='w-full'>
+                    <label className='block w-full my-2' htmlFor="description" >Category</label>
+                    {errors.description?.type === 'maxLength' && <p className='text-red-500'>Characters must not be greater than 1000</p>}
+                    {errors.description?.type === 'required' && <p className='text-red-500'>field required</p>}
+                    <textarea id="description" 
+                        className='border border-slate-400 resize-none w-full h-[150px] focus:outline-blue-800'
+                        {...register('description', {minLength : 2, maxLength : 1000, required : true})}></textarea>
+                </div>
                 {/* Field image */}
                 <div className='w-full'>
 
-                    <label className='block w-full my-2' htmlFor="image" >Select an image</label>
+                    <label className='block w-full my-2 ' htmlFor="image" >Select an image</label>
                     <input type="file" className='border border-slate-400  w-full' id='image'
 
                         onChange={uploadImage}
