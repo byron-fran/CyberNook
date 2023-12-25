@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { request, response } from "express";
 import { AxiosError } from "axios";
 import Order from "../models/Order";
+import jwt from 'jsonwebtoken'
 
 dotenv.config();
 
@@ -17,10 +18,14 @@ const createSession = async (req =request, res = response) => {
     try{
         const cart = await Order.findAll({where : {UserId}});
 
-    
-
+        const token = jwt.sign({id : UserId}, process.env.SECRET_KEY_ORDER!, {
+            algorithm : 'HS256',
+            expiresIn : '60s'
+        })
+        
+        const cartFilterNoPaid = cart.filter(order => order.paid !== true)
         const session = await stripe.checkout.sessions.create({
-            line_items: cart.map(order => ({
+            line_items: cartFilterNoPaid.map(order => ({
                 price_data: {
                     currency: 'usd',
                     product_data: {
@@ -32,7 +37,7 @@ const createSession = async (req =request, res = response) => {
                 quantity: order.quantity,
             })),
             mode : 'payment',
-            success_url : 'http://localhost:5173/success-payment/',
+            success_url : `http://localhost:5173/success-payment/?token=${token}`,
             cancel_url : 'http://localhost:5173/cancel-payment',
         })
 

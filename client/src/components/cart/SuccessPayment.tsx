@@ -6,12 +6,12 @@ import { useAppSelector } from '../../redux/hooks/hooks';
 import { NavLink, useSearchParams, useNavigate, Navigate } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/hooks/hooks';
 import { paymentConfirmThunk } from '../../redux/thunks/CartThunks';
-import axios from 'axios';
 import Spinner from '../../spinner/Spinner';
-
+import { updatePaymentConfirmThunk } from '../../redux/thunks/CartThunks';
 
 
 const SuccessPayment = () => {
+
   const { user } = useAppSelector(state => state.auth);
   const { payConfirm, cart, errorToken } = useAppSelector(state => state.cart);
 
@@ -24,7 +24,6 @@ const SuccessPayment = () => {
     const getOrders = async () => {
       if (token) {
         await dispatch(paymentConfirmThunk(token))
-
         return
       }
       navigate('/')
@@ -37,28 +36,15 @@ const SuccessPayment = () => {
   useEffect(() => {
     const updateOrders = async () => {
       if (payConfirm) {
-        const updatePromises = cart.map((order) => (
-          axios.put(`http://localhost:4000/order/${order.id}`, { ...order, paid: true }, {
-            withCredentials: true
-          })));
-
-        await Promise.all(updatePromises);
-        //after update, remove to cart
-        // const cartFilterByPaid = cart.filter(order => order.paid === true);
-        // const deletePromises = cartFilterByPaid.map((order) => {
-        //   axios.delete(`http://localhost:4000/order/${order.id}`, {
-        //     withCredentials: true
-        //   })
-        // });
-
-        // await Promise.all(deletePromises)
+        dispatch(updatePaymentConfirmThunk(cart))
       }
     }
     updateOrders()
 
-  }, [cart, payConfirm])
+  }, [cart, dispatch, payConfirm])
 
-  if (errorToken) return <Navigate to='/' />
+  if (errorToken) return <Navigate to='/' />;
+
   return (
     <>
       {!payConfirm ? (

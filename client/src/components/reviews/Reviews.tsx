@@ -87,7 +87,7 @@ const Reviews: FC<ReviewsProps> = ({ product }) => {
                             onSubmit={onSubmit}>
                             <div className='w-full mx-auto'>
                                 <label htmlFor="" className='block text-center mb-2'>Add comment</label>
-                                {errors.comment?.type === 'required' && (<p className='text-red-500 '>Comment not must be empty</p>)}
+                                {errors.comment?.type === 'required' && (<p className='text-red-500 text-center mb-10'>Comment not must be empty</p>)}
                                 <textarea className='border border-slate-300 resize-none w-full md:w-[50%]  h-[200px] mx-auto block focus:outline-blue-800 p-2' id=""
                                     {...register('comment', { required: true, minLength: 2, maxLength: 200 })}></textarea>
                             </div>

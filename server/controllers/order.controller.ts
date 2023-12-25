@@ -5,14 +5,12 @@ import { AxiosError } from 'axios';
 import User from '../models/User';
 import Product from '../models/Product';
 
-//userId
 
 const createOrder = async (req = request, res = response) => {
+
     const { quantity, ProductId }: OrderInterface = req.body;
 
     try {
-
-
         const newOrder = await Order.create(req.body);
         const product = await Product.findOne({ where: { id: ProductId } });
         if (!product) { return res.status(404).json({ message: 'product Not found' }) };
@@ -148,10 +146,28 @@ const getAllOrdersByAdmin = async (req = request, res = response) => {
         }
     }
 }
+const updatePayment = async (req = request, res = response) => {
+    const {UserId} = req.body
+
+    try{
+        const orders = await Order.findAll({where : {UserId}});
+        if(!orders){return res.status(404).json({message : "not found"})}
+        return res.status(200).json(orders)
+    }
+    catch(error : unknown){
+        if(error instanceof AxiosError){
+            return res.status(500).json({message : error.message})
+        }
+        else{
+        return res.status(500).json({message : 'Error unknown'})
+        }
+    }
+}
 export {
     createOrder,
     getAllOrdersByUser,
     updateOrder,
     deleteOrderById,
-    getAllOrdersByAdmin
+    getAllOrdersByAdmin,
+    updatePayment
 }

@@ -18,7 +18,7 @@ const DetailProduct: React.FC = (): JSX.Element => {
     const { detailProduct: product, isLoading } = useAppSelector(state => state.products);
     const { cart } = useAppSelector(state => state.cart);
     const { isAuthenticated } = useAppSelector(state => state.auth)
-
+    console.log(product)
 
     const purchase: Order = {
         image: '',

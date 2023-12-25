@@ -8,7 +8,6 @@ import Category from '../models/Categories';
 import Address from '../models/Address';
 import Mark from '../models/Mark';
 import Reviews from '../models/Reviews';
-import OrderPaid from '../models/OrdersPaid';
 
 
 dotenv.config()
@@ -29,7 +28,7 @@ export const sequelize = new Sequelize({
         Category,
         Mark,
         Reviews,
-        OrderPaid
+     
     ] 
 
 })
@@ -41,14 +40,6 @@ User.hasMany(Order, {
 
 Order.belongsTo(User, {
     foreignKey : 'UserId',
-})
-
-//Relations orderpaids /user
-User.hasMany(OrderPaid, {
-    onDelete : 'CASCADE'
-})
-OrderPaid.belongsTo(User, {
-    foreignKey : 'UserId'
 })
 
 //Relations address /user

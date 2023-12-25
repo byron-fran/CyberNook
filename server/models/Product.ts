@@ -31,6 +31,9 @@ class Product extends Model<Product> {
   @Column(DataType.STRING)
   mark!: string
 
+  @Column(DataType.TEXT)
+  description! : string
+
 
 
 };
