@@ -121,7 +121,7 @@ const Reviews: FC<ReviewsProps> = ({ product }) => {
 
                             <div className='flex mx-auto  '>
 
-                                {Array.from({ length: stars }, (_, i) => {
+                                {Array.from({ length: stars === 0 ? 1 : stars }, (_, i) => {
 
                                     return (
                                         <Fragment key={i}>
@@ -129,8 +129,6 @@ const Reviews: FC<ReviewsProps> = ({ product }) => {
                                             <img className='w-[20px] ml-2 mt-2' src="/images/star2.png" alt="star-icon" />
 
                                         </Fragment>
-
-
                                     )
                                 })}
                                 <p>{likes}</p>
@@ -138,7 +136,6 @@ const Reviews: FC<ReviewsProps> = ({ product }) => {
                             <div className='flex justify-between items-center'>
                                 <p className='p-2'>{comment}</p>
                             </div>
-
 
                         </div>
                     )

@@ -1,4 +1,5 @@
 // import { Order } from "../types/cart/Order"
+import { Order } from "../types/cart/Order"
 import { Review } from "./Review"
 export type ProductType = {
     name: string,
@@ -19,6 +20,6 @@ export type ProductType = {
 }
 
 export interface Product {
-    product: ProductType 
+    product: ProductType | Order
 }
 

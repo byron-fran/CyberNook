@@ -3,7 +3,8 @@ import { Product } from "../../interface/Product"
 import React from "react"
 import { formaterDinero } from "../../helpers"
 
-const CardProduct: React.FC<Product> = ({ product }) => {
+
+const CardProduct: React.FC<Product> = ({product}) => {
   const Navigate = useNavigate();
   return (
     <div onClick={() => Navigate(`/detail/${product?.id}`)} className="mx-auto w-full  shadow-md border border-gray-300  p-2 rounded-sm">

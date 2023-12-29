@@ -32,12 +32,7 @@ const Payment = () => {
 
 
   const handlePayment = async () => {
-    // const updatePromises = cart.map((order) => (
-    //  axios.put(`http://localhost:4000/order/${order.id}`, {...order, paid : true}, {
-    //       withCredentials : true
-    //   })));
-
-    //   const res = await Promise.all(updatePromises);
+   
     try {
       const { data } = await axios<StripeInterface>('http://localhost:4000/cart/payment-checkout', { withCredentials: true });
 
