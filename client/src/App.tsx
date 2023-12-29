@@ -30,6 +30,7 @@ import OrdersPage from './pages/admin/OrdersPage';
 import ProductsPage from './pages/admin/ProductsPage';
 import SalesPage from './pages/admin/SalesPage';
 import CuponsPage from './pages/admin/CuponsPage';
+import AdminRoutes from './private/AdminRoutes';
 
 import { getAllOrdersByAdmin } from './redux/thunks/OrdersThunks';
 import { getAllUsers } from './redux/thunks/UsersThunk';
@@ -42,17 +43,19 @@ function App(): JSX.Element {
 
   //get user profile
   useEffect(() => {
-    const fetchData = async () : Promise<void> => {
-      await dispatch(verifyTokenThunk())
-      await dispatch(getUserProfileThunk());
-      await dispatch(getProductsThunk())
-      await dispatch(getAllOrdersThunk())
-      await dispatch(getAllOrdersByAdmin())
-      await dispatch(getAllUsers());
-      await dispatch(getAllReviewsThunk())
-      await dispatch(getListCategories());
-      await dispatch(getAllMarks())
+    const fetchData = async (): Promise<void> => {
+      dispatch(verifyTokenThunk())
+      dispatch(getUserProfileThunk());
+      dispatch(getProductsThunk())
+      dispatch(getAllOrdersThunk())
+      dispatch(getAllOrdersByAdmin())
+      dispatch(getAllUsers());
+      dispatch(getAllReviewsThunk())
+      dispatch(getListCategories());
+      dispatch(getAllMarks())
       setLoading(false);
+ 
+      
     }
     fetchData()
 
@@ -65,32 +68,35 @@ function App(): JSX.Element {
       <Routes>
         <Route element={<NavBar />}>
           <Route path='/' element={<Home />} />
-          <Route path='/store/:filter?/:search?' element={<Products />} />
+          <Route path='/store/:category?/:name?/:filter?' element={<Products />} />
           <Route path='/store/*' element={<Products />} />
           <Route path='/detail/:id' element={<DetailProduct />} />
           <Route path='/category/:category' element={<CategoryPage />} />
-          <Route path='/mark/:mark' element={<MarkPage/>}/>
+          <Route path='/mark/:mark' element={<MarkPage />} />
           <Route element={<UserRouters loading={loading} />}>
             <Route path='/cart' element={<Cart />} />
-            <Route path='/success-payment' element={<SuccessPayment/>}/>
-            <Route path='/cancel-payment' element={<CancelPayment/>}/>
+            <Route path='/success-payment' element={<SuccessPayment />} />
+            <Route path='/cancel-payment' element={<CancelPayment />} />
           </Route>
         </Route>
 
         {/* Routes Admin */}
-        <Route path='/admin' element={<AdminPage />} >
-          <Route index element={<FormPage />} />
-          <Route path='/admin/*' element={< FormPage/>} />
-          <Route path='/admin/create-product' element={<FormProduct />} />
-          <Route path='/admin/update-product/:id' element={<FormProduct />} />
-          <Route path='/admin/create-category' element={<FormCategory />} />
-          <Route path='/admin/orders' element={<OrdersPage/>}/>
-          <Route path='/admin/users' element={<UsersPage/>}/>
-          <Route path='/admin/reviews' element={<ReviewsPage/>}/>
-          <Route path='/admin/products' element={<ProductsPage/>}/>
-          <Route path='/admin/sales' element={<SalesPage/>}/>
-          <Route path='/admin/cupons' element={<CuponsPage/>}/>
+        <Route element={<AdminRoutes loading={loading}/>}>
+          <Route path='/admin' element={<AdminPage />} >
+            <Route index element={<FormPage />} />
+            <Route path='/admin/*' element={< FormPage />} />
+            <Route path='/admin/create-product' element={<FormProduct />} />
+            <Route path='/admin/update-product/:id' element={<FormProduct />} />
+            <Route path='/admin/create-category' element={<FormCategory />} />
+            <Route path='/admin/orders' element={<OrdersPage />} />
+            <Route path='/admin/users' element={<UsersPage />} />
+            <Route path='/admin/reviews' element={<ReviewsPage />} />
+            <Route path='/admin/products' element={<ProductsPage />} />
+            <Route path='/admin/sales' element={<SalesPage />} />
+            <Route path='/admin/cupons' element={<CuponsPage />} />
+          </Route>
         </Route>
+
         {/* Routes Auth */}
 
         <Route path='/register' element={<Register />} />

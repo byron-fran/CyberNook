@@ -49,7 +49,7 @@ const SearchBar = () => {
             return (
               <ul key={product.id}>
 
-                <NavLink to={`/store/${'name'}/${searhTerm}`} onClick={() => setSearchTerm('')}>{product.name} </NavLink>
+                <NavLink to={`/store/${'name'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')}>{product.name} </NavLink>
               </ul>
             )
           })}
@@ -59,14 +59,14 @@ const SearchBar = () => {
           {productsFilterByCategory.length > 0 ? productsFilterByCategory.map(product => {
             return (
               <ul key={product.id}>
-                <NavLink to={`/store/${'category'}/${searhTerm}`} onClick={() => setSearchTerm('')}>{product.category} </NavLink>
+                <NavLink to={`/store/${'category'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')}>{product.category} </NavLink>
               </ul>
             )
           }) : (
             producstFilterByMark.map(product => {
               return (
                 <ul key={product.id}>
-                   <NavLink to={`/store/${'mark'}/${searhTerm}`} onClick={() => setSearchTerm('')} >{product.mark} - <span>{product.name}</span></NavLink>
+                   <NavLink to={`/store/${'mark'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')} >{product.mark} - <span>{product.name}</span></NavLink>
                 </ul>
               )
             })

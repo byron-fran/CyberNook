@@ -5,8 +5,9 @@ import Footer from '../footer/Footer';
 import NavCategories from './NavCategories';
 
 const NavBar = () => {
- 
-    const { isAuthenticated, user } = useAppSelector(state => state.auth)
+
+    const { isAuthenticated, user, } = useAppSelector(state => state.auth)
+    
 
     return (
         <>
@@ -28,10 +29,13 @@ const NavBar = () => {
                                         <img className='w-[35px] ' src="/images/user.svg" alt="image-user" />
                                     </NavLink>
                                     <p className='text-white'>Hello, {user?.name}</p>
-                                    <NavLink to='/admin'>
-                                        <img className='w-[30px] mt-2' src="/images/admin.png" alt="img-admin" />
-                                      
-                                    </NavLink>
+                                    {user.isAdmin  && (
+                                        <NavLink to='/admin'>
+                                            <img className='w-[30px] mt-2' src="/images/admin.png" alt="img-admin" />
+
+                                        </NavLink>
+                                    )}
+
                                 </div>
                             ) :
                                 <>
@@ -45,7 +49,7 @@ const NavBar = () => {
                     <SearchBar />
                 </div>
             </main>
-            <NavCategories/>
+            <NavCategories />
             <Outlet />
             <Footer />
         </>

@@ -7,28 +7,31 @@ import Spinner from "../../spinner/Spinner";
 import { ProductType } from "../../interface/Product";
 
 type ParamsType = {
-  search?: string,
+  category?: string,
+  name?: string,
   filter?: string
 }
 
 const Products = () => {
 
   const { products } = useAppSelector(state => state.products);
-  const { filter, search } = useParams<ParamsType>();
+  const { filter, category , name} = useParams<ParamsType>();
   const [productsFilterBySearch, setProductsFilterBySearch] = useState<ProductType[]>([]);
+  const [productFilterByName, setProductFilterByName] = useState({} as ProductType);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
 
   useEffect(() => {
     const getProductFilters = async ()  => {
 
-      if (filter || search) {
-
+      if (filter ||category || filter) {
         try {
+
           setIsLoading(true)
-          const { data } = await axios(`http://localhost:4000/store/products/?filter=${filter}&name=${search}`);
+          const { data } = await axios(`http://localhost:4000/store/products/?category=${category}&name=${name}&filter=${filter}`);
           setIsLoading(false)
-          setProductsFilterBySearch(data);
+          setProductFilterByName(data.product)
+          setProductsFilterBySearch(data.products.filter((product : ProductType) => product.id !== data.product.id));
 
         }
         catch (error: unknown) {
@@ -39,16 +42,17 @@ const Products = () => {
       }
     }
     getProductFilters()
-  }, [filter, search])
+  }, [filter, category, name])
 
   return (
     <>
-
+      {productsFilterBySearch.length > 0  && (<p className="text-center font-bold mt-4">Search results</p>)}
       {isLoading ?
         <div className="bg-white h-[60vh] w-full flex items-center justify-center">
           <Spinner />
         </div> : (
         <div className="w-full md:w-3/4 mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+          {productFilterByName ? <CardProduct product={productFilterByName} /> : null}
           {productsFilterBySearch.length > 0 ?
             productsFilterBySearch.map(product => {
               return (

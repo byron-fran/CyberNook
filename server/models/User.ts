@@ -27,6 +27,9 @@ class User extends Model<User>{
     @Column(DataType.STRING)
     phone! : string 
 
+    @Column(DataType.BOOLEAN)
+    isAdmin! : boolean
+
     // @HasMany(() => Order, 'OrderId' )
     // orders! : Order[]
 

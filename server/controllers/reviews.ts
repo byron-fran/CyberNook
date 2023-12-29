@@ -7,7 +7,7 @@ import User from '../models/User';
 
 const createReview = async (req = request, res = response) => {
     const {} : Review= req.body;
-    console.log(req.body)
+
     try {
         const newReview = await Reviews.create({...req.body,});
         if(!newReview){return res.status(404).json({message : 'Noy saved'})};

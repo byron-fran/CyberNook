@@ -59,46 +59,78 @@ const getProductById = async (req = request, res = response) => {
 };
 
 const getProducts = async (req = request, res = response) => {
-    const {name,filter } = req.query;
+    const {category, name, filter } = req.query;
 
-  
-  
     try{
-        if(filter === 'category') {
-            
-            const productFilters = await Product.findAll({
-                where : {
-                    category :{
-                        [Op.iLike]: `%${name}%`
-                    }
-                }
-            })
-            if(!productFilters){ return res.status(404).json({message : 'not found'})};
-            return res.status(200).json(productFilters);
+        if(category === 'category') {
 
-        }
-        else if(filter === 'name'){
-         
-            const productFilters = await Product.findAll({
+            const productFilterByName = await Product.findOne({
                 where : {
                     name :{
                         [Op.iLike]: `%${name}%`
                     } 
                 }
             })
-            if(!productFilters){ return res.status(404).json({message : 'not found'})};
-            return res.status(200).json(productFilters);
-        }
-        else if(filter === 'mark') {
+            
             const productFilters = await Product.findAll({
                 where : {
-                    mark :{
+                    category :{
+                        [Op.iLike]: `%${filter}%`
+                    }
+                }
+            })
+            
+            if(!productFilters){ return res.status(404).json({message : 'not found'})};
+            return res.status(200).json({
+                product : productFilterByName,
+                products : productFilters
+            });
+
+        }
+        else if(category === 'name'){
+            const productFilterByName = await Product.findOne({
+                where : {
+                    name :{
                         [Op.iLike]: `%${name}%`
                     } 
                 }
             })
+         
+            const productFilters = await Product.findAll({
+                where : {
+                    name :{
+                        [Op.iLike]: `%${filter}%`
+                    } 
+                }
+            })
+
             if(!productFilters){ return res.status(404).json({message : 'not found'})};
-            return res.status(200).json(productFilters);
+            return res.status(200).json({
+                product : productFilterByName,
+                products : productFilters
+            });
+        }
+        else if(category=== 'mark') {
+            const productFilterByName = await Product.findOne({
+                where : {
+                    name :{
+                        [Op.iLike]: `%${name}%`
+                    } 
+                }
+            })
+            const productFilters = await Product.findAll({
+                where : {
+                    mark :{
+                        [Op.iLike]: `%${filter}%`
+                    } 
+                }
+            })
+           
+            if(!productFilters){ return res.status(404).json({message : 'not found'})};
+            return res.status(200).json({
+                product : productFilterByName,
+                products : productFilters
+            });
         }
 
         const products = await Product.findAll();

@@ -142,6 +142,7 @@ const updateProfile = async (req = request, res = response) => {
             user.email = email;
             user.name = name;
             user.phone = phone
+           // user.isAdmin = true
 
             // Guarda los cambios en la base de datos
             await user?.save();

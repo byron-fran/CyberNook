@@ -23,7 +23,8 @@ const initialState: Auth = {
         password: '',
         id: '',
         Orders : [],
-        Addresses :[]
+        Addresses :[],
+        isAdmin : false
     
     },
     
@@ -43,6 +44,7 @@ const authSlice = createSlice({
                 state.user = action.payload,
                     state.isLoading = false,
                     state.isAuthenticated = true
+                    state.isAdmin = state.user.isAdmin ? true : false
             })
             .addCase(registerUserThunk.rejected, (state, action ) => {
                 state.isLoading = false
@@ -59,6 +61,7 @@ const authSlice = createSlice({
                 state.user = action.payload,
                     state.isLoading = false,
                     state.isAuthenticated = true
+                    state.isAdmin = state.user.isAdmin ? true : false
             })
             .addCase(loginUserThunk.rejected, (state, action) => {
                 state.isLoading = false
@@ -81,7 +84,8 @@ const authSlice = createSlice({
                     password: '',
                     id: '',
                     Addresses : [],
-                    Orders : []
+                    Orders : [],
+                    isAdmin : false
                 }
             })
         //Get user Profile   
@@ -94,6 +98,7 @@ const authSlice = createSlice({
                 state.user = action.payload
                 state.isAuthenticated = true
                 state.isLoading = false
+                state.isAdmin = state.user.isAdmin ? true : false
             })
             .addCase(getUserProfileThunk.rejected, (state, action) => {
                 state.isLoading = false
@@ -108,6 +113,7 @@ const authSlice = createSlice({
             .addCase(updateProfileThunk.fulfilled, (state, action : PayloadAction<UserType>)  => {
                 state.user = action.payload;
                 state.isLoading = false
+                state.isAdmin = state.user.isAdmin ? true : false
 
             })
             .addCase(updateProfileThunk.rejected, state => {
@@ -128,6 +134,7 @@ const authSlice = createSlice({
                     password : '',
                     id : '',
                     phone : '',
+                    isAdmin : false
 
                 }
             })
@@ -144,6 +151,7 @@ const authSlice = createSlice({
                 state.user = action.payload
                 state.isAuthenticated = true
                 state.isLoading = false
+                state.isAdmin = state.user.isAdmin ? true : false
             })
             .addCase(verifyTokenThunk.rejected, (state, action) => {
                 state.isLoading = false

@@ -1,6 +1,7 @@
 import Sidebar from '../../components/admin/Sidebar';
 import { Outlet } from 'react-router-dom';
 import NavProfile from '../../components/navbar/NavProfile';
+
 const AdminPage = () => {
 
 

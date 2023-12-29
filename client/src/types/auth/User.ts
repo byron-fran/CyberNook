@@ -7,5 +7,6 @@ export type UserType = {
     password : string,
     id : number | string,
     Orders? : Order[],
-    Addresses? : Address[]
+    Addresses? : Address[],
+    isAdmin : boolean
 }

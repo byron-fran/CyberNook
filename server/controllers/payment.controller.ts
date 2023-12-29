@@ -18,12 +18,16 @@ const createSession = async (req =request, res = response) => {
     try{
         const cart = await Order.findAll({where : {UserId}});
 
+        //create token
         const token = jwt.sign({id : UserId}, process.env.SECRET_KEY_ORDER!, {
-            algorithm : 'HS256',
-            expiresIn : '60s'
+            algorithm : 'HS256', //algoritmo
+            expiresIn : '60s' 
         })
         
+        //filter cart without paid
         const cartFilterNoPaid = cart.filter(order => order.paid !== true)
+
+        //create session stripe
         const session = await stripe.checkout.sessions.create({
             line_items: cartFilterNoPaid.map(order => ({
                 price_data: {
@@ -37,6 +41,8 @@ const createSession = async (req =request, res = response) => {
                 quantity: order.quantity,
             })),
             mode : 'payment',
+            
+            //redirect url success and cancel
             success_url : `http://localhost:5173/success-payment/?token=${token}`,
             cancel_url : 'http://localhost:5173/cancel-payment',
         })

@@ -31,6 +31,12 @@ class Product extends Model<Product> {
   @Column(DataType.STRING)
   mark!: string
 
+  @Column({
+    type : DataType.INTEGER,
+    defaultValue : 0
+  })
+  descount! : number
+
   @Column(DataType.TEXT)
   description! : string
 
