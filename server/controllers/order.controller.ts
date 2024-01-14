@@ -54,8 +54,8 @@ const getAllOrdersByUser = async (req = request, res = response) => {
 
 const updateOrder = async (req = request, res = response) => {
     const { id } = req.params;
-    const { price, quantity, paid, ProductId }: OrderInterface = req.body;
-
+    const { price, quantity, paid, ProductId , discount}: OrderInterface = req.body;
+    console.log(req.body)
     try {
 
         const orderFound = await Order.findByPk<Order>(id);
@@ -68,6 +68,7 @@ const updateOrder = async (req = request, res = response) => {
         if (quantity > orderFound.quantity) {
             quantityRest = quantity - orderFound.quantity
             product.stock = product.stock - quantityRest
+       
             // //save product
             await product.save();
             //update order
@@ -76,11 +77,13 @@ const updateOrder = async (req = request, res = response) => {
         else if (orderFound.quantity > quantity) {
             quantityRest = orderFound.quantity - quantity;
             product.stock =product.stock + quantityRest
+         
             await product.save()
         }
         orderFound.price = price;
         orderFound.quantity = quantity;
         orderFound.paid = paid
+     
         await orderFound.save();
 
         return res.status(200).json({

@@ -14,7 +14,8 @@ export type ProductType = {
     mark? : string,
     ProductId? : number | string,
     Reviews? : Review[]
-    description? : string
+    description? : string,
+    discount : number
 
     
 }

@@ -35,7 +35,7 @@ class Product extends Model<Product> {
     type : DataType.INTEGER,
     defaultValue : 0
   })
-  descount! : number
+  discount! : number
 
   @Column(DataType.TEXT)
   description! : string

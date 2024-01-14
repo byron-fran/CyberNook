@@ -39,6 +39,12 @@ class Order extends Model<Order> {
   @Column(DataType.INTEGER)
   UserId!: number
 
+  @Column({
+    type : DataType.INTEGER,
+    defaultValue : 0
+  })
+  discount! : number
+
   @Column(DataType.INTEGER)
   ProductId!: number
   // @HasMany(() => User, 'UserId')

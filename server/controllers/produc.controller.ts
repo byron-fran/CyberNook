@@ -13,6 +13,8 @@ import { Product as ProductInterface } from '../interfaces/Product';
 const createProduct = async (req = request, res = response) => {
     const {name,  price, category, stock, image,  }  = req.body
     const  file = req.file
+
+    
     try{
         // console.log(image)
      
@@ -168,7 +170,7 @@ const deleteProductById = async (req = request, res = response) => {
     }
 };
 const updateProductById = async (req = request, res = response) => {
-    const {name,price, stock, category, image} : ProductInterface = req.body;
+    const {name,price, stock, category, image, discount} : ProductInterface = req.body;
     const {id} = req.params;
     try{
         const productFound = await Product.findByPk(id);
@@ -178,6 +180,7 @@ const updateProductById = async (req = request, res = response) => {
         productFound.stock = stock;
         productFound.category = category;
         productFound.image = image;
+        productFound.discount = discount;
         await productFound.save()
 
         return res.status(200).json(productFound)

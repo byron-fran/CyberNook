@@ -5,7 +5,7 @@ export interface Product {
     category : string
     stock : number,
     mark : string,
-    descount : number,
+    discount : number,
     id : string,
 
 };

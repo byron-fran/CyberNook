@@ -11,6 +11,7 @@ export interface Order  {
     unitPrice: number,
     id? : number,
     mark? : string,
+    discount : number,
     ProductId? : string | number,
     User? : UserType
     

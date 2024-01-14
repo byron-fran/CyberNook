@@ -18,7 +18,7 @@ const DetailProduct: React.FC = (): JSX.Element => {
     const { detailProduct: product, isLoading } = useAppSelector(state => state.products);
     const { cart } = useAppSelector(state => state.cart);
     const { isAuthenticated } = useAppSelector(state => state.auth)
-    console.log(product)
+
 
     const purchase: Order = {
         image: '',
@@ -29,8 +29,8 @@ const DetailProduct: React.FC = (): JSX.Element => {
         unitPrice: 0,
         category: '',
         mark: '',
-        ProductId: ''
-
+        ProductId: '',
+        discount: 0,
 
     }
 
@@ -52,6 +52,7 @@ const DetailProduct: React.FC = (): JSX.Element => {
 
 
     };
+    //
     const handleLessQuantityProduct = () => {
         setQuantity(value => value - 1);
         if (quantity <= 1) {
@@ -61,10 +62,12 @@ const DetailProduct: React.FC = (): JSX.Element => {
     };
   
 
-    const handleAddPurchase = async () => {
+    const handleAddPurchase = async () : Promise<void> => {
+        //calcular el total de la orden
         const unitPrice = product.price;
         const priceTotal = product.price * quantity;
-    
+        
+        // Crear objeto de orden
         purchase.unitPrice = unitPrice
         purchase.price = priceTotal
         purchase.quantity = quantity
@@ -74,7 +77,17 @@ const DetailProduct: React.FC = (): JSX.Element => {
         purchase.name = product.name;
         purchase.paid = false;
         purchase.ProductId = product.id
-    
+        purchase.discount = product.discount;
+
+        // Aplicar descuento en caso de existir
+        if(purchase.discount > 0){
+            purchase.price = purchase.price - (purchase.price * (purchase.discount / 100))
+        }
+        else {
+            purchase.price = product.price
+        }
+        
+        // Comprobar si el proyecto existe en el carrito
         const productExist = cart?.find(order => order.ProductId === product.id);
  
         if (productExist) {
@@ -107,8 +120,9 @@ const DetailProduct: React.FC = (): JSX.Element => {
                         </div>
 
                         <div className="flex flex-col justify-center items-center">
-                            <p className="text-2xl ">Price: {product.price && formaterDinero(product.price)}</p>
-
+                            <p className={`text-2xl ${product.discount > 0 ? 'line-through text-red-600' : ''} `}>Price: {product.price && formaterDinero(product.price)}</p>
+                            {product.discount > 0 && (<p>On offer: {product.discount > 0 && <span className="text-blue-500 font-bold">{formaterDinero(product.price - (product.price * (product.discount / 100)))}</span>}
+                            <span className="bg-lime-600 text-white p-1 ml-1 rounded-md text-[12px]">save{' '}{product.discount}%</span></p>)}
                             <ul className="mt-4">
                                 <li>memory: <span>12gb</span></li>
                                 <li>size: <span>6.4 inch</span></li>

@@ -13,7 +13,7 @@ const FormProduct = () => {
     const { listCategory: categories } = useAppSelector(state => state.category);
     const { marks } = useAppSelector(state => state.marks)
     const { products } = useAppSelector(state => state.products)
-    const { handleSubmit, register, reset, setValue, formState : {errors} } = useForm<ProductType>();
+    const { handleSubmit, register, reset, setValue, formState: { errors } } = useForm<ProductType>();
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [imgProduct, setImgProduct] = useState<FormData>();
     const [showAlert, setShowAlert] = useState<boolean>(false)
@@ -24,7 +24,7 @@ const FormProduct = () => {
     useEffect(() => {
         const getProductDetail = async () => {
             if (id) {
-                const { payload : product } = await dispatch(getDetailProductThunk(id))
+                const { payload: product } = await dispatch(getDetailProductThunk(id))
                 setValue('name', product.name)
                 setValue('price', product.price)
                 setValue('stock', product.stock)
@@ -39,21 +39,24 @@ const FormProduct = () => {
 
     }, [id, dispatch, setValue]);
 
-
+    console.log(products);
+    console.log(id)
     const onSubmit = handleSubmit(async (data) => {
 
         setIsLoading(true)
-        const productFind = products.find(product => product.id === id);
+        const productFind = products.find(product => product.id === Number(id));
 
 
         const urlProductImage = await uploadImageClodinary(imgProduct!);
 
         const updateProduct = {
             ...data,
-            image: urlProductImage
+            image: urlProductImage,
+            discount: Number(data.discount)
         };
 
         if (productFind) {
+
             dispatch(updateProductByIdThunk({ id: id!, product: updateProduct }))
                 .then(() => navigate('/admin/products'))
             return
@@ -149,12 +152,29 @@ const FormProduct = () => {
                 </div>
                 {/* field description */}
                 <div className='w-full'>
-                    <label className='block w-full my-2' htmlFor="description" >Category</label>
+                    <label className='block w-full my-2' htmlFor="description" >Description</label>
                     {errors.description?.type === 'maxLength' && <p className='text-red-500'>Characters must not be greater than 1000</p>}
                     {errors.description?.type === 'required' && <p className='text-red-500'>field required</p>}
-                    <textarea id="description" 
+                    <textarea id="description"
                         className='border border-slate-400 resize-none w-full h-[150px] focus:outline-blue-800'
-                        {...register('description', {minLength : 2, maxLength : 1000, required : true})}></textarea>
+                        {...register('description', { minLength: 2, maxLength: 1000, required: true })}></textarea>
+                </div>
+                {/* field discount */}
+                <div className='w-full'>
+                    <label className='block w-full my-2' htmlFor="discount" >Discount percent(%)</label>
+                    {errors.discount?.type === 'min' && <p className='text-red-500'>Discount must not be less than 1</p>}
+                    {errors.discount?.type === 'max' && <p className='text-red-500'>Discount must not be greater than 99</p>}
+                    {errors.discount?.type === 'pattern' && <p className='text-red-500'>{errors.discount?.message}</p>}
+
+                    <input id="discount"
+                        className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800' type="text"
+                        placeholder='10%'	
+                        defaultValue={0}
+                        {...register('discount', {  min: 1, max: 99, pattern : {
+                            value: /^[0-9]+$/,
+                            message: 'Discount must be a number'
+                        }},)}></input>
+                    
                 </div>
                 {/* Field image */}
                 <div className='w-full'>
@@ -166,7 +186,7 @@ const FormProduct = () => {
                     />
 
                 </div>
-                <button className='bg-blue-800 text-white p-2 block w-full mt-4 font-bold uppercase' type='submit'>Add Product</button>
+                <button className='bg-blue-800 text-white p-2 block w-full mt-4 font-bold uppercase' type='submit'>{id ? 'update Product' : 'Add Product'}</button>
             </form>
         </main>
     )

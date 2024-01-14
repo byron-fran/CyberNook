@@ -50,7 +50,7 @@ const Products = () => {
     }
     getProductFilters()
   }, [filter, category, name])
-
+  console.log(products)
   return (
     <>
       {productsFilterBySearch.length > 0 && (<p className="text-center font-bold mt-4">Search results</p>)}
