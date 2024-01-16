@@ -41,12 +41,12 @@ const Oferts = () => {
                             </div>
 
                         </div>
-                        <div className='grid md:grid-cols-3 gap-4'>
+                        <div className='grid md:grid-cols-4 gap-4'>
                             {productsFilterByOffertLimit.map(product => { 
                                 const save = (product.price * product.discount) / 100;
                                
                                 return (
-                                <div key={product.id} className='mt-8 p-4 bg-white rounded-sm'>
+                                <div key={product.id} className='mt-8 p-4 bg-white rounded-sm last-of-type:col-span-2 flex flex-col items-center'>
                                     <img className='w-full object-contain h-[100px]  md:w-[150px]'
                                         src={product.image} alt={product.name} />
                                     <p className='mt-4 font-bold'>{product.name}

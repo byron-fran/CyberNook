@@ -15,7 +15,8 @@ export type ProductType = {
     ProductId? : number | string,
     Reviews? : Review[]
     description? : string,
-    discount : number
+    discount : number,
+    createdAt? : string,
 
     
 }

@@ -7,7 +7,7 @@ const Categories = () => {
 
 
     return (
-        <main className='w-full mt-10 mb-10'>
+        <main className='w-[95%] md:w-[80%] mx-auto mt-10 mb-10'>
             <h2 className='text-center mb-4 font-bold text-2xl uppercase'>Categories</h2>
             <ul className='w-full border border-slate-300 rounded-md  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4 gap-1 md:gap-0 '>
                 {categories && categories.map((category ) =>  (

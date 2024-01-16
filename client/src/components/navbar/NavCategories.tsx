@@ -12,7 +12,7 @@ const NavCategories = () => {
     return (
         <>
             <div className='w-full'>
-                <nav className='bg-slate-300 p-2  flex justify-around relative ' >
+                <nav className='bg-white p-2 border border-slate-300 flex justify-around relative ' >
                     <NavLink to='/store'>
                         Storewide
                     </NavLink>
