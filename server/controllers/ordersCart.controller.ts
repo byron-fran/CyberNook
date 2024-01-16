@@ -80,9 +80,18 @@ const updateOrder = async (req = request, res = response) => {
         }
         orderFound.price = price;
         orderFound.quantity = quantity;
-        orderFound.paid = paid
-        await orderFound.save();
+        orderFound.paid = paid;
 
+        if(orderFound.discount > 0){
+            console.log('el descuento es mayor a 0');
+            orderFound.price = orderFound.price - (orderFound.price * orderFound.discount) / 100;
+            await orderFound.save();
+        }
+        else{
+            await orderFound.save();
+        }
+
+        console.log(orderFound);
         return res.status(200).json({
             success: 'purchase update',
             orderFound

@@ -63,6 +63,7 @@ const DetailProduct: React.FC = (): JSX.Element => {
   
 
     const handleAddPurchase = async () : Promise<void> => {
+        
         //calcular el total de la orden
         const unitPrice = product.price;
         const priceTotal = product.price * quantity;
