@@ -8,7 +8,7 @@ import Category from '../models/Categories';
 import Address from '../models/Address';
 import Mark from '../models/Mark';
 import Reviews from '../models/Reviews';
-
+import Question from '../models/Question';
 
 dotenv.config()
 
@@ -28,6 +28,7 @@ export const sequelize = new Sequelize({
         Category,
         Mark,
         Reviews,
+        Question
      
     ] 
 
@@ -97,4 +98,14 @@ Product.hasOne(Spces, {
 })
 Spces.belongsTo(Product, {
     foreignKey : 'ProductId'
-})
+});
+
+//Relations Question / User
+
+User.hasMany(Question, {
+    onDelete : 'CASCADE'
+});
+
+Question.belongsTo(User, {
+    foreignKey: 'UserId'
+});

@@ -1,16 +1,24 @@
 import React from 'react'
 import {useForm} from 'react-hook-form'
-
+import axios, { AxiosError } from 'axios'
 interface Question {
     email : string
     description : string
 }
 const FormQuestion = () => {
-    const {handleSubmit, register, formState : {errors}} = useForm<Question>();
+    const {handleSubmit, register, formState : {errors}, reset} = useForm<Question>();
 
-    const onSubmit = handleSubmit(data => {
+    const onSubmit = handleSubmit (async question => {
 
-        console.log(data)
+        try {
+            const {data} = await axios.post('http://localhost:4000/question', question);
+            console.log(data)
+            reset()
+        } catch (error : unknown) {
+            if(error instanceof AxiosError){
+                console.log(error.response?.data)
+            }
+        }
     })
   return (
     <div className='p-4  flex flex-col'>
