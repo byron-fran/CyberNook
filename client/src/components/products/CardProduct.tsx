@@ -3,11 +3,12 @@ import { Product } from "../../interface/Product"
 import React from "react"
 import { formaterDinero } from "../../helpers"
 import { Order } from "../../types/cart/Order"
-import { useAppDispatch } from "../../redux/hooks/hooks";
-import { createOrderThunk} from "../../redux/thunks/CartThunks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { createOrderThunk, updateOrderThunk} from "../../redux/thunks/CartThunks";
 
 const CardProduct: React.FC<Product> = ({ product }) => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
+  const {cart} = useAppSelector(state => state.cart)
   const purchase: Order = {
     image: '',
     name: '',
@@ -31,6 +32,14 @@ const CardProduct: React.FC<Product> = ({ product }) => {
     purchase.mark = product.mark
     purchase.ProductId = product.id
     purchase.discount = product.discount
+
+    // Verificar si el producto ya existe
+    const productFind = cart.find(p => p.ProductId === product.id);
+    if(productFind){
+      dispatch(updateOrderThunk({id : productFind.id!, order: purchase}))
+      return
+    }
+    // Si no existe, agregarlo
     dispatch(createOrderThunk(purchase))
   }
 

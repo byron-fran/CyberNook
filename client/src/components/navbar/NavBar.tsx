@@ -25,7 +25,7 @@ const NavBar = () => {
                                     <NavLink to='/cart' className='flex gap-2 items-center justify-center'>
                                         <img className=' w-8' src="/images/cart.svg" alt="image cart" />
                                         {cart?.length > 0 ? (
-                                            <p className='bg-white text-blue-600 py-1 px-2 font-bold rounded-full'>1</p>
+                                            <p className='bg-white text-blue-600 py-1 px-2 font-bold rounded-full'>{cart?.length}</p>
                                         ): null}
 
                                     </NavLink>

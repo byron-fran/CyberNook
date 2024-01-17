@@ -22,7 +22,7 @@ const NavCategories = () => {
                         <p className="cursor-pointer"> Categories</p>
                         <div
                             className={`${optionNav ? 'opacity-100 visible' : 'opacity-0 invisible'
-                                } transition-opacity duration-300 ease-in-out p-4 left-[-60px] md:w-[150px] absolute  flex flex-col bg-white  rounded-sm shadow-lg z-10 `}
+                                } transition-opacity duration-300 ease-in-out p-4 left-[-50px] md:w-[150px] absolute  flex flex-col bg-white  rounded-sm shadow-lg z-10 `}
                         >
                             {categories?.map(category => (
                                 <NavLink
