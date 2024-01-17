@@ -95,7 +95,7 @@ const DetailProduct: React.FC = (): JSX.Element => {
             console.log(quantity)
             console.log(priceTotal)
             dispatch(createOrderThunk({ ...purchase, paid: false, quantity, price: priceTotal }))
-                .then(() => {  })
+                .then(() => {  Navigate('/cart') })
                 .catch((error: unknown) => { console.error(error) });
         } 
     }

@@ -31,6 +31,7 @@ import ProductsPage from './pages/admin/ProductsPage';
 import SalesPage from './pages/admin/SalesPage';
 import CuponsPage from './pages/admin/CuponsPage';
 import AdminRoutes from './private/AdminRoutes';
+import ProductsOferts from './pages/products/ProductsOferts';
 
 import { getAllOrdersByAdmin } from './redux/thunks/OrdersThunks';
 import { getAllUsers } from './redux/thunks/UsersThunk';
@@ -73,6 +74,7 @@ function App(): JSX.Element {
           <Route path='/detail/:id' element={<DetailProduct />} />
           <Route path='/category/:category' element={<CategoryPage />} />
           <Route path='/mark/:mark' element={<MarkPage />} />
+          <Route path='/oferts' element={<ProductsOferts />} />
           <Route element={<UserRouters loading={loading} />}>
             <Route path='/cart' element={<Cart />} />
             <Route path='/success-payment' element={<SuccessPayment />} />

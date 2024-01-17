@@ -24,7 +24,7 @@ const Oferts = () => {
             <main className='bg-blue-800 p-4 w-full bg-gradient-to-r from-blue-800 to-blue-600'>
                 <div className='grid md:grid-cols-3'>
                     <section className='md:col-span-1 flex flex-col justify-center my-8 p-2'>
-                        <h1 className='text-white font-bold bg-red-700 mb-4  none md:inline-block w-[150px] p-4 rounded-md md:text-2xl'>Top deals</h1>
+                        <NavLink to='/oferts' className='text-white font-bold bg-red-700 mb-4  none md:inline-block w-[150px] p-4 rounded-md md:text-2xl'>Top deals</NavLink>
                         <p className='text-white font-bold text-2xl lg:text-6xl md:text-4xl mt-4'> Great deals happening right now</p>
                         <NavLink to='/store' className='bg-orange-500 hover:bg-orange-600 inline-block w-[100px] cursor-pointer text-white font-bold p-2  rounded-md mt-10'>Shop now</NavLink>
                     </section>

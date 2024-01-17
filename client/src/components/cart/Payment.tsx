@@ -5,6 +5,7 @@ import { StripeInterface } from "../../interface/Stripe";
 
 
 import axios from "axios";
+import { NavLink } from "react-router-dom";
 
 const Payment = () => {
   const [priceTotal, setPriceTotal] = useState(0);
@@ -56,7 +57,7 @@ const Payment = () => {
 
       <div className="border-t border-t-slate-300 mt-4">
         <p className="mt-4">Shipping Address</p>
-        {Addresses && Addresses.map(address => (
+        {Addresses?.length ? Addresses.map(address => (
           <Fragment key={address.id}>
             <p className="font-bold text-[0.8rem]">Exterior number: <span className="text-blue-800">{address.exteriorNumber}</span></p>
             <p className="font-bold text-[0.8rem]">Street: <span className="text-blue-800">{address.street}</span></p>
@@ -65,12 +66,15 @@ const Payment = () => {
             <p className="font-bold text-[0.8rem]">Country: <span className="text-blue-800">{address.country}
             </span></p>
           </Fragment>
-        ))}
+        )) : <div className="mt-4">
+          <NavLink className='bg-red-500 hover:bg-red-600 text-white w-full p-2 rounded-sm ' to='/profile'>Add your address</NavLink>
+          </div>}
 
       </div>
       <h2 className="text-2xl mt-4">Total: <span className="text-blue-800">{formaterDinero(priceTotal)}</span></h2>
-      <button className="bg-lime-500 hover:bg-lime-600 text-white w-full p-2 rounded-sm uppercase mt-4"
+      <button className={`bg-lime-500 hover:bg-lime-600 text-white w-full p-2 rounded-sm uppercase mt-4 ${Addresses?.length ? 'cursor-pointer' : 'cursor-not-allowed'}`}
         onClick={handlePayment}
+        disabled={Addresses?.length ? false : true}
       >Pay now
       </button>
     </div>

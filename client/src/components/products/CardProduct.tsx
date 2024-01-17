@@ -12,8 +12,6 @@ const CardProduct: React.FC<Product> = ({ product }) => {
   const [removeOrder, setRemoveOrder] = useState<boolean>(false);
   const [productInCart, setProductInCart] = useState<boolean>(false);
 
-
-
   const dispatch = useAppDispatch();
   const { cart } = useAppSelector(state => state.cart)
   const purchase: Order = {
@@ -55,7 +53,7 @@ const CardProduct: React.FC<Product> = ({ product }) => {
     // Verificar si el producto ya existe
     const productFind = cart.find(p => p.ProductId === product.id);
     if (productFind) {
-     
+
       dispatch(deleteOrderByIdThunk(productFind.id!))
         .then(() => {
           setRemoveOrder(true)
@@ -72,7 +70,7 @@ const CardProduct: React.FC<Product> = ({ product }) => {
       return
     }
     // Si no existe, agregarlo
-    
+
     dispatch(createOrderThunk({ ...purchase, price: priceTotal }))
       .then(() => {
         setSuccessOrder(true)
@@ -90,49 +88,57 @@ const CardProduct: React.FC<Product> = ({ product }) => {
 
   const Navigate = useNavigate();
   return (
-    <div
-      className="mx-auto w-full  shadow-md border border-gray-300  p-2 rounded-sm grid grid-cols-4 mt-4 gap-4 ">
+    <>
       {successOrder && (
         <Alert message="Product added to cart" />
       )}
       {removeOrder && (
         <Alert message="Product removed from cart" />
       )}
-      <div className=" mx-auto col-span-1 cursor-pointer" onClick={() => Navigate(`/detail/${product?.id}`)}>
-        <img className='w-full md:w-[150px] object-contain h-auto md:h-[150px]' src={`${product.image}`} alt="img-product" />
-      </div>
-      <div className="col-span-3 flex  justify-between">
-        <div className="flex flex-col justify-center">
-          <h2 className="">{product.name}</h2>
-          <p className={`text-2xl ${product.discount > 0 ? 'line-through text-red-600' : ''} `}>{product.price && formaterDinero(product.price)}</p>
-          {product.discount > 0 && (
-            <div className="flex items-center">
-              On offer: {product.discount > 0 && <span className="text-blue-500 font-bold">{formaterDinero(product.price - (product.price * (product.discount / 100)))}</span>}
-              <span className="bg-lime-600 text-white p-1 ml-1 rounded-md text-[12px]">Discount{' '}{product.discount}%</span></div>)}
-          <div className="flex items-center gap-2 ">
-            <img className="w-[20px] h-[20px] object-contain"
-              src="/icons/shipping.png" alt="icon-shipping" />
-            <p className=" p-1 rounded-md text-[14px] ">Free Shipping in 14 days</p>
+      <div className="mx-auto w-full  shadow-md border border-gray-300  p-2 rounded-sm flex flex-col md:flex-row md:justify-between mt-4 gap-4 ">
+        <div className="flex gap-4">
+          <div className="  cursor-pointer" onClick={() => Navigate(`/detail/${product?.id}`)}>
+            <img className=' w-[150px] object-contain h-auto md:h-[150px] ' src={`${product.image}`} alt="img-product" />
           </div>
+          <div className=" flex flex-col  md:justify-between md:flex-row">
+            <div className="flex flex-col justify-center">
+              <h2 className="text-[1rem] md:text-[1.3rem]">{product.name}</h2>
+              <p className={`md:text-2xl ${product.discount > 0 ? 'line-through text-red-600' : ''} `}>{product.price && formaterDinero(product.price)}</p>
+              {product.discount > 0 && (
+                <div className="flex items-center">
+                  <p className="text-[0.7rem] md:text[1rem]">
+                    On offer: {product.discount > 0 && <span className="text-blue-500 font-bold">{formaterDinero(product.price - (product.price * (product.discount / 100)))}</span>}
+                    <span className="bg-lime-600  text-white p-1 ml-1 rounded-md text-[10px] md:text-[12px]">Discount{' '}{product.discount}%</span>
+                  </p>
+
+                </div>)}
+              <div className="flex items-center gap-2 ">
+                <img className="w-[20px] h-[20px] object-contain"
+                  src="/icons/shipping.png" alt="icon-shipping" />
+                <p className=" p-1 rounded-md text-[14px] ">Free Shipping in 14 days</p>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <div className="flex items-center flex-col justify-center">
+        {/*  */}
+        <div className="flex md:items-center items-end md:flex-col md:justify-center  gap-2 justify-center ">
           {product.stock! > 0 ? (
             <p className="text-blue-800 font-bold">Available</p>
           ) : <p className="text-red-500">Out of Stock</p>}
           {product.discount > 0 && (
-            <p className="bg-blue-800 text-white py-1 px-4 rounded-sm">Save {formaterDinero(product.price - (product.price - (product.price * (product.discount / 100))))}</p>
+            <p className="bg-blue-800 text-white py-1 px-5 rounded-sm text-[13px]  md:text-[1rem]">Save {formaterDinero(product.price - (product.price - (product.price * (product.discount / 100))))}</p>
           )}
-          <div className="bg-orange-500 p-2 flex rounded-sm mt-4 cursor-pointer"
+          <div className={`bg-orange-500 py-1 flex gap-2 rounded-sm mt-4 cursor-pointer ${productInCart ? 'px-5' : 'px-2'}`}
             onClick={handleAddToCart}>
             <img className="w-[20px] h-[20px]" src="/images/cart.svg" alt="" />
-            <p className="text-white font-bold">{productInCart ? 'Remove to cart' : 'Add to cart'}</p>
+            <p className="text-white font-bold text-[13px] md:text-[1rem]">{productInCart ? 'Remove ' : 'Add to cart'}</p>
           </div>
         </div>
       </div>
+    </>
 
-
-    </div>
   )
 }
 
