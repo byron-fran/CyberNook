@@ -1,28 +1,37 @@
-import React from 'react'
+import {useState} from 'react'
 import {useForm} from 'react-hook-form'
 import axios, { AxiosError } from 'axios'
+import Alert from '../Success/Alert'
 interface Question {
     email : string
     description : string
 }
 const FormQuestion = () => {
     const {handleSubmit, register, formState : {errors}, reset} = useForm<Question>();
-
+    const [messageSucess, setMessageSuccess] = useState<boolean>(false)
     const onSubmit = handleSubmit (async question => {
 
         try {
-            const {data} = await axios.post('http://localhost:4000/question', question);
-            console.log(data)
+            await axios.post('http://localhost:4000/question', question);
+            setMessageSuccess(true)
+
             reset()
+            setTimeout(() => {
+                setMessageSuccess(false)
+            }, 2000)
         } catch (error : unknown) {
+            setMessageSuccess(false)
             if(error instanceof AxiosError){
-                console.log(error.response?.data)
+              throw new Error(error.response?.data)
             }
         }
     })
   return (
     <div className='p-4  flex flex-col'>
-         <h2 className='text-3xl font-bold text-white text-center'>Do you have any question ?</h2>
+
+        {messageSucess && (
+        <Alert  message='Your question has been sent'/>)}
+        <h2 className='md:text-3xl font-bold  text-white text-center'>Do you have any question ?</h2>
         <form onSubmit={onSubmit}>
             <div className=''>
                 <label className='text-white '  htmlFor="email">Email</label>
