@@ -30,7 +30,7 @@ const createSession = async (req =request, res = response) => {
         //create session stripe
         const session = await stripe.checkout.sessions.create({
             line_items: cartFilterNoPaid.map(order => {
-                console.log(order.discount)
+            
                 return ({
                 
                 price_data: {
