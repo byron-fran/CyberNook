@@ -4,6 +4,8 @@ import Categories from "../../components/categories/Categories";
 // import AnimationShipping from '../../libs/ShippingAnimation.json'
 import Oferts from "../../components/products/Oferts";
 import Advantages from "../../components/slides/Advantages";
+import About from "../../components/about/About";
+
 const Home = () => {
   return (
     <main >
@@ -11,8 +13,7 @@ const Home = () => {
       <Categories />
       <Slides />
       <Advantages />
-    
-    
+      <About />
     </main>
   )
 }
