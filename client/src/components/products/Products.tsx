@@ -58,7 +58,7 @@ const Products = () => {
         <div className="bg-white h-[60vh] w-full flex items-center justify-center">
           <Spinner />
         </div> : (
-          <div className="w-full md:w-3/4 mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+          <div className="w-full md:w-3/4 mx-auto grid  gap-4 mt-8">
             {productFilterByName ? <CardProduct product={productFilterByName} /> : null}
             {productsFilterBySearch.length > 0 ?
               productsFilterBySearch.map(product => {

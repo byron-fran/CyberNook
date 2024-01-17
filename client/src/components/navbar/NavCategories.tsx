@@ -22,7 +22,7 @@ const NavCategories = () => {
                         <p className="cursor-pointer"> Categories</p>
                         <div
                             className={`${optionNav ? 'opacity-100 visible' : 'opacity-0 invisible'
-                                } transition-opacity duration-300 ease-in-out w-[100px] md:w-[200px] absolute  flex flex-col bg-white p-4 rounded-sm shadow-lg z-10 mr-2`}
+                                } transition-opacity duration-300 ease-in-out p-4 left-[-60px] md:w-[150px] absolute  flex flex-col bg-white  rounded-sm shadow-lg z-10 `}
                         >
                             {categories?.map(category => (
                                 <NavLink
@@ -40,7 +40,7 @@ const NavCategories = () => {
                         className='relative'>
                         <p className="cursor-pointer">Marks</p>
                         <div className={`${optionMark ? 'opacity-100 visible' : 'opacity-0 invisible'}
-                            transition-opacity duration-300 ease-in-out w-[100px] md:w-[200px] absolute  flex flex-col bg-white p-4 rounded-sm shadow-lg z-10 mr-2 `}>
+                            transition-opacity duration-300 ease-in-out p-4 left-[-60px] md:w-[150px] absolute  flex flex-col bg-white  rounded-sm shadow-lg z-10 `}>
                             {marks.map( mark => (
                                 <NavLink key={mark.id}
                                 className='hover:decoration-blue-950'

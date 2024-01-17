@@ -6,8 +6,9 @@ import NavCategories from './NavCategories';
 
 const NavBar = () => {
 
-    const { isAuthenticated, user, } = useAppSelector(state => state.auth)
-    
+    const { isAuthenticated, user, } = useAppSelector(state => state.auth);
+    const {cart} = useAppSelector(state => state.cart);
+  
 
     return (
         <>
@@ -21,15 +22,19 @@ const NavBar = () => {
                             {isAuthenticated ? (
                                 <div className='flex gap-8 items-center'>
 
-                                    <NavLink to='/cart'>
+                                    <NavLink to='/cart' className='flex gap-2 items-center justify-center'>
                                         <img className=' w-8' src="/images/cart.svg" alt="image cart" />
+                                        {cart?.length > 0 ? (
+                                            <p className='bg-white text-blue-600 py-1 px-2 font-bold rounded-full'>1</p>
+                                        ): null}
+
                                     </NavLink>
 
                                     <NavLink to='/profile'>
                                         <img className='w-[35px] ' src="/images/user.svg" alt="image-user" />
                                     </NavLink>
                                     <p className='text-white'>Hello, {user?.name}</p>
-                                    {user.isAdmin  && (
+                                    {user.isAdmin && (
                                         <NavLink to='/admin'>
                                             <img className='w-[30px] mt-2' src="/images/admin.png" alt="img-admin" />
 
