@@ -170,7 +170,7 @@ const FormProduct = () => {
                         className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800' type="text"
                         placeholder='10%'	
                         defaultValue={0}
-                        {...register('discount', {  min: 1, max: 99, pattern : {
+                        {...register('discount', {  min : 0, max: 99, pattern : {
                             value: /^[0-9]+$/,
                             message: 'Discount must be a number'
                         }},)}></input>

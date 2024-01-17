@@ -26,7 +26,7 @@ const Products = () => {
     pageButtons,
     totalPages,
     setCurrentPage,
-    productsPerPage } = UsePagination(products, 12);
+    productsPerPage } = UsePagination(products, 10);
 
   useEffect(() => {
     const getProductFilters = async () => {

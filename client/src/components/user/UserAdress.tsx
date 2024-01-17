@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useAppSelector, useAppDispatch} from '../../redux/hooks/hooks'
+import { useAppSelector, useAppDispatch } from '../../redux/hooks/hooks'
 import { useForm } from 'react-hook-form';
 import { Address } from '../../interface/Address';
-import { updateAddressThunk , createAddressThunk, deleteAddressThunk, getAddressThunk} from '../../redux/thunks/AddressThunk';
+import { updateAddressThunk, createAddressThunk, deleteAddressThunk, getAddressThunk } from '../../redux/thunks/AddressThunk';
+import SweetAlert from '../../libs/SweetAlert';
 
 const UserAddress = () => {
 
@@ -11,10 +12,13 @@ const UserAddress = () => {
     const [disableCountry, setDisableCountry] = useState<boolean>(true);
     const [disabledCity, setDisableCity] = useState<boolean>(true);
     const [disableInteriorNumber, setDisableInteriorNumber] = useState<boolean>(true);
+
+    // 
+    const [showAlert, setShowAlert] = useState<boolean>(false)
     const { handleSubmit, setValue, register, } = useForm<Address>();
 
     const { user: { Addresses } } = useAppSelector(state => state.auth);
-    const {address} = useAppSelector(state => state.address);
+    const { address } = useAppSelector(state => state.address);
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -28,21 +32,57 @@ const UserAddress = () => {
         }
 
     }, [Addresses]);
-    
+
     const onSubmit = handleSubmit(data => {
-        if(Addresses?.length){
-            dispatch(updateAddressThunk({id :address?.id, address : data}))
+        if (Addresses?.length) {
+            dispatch(updateAddressThunk({ id: address?.id, address: data }))
+                .then(() => {
+                    setShowAlert(true);
+                    setDisableStreet(true)
+                    setDisableCodePostal(true)
+                    setDisableCountry(true)
+                    setDisableCity(true)
+                    setDisableInteriorNumber(true)
+                    setTimeout(() => {
+                        setShowAlert(false);
+                    }, 3000)
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setShowAlert(false)
+                })
         }
         else {
-            dispatch(createAddressThunk({address : data}))
+            dispatch(createAddressThunk({ address: data }))
+                .then(() => {
+                    setShowAlert(true);
+                    setDisableStreet(true)
+                    setDisableCodePostal(true)
+                    setDisableCountry(true)
+                    setDisableCity(true)
+                    setDisableInteriorNumber(true)
+                    setTimeout(() => {
+                        setShowAlert(false);
+                    }, 3000)
+                })
         }
     });
 
-    const handleDeleteAddress = (id : number ) => {
-       dispatch(deleteAddressThunk(id))
+    const handleDeleteAddress = (id: number) => {
+        if (confirm(' Are you sure you want to delete this address ?')) {
+            dispatch(deleteAddressThunk(id))
+            return
+        }
+
     }
     return (
         <div className='border border-slate-300 w-full mb-10'>
+            {showAlert && <SweetAlert
+                title='Updated Address successfully'
+                type='success'
+                bgColor='#fff'
+                colorText='#1e40af'
+            />}
             <h2 className='bg-blue-800 text-white p-2 font-bold'>Your Address</h2>
             <form action="" className='mt-4 w-full'
                 onSubmit={onSubmit}>

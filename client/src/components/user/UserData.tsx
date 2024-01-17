@@ -13,7 +13,7 @@ const UserData = () => {
     const [disableName, setDisableName] = useState<boolean>(true);
     const [disabledPhone, setDisablePhone] = useState<boolean>(true);
     const [disableEmail, setDisableEmail] = useState<boolean>(true);
-    const [showAlert,setShowAlert] = useState(false)
+    const [showAlert, setShowAlert] = useState(false)
     const Navigate = useNavigate()
     const dispatch = useAppDispatch()
     useEffect(() => {
@@ -31,7 +31,7 @@ const UserData = () => {
     const onSubmit = handleSubmit(data => {
         const phoneNumber = Number(data.phone)
 
-        dispatch(updateProfileThunk({...data, phone :phoneNumber}))
+        dispatch(updateProfileThunk({ ...data, phone: phoneNumber }))
             .then(() => {
                 setShowAlert(true);
                 setDisableEmail(true)
@@ -48,19 +48,23 @@ const UserData = () => {
     })
 
     const handleDeleteUserAccount = () => {
-        dispatch(deleteProfileThunk())
-            .then(() => {
-              Navigate('/login')
-            })
+        if (confirm(' Are you sure you want to delete your account ?')) {
+            dispatch(deleteProfileThunk())
+                .then(() => {
+                    Navigate('/login')
+                })
+            return    
+        }
+
     }
     return (
         <div className='border border-slate-300 w-full '>
             <h2 className='bg-blue-800 text-white p-2 font-bold'>Your personal information</h2>
-            {showAlert && <SweetAlert 
-                title='Updated successfully' 
-                type='success' 
+            {showAlert && <SweetAlert
+                title='Updated successfully'
+                type='success'
                 bgColor='#fff'
-                colorText='#1e40af'/>}
+                colorText='#1e40af' />}
             <form action="" className='mt-4 w-full'
                 onSubmit={onSubmit}>
                 {/* Field name */}
@@ -113,13 +117,13 @@ const UserData = () => {
                         />
                     </div>
                     <div className=' p-1  cursor-pointer'>
-                        <img className='w-[20px] mx-auto mt-4' 
+                        <img className='w-[20px] mx-auto mt-4'
                             src="/images/pencil.svg" alt="icon-edit"
                             onClick={() => setDisablePhone(!disabledPhone)} />
                     </div>
                 </div>
                 <div className='flex justify-between mt-10'>
-                    <button className='bg-red-500 text-white p-2 uppercase font-bold' type='button' 
+                    <button className='bg-red-500 text-white p-2 uppercase font-bold' type='button'
                         onClick={handleDeleteUserAccount}>Delete Account</button>
                     <button className='bg-blue-800 text-white p-2 uppercase font-bold' type='submit'>Update </button>
                 </div>
