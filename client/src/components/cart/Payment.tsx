@@ -32,7 +32,7 @@ const Payment = () => {
 
 
   const handlePayment = async () => {
-   
+    console.log(cart)
     try {
       const { data } = await axios<StripeInterface>('http://localhost:4000/cart/payment-checkout', { withCredentials: true });
 

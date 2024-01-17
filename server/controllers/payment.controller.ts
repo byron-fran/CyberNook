@@ -29,17 +29,21 @@ const createSession = async (req =request, res = response) => {
 
         //create session stripe
         const session = await stripe.checkout.sessions.create({
-            line_items: cartFilterNoPaid.map(order => ({
+            line_items: cartFilterNoPaid.map(order => {
+                console.log(order.discount)
+                return ({
+                
                 price_data: {
                     currency: 'usd',
                     product_data: {
                         name: order.name,
                         description: order.name,
                     },
-                    unit_amount: order.unitPrice * 100,
+                    //order.discount > 0 ? (order.unitPrice - (order.unitPrice * (order.discount / 100))) * order.quantity  :  order.unitPrice * order.quantity 
+                    unit_amount: order.discount > 0 ? (order.unitPrice - (order.unitPrice * (order.discount / 100))) * 100 : order.unitPrice * 100,
                 },
                 quantity: order.quantity,
-            })),
+            })}),
             mode : 'payment',
             
             //redirect url success and cancel

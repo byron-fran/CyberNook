@@ -46,6 +46,9 @@ class Order extends Model<Order> {
   discount! : number
 
   @Column(DataType.INTEGER)
+  saved! : number
+
+  @Column(DataType.INTEGER)
   ProductId!: number
   // @HasMany(() => User, 'UserId')
   // userOrders!: Order[]

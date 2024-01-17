@@ -66,7 +66,8 @@ const DetailProduct: React.FC = (): JSX.Element => {
         
         //calcular el total de la orden
         const unitPrice = product.price;
-        const priceTotal = product.price * quantity;
+        
+        const priceTotal = product.discount > 0 ? (product.price - (product.price * (product.discount / 100))) * quantity  :  product.price * quantity   //product.price * quantity;
         
         // Crear objeto de orden
         purchase.unitPrice = unitPrice
@@ -80,26 +81,21 @@ const DetailProduct: React.FC = (): JSX.Element => {
         purchase.ProductId = product.id
         purchase.discount = product.discount;
 
-        // Aplicar descuento en caso de existir
-        if(purchase.discount > 0){
-            purchase.price = purchase.price - (purchase.price * (purchase.discount / 100))
-        }
-        else {
-            purchase.price = product.price
-        }
-        
-        // Comprobar si el proyecto existe en el carrito
+
         const productExist = cart?.find(order => order.ProductId === product.id);
  
         if (productExist) {
             // Actualizar producto en el carrito
+           
             dispatch(updateOrderThunk({ id: productExist.id!, order: { ...purchase, quantity, price: priceTotal, paid: false, unitPrice } }))
-                .then(() => { Navigate('/cart') })
+                .then(() => { Navigate('/cart')  })
                 .catch((error: unknown) => { console.error(error) });
         } else  {
             // Crear una nueva orden
-            dispatch(createOrderThunk({ ...purchase, paid: false }))
-                .then(() => { Navigate('/cart') })
+            console.log(quantity)
+            console.log(priceTotal)
+            dispatch(createOrderThunk({ ...purchase, paid: false, quantity, price: priceTotal }))
+                .then(() => {  })
                 .catch((error: unknown) => { console.error(error) });
         } 
     }
