@@ -9,7 +9,7 @@ const FormQuestion = () => {
     const {handleSubmit, register, formState : {errors}} = useForm<Question>();
 
     const onSubmit = handleSubmit(data => {
-        
+
         console.log(data)
     })
   return (
@@ -19,16 +19,22 @@ const FormQuestion = () => {
             <div className=''>
                 <label className='text-white '  htmlFor="email">Email</label>
                 {errors.email && <p className='text-red-500'>Email is required</p>}
+                {errors.email?.type === 'pattern' && <p className='text-red-500'>Invalid email address</p>}
                 <input className='w-full border border-slate-300 p-2 rounded-sm focus:outline-none' 
                     type="email" id="email" placeholder='Email'
-                    {...register('email', {required : true})}/>
+                    {...register('email', {required : true, pattern : {
+                        value : /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message : 'Invalid email address'
+                    }})}/>
             </div>
             <div className='my-2'>
                 <label className='text-white ' htmlFor="description">Description</label>
                 {errors.description && <p className='text-red-500'>Description is required</p>}
+                {errors.description?.type === 'minLength' && <p className='text-red-500'>Description must be at least 2 characters</p>}
+                {errors.description?.type === 'maxLength' && <p className='text-red-500'>Description must be less than 500 characters</p>}
                 <textarea className='w-full border border-slate-300 p-2 rounded-sm focus:outline-none resize-none h-[200px]'
                     id="description" placeholder='Describe your question'
-                    {...register('description', {required : true})}/>
+                    {...register('description', {required : true, minLength : 2, maxLength : 500})}/>
             </div>
             <button className='bg-blue-800 hover:bg-blue-900 text-white p-2 rounded-md mt-4 w-full'>Submit</button>
         </form>
