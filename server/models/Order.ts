@@ -47,6 +47,7 @@ class Order extends Model<Order> {
 
   @Column(DataType.INTEGER)
   saved! : number
+ 
 
   @Column(DataType.INTEGER)
   ProductId!: number

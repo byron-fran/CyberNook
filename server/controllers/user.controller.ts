@@ -31,7 +31,7 @@ const register = async (req = request, res = response) => {
         }
         const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
             algorithm: 'HS256',
-            expiresIn: '7d'
+            expiresIn: '1d'
         })
         res.cookie('token', token, {
             httpOnly: true,

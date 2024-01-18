@@ -9,7 +9,7 @@ const CancelPayment = () => {
       <div className='md:w-[250px] mx-auto'>
         <Lottie animationData={CancelAnimation}/>
       </div>
-      <h2 className='text-center mt-4 text-red-500 uppercase md:text-2xl'>You canceled your purchase</h2>
+      <h2 className='text-center mt-4 text-red-500 uppercase md:text-2xl'>Something went wrong</h2>
       <NavLink className='text-center bg-blue-800 text-white md:w-[20%] mx-auto uppercase mt-20 p-2' to='/'>
       Go back to the store
       </NavLink>

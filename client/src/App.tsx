@@ -55,8 +55,8 @@ function App(): JSX.Element {
       dispatch(getListCategories());
       dispatch(getAllMarks())
       setLoading(false);
- 
-      
+
+
     }
     fetchData()
 
@@ -75,15 +75,15 @@ function App(): JSX.Element {
           <Route path='/category/:category' element={<CategoryPage />} />
           <Route path='/mark/:mark' element={<MarkPage />} />
           <Route path='/oferts' element={<ProductsOferts />} />
+          <Route path='/success-payment' element={<SuccessPayment />} />
+           <Route path='/cancel-payment' element={<CancelPayment />} />
           <Route element={<UserRouters loading={loading} />}>
             <Route path='/cart' element={<Cart />} />
-            <Route path='/success-payment' element={<SuccessPayment />} />
-            <Route path='/cancel-payment' element={<CancelPayment />} />
           </Route>
         </Route>
 
         {/* Routes Admin */}
-        <Route element={<AdminRoutes loading={loading}/>}>
+        <Route element={<AdminRoutes loading={loading} />}>
           <Route path='/admin' element={<AdminPage />} >
             <Route index element={<FormPage />} />
             <Route path='/admin/*' element={< FormPage />} />

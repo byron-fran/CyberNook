@@ -21,7 +21,7 @@ const createSession = async (req =request, res = response) => {
         //create token
         const token = jwt.sign({id : UserId}, process.env.SECRET_KEY_ORDER!, {
             algorithm : 'HS256', //algoritmo
-            expiresIn : '60s' 
+            expiresIn : '30s', 
         })
         
         //filter cart without paid
@@ -50,7 +50,7 @@ const createSession = async (req =request, res = response) => {
             success_url : `http://localhost:5173/success-payment/?token=${token}`,
             cancel_url : 'http://localhost:5173/cancel-payment',
         })
-
+        res.cookie('token-payment', token, {httpOnly : true, sameSite : true})
         return res.status(200).json(session)
         
     }

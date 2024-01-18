@@ -37,13 +37,14 @@ const SuccessPayment = () => {
     const updateOrders = async () => {
       if (payConfirm) {
         dispatch(updatePaymentConfirmThunk(cart))
+        return
       }
     }
     updateOrders()
 
   }, [cart, dispatch, payConfirm])
 
-  if (errorToken) return <Navigate to='/' />;
+  if (errorToken) return <Navigate to='/cancel-payment' />;
 
   return (
     <>
