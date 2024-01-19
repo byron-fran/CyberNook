@@ -6,6 +6,8 @@ import axios, { AxiosError } from "axios";
 import Spinner from "../../spinner/Spinner";
 import { ProductType } from "../../interface/Product";
 import UsePagination from "../../hooks/UsePagination";
+import ListButtons from "../buttons/ListButtons";
+
 
 type ParamsType = {
   category?: string,
@@ -20,6 +22,8 @@ const Products = () => {
   const [productsFilterBySearch, setProductsFilterBySearch] = useState<ProductType[]>([]);
   const [productFilterByName, setProductFilterByName] = useState({} as ProductType);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  
 
   const {
     currentPage,
@@ -36,10 +40,11 @@ const Products = () => {
 
           setIsLoading(true)
           const { data } = await axios(`http://localhost:4000/store/products/?category=${category}&name=${name}&filter=${filter}`);
-          setIsLoading(false)
-          setProductFilterByName(data.product)
-          setProductsFilterBySearch(data.products.filter((product: ProductType) => product.id !== data.product.id));
+          setIsLoading(false);
 
+          setProductFilterByName(data.product)
+          setProductsFilterBySearch(data.products.filter((product: ProductType) => Number(product.id) !== Number(data.product.id)));
+    
         }
         catch (error: unknown) {
           if (error instanceof AxiosError) {
@@ -66,52 +71,23 @@ const Products = () => {
                   <CardProduct key={product.id} product={product} />
                 )
               })
-              : productsPerPage.map((product) => {
+              : 
+              productsPerPage.filter(product => product.id !== productFilterByName.id).map((product) => {
                 return (
                   <CardProduct key={product.id} product={product} />
                 )
               })}
+              
           </div>
         )}
 
       {/* PAGINATION */}
-      <div className='mt-6 flex justify-center items-center gap-4'>
-        {currentPage !== 1 && (
-          <button
-            className='border border-slate-300 p-2 rounded-md'
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage(1)}
-          >Back</button>
-        )}
-
-        {pageButtons()?.map((button, index) => {
-          return (
-            <div key={index}>
-              <button
-                className={`${currentPage !== button ? 'border border-slate-300 p-2 rounded-md' : 'bg-blue-800 text-white p-2 rounded-md'}`}
-                disabled={button === currentPage}
-                onClick={() => setCurrentPage(button)}>{button}</button>
-            </div>
-          )
-        })}
-
-        {currentPage !== totalPages && (
-          <button
-            className='border border-slate-300 p-2 rounded-md'
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage(currentPage + 1)}
-          >Next</button>
-        )}
-        {totalPages !== 1 && (
-          <button
-            className='border border-slate-300 p-2 rounded-md'
-            disabled={currentPage === totalPages}
-            onClick={() => {
-              setCurrentPage(totalPages)
-            }}
-          >Last</button>
-        )}
-      </div>
+<ListButtons
+  currentPage={currentPage}
+  setCurrentPage={setCurrentPage}
+  totalPages={totalPages}
+  pageButtons={pageButtons}
+/>
 
     </>
   )

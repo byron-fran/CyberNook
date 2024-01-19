@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks/hooks';
 import { createProduct, getDetailProductThunk, updateProductByIdThunk } from '../../redux/thunks/ProductsThunk';
 import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../../spinner/Spinner';
-import SweetAlert from '../../libs/SweetAlert';
+import { AxiosError } from 'axios';
 
 
 const FormProduct = () => {
@@ -16,7 +16,8 @@ const FormProduct = () => {
     const { handleSubmit, register, reset, setValue, formState: { errors } } = useForm<ProductType>();
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [imgProduct, setImgProduct] = useState<FormData>();
-    const [showAlert, setShowAlert] = useState<boolean>(false)
+    const [specId, setSpecId] = useState<string>('')
+
     const { id } = useParams()
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -32,6 +33,8 @@ const FormProduct = () => {
                 setValue('category', product.category)
                 setValue('image', product.image)
                 setValue('description', product.description)
+                setValue('discount', product.discount)
+                setSpecId(product.Spec.id)
                 return
             }
         }
@@ -39,8 +42,7 @@ const FormProduct = () => {
 
     }, [id, dispatch, setValue]);
 
-    console.log(products);
-    console.log(id)
+
     const onSubmit = handleSubmit(async (data) => {
 
         setIsLoading(true)
@@ -64,18 +66,19 @@ const FormProduct = () => {
 
         //submit a new product
         dispatch(createProduct(updateProduct))
-            .then(() => {
+            .then((data) => {
 
                 setIsLoading(false);
-                setShowAlert(true);
+
                 setTimeout(() => {
-                    setShowAlert(false);
-                    navigate('/admin/products');
+
+                    navigate(`/admin/create-specs/${data.payload.id}`);
                 }, 3000)
             })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false)
+            .catch((error: unknown) => {
+                if (error instanceof AxiosError) {
+                    console.log(error.response)
+                }
 
             })
 
@@ -92,14 +95,20 @@ const FormProduct = () => {
 
     };
     return (
-        <main className='w-full col-span-3 relative flex items-start justify-center mt-4 md:h-[85vh] overflow-y-scroll no-scrollbar'>
+
+        <main className='w-full col-span-3 relative flex items-start justify-center pt-10 md:h-[85vh] overflow-y-scroll no-scrollbar'>
             {isLoading && <Spinner />}
-            {showAlert && (
-                <SweetAlert
-                    type='success'
-                    title='New product has been added'
-                    bgColor='white'
-                    colorText='#1e40af' />
+            {id && (
+                <div className='flex justify-center md:justify-end w-full absolute md:right-[3rem] top-2'>
+                    <div className='flex gap-2 items-center bg-blue-800 rounded-md p-2 cursor-pointer ' onClick={() => {
+
+                        navigate(`/admin/update-specs/${id}/${specId}`)
+                    }}>
+                        <img src="/images/edit-white.png" className='w-[20px] h-[20px] cursor-pointer' alt="" />
+                        <p className=' text-white ' >Update specs</p>
+                    </div>
+
+                </div>
             )}
 
             <form action="" className='w-[95%] mx-auto md:w-[70%] lg:w-[50%] mt-4 border border-slate-400 p-4 rounded-sm'
@@ -107,6 +116,7 @@ const FormProduct = () => {
                 {/* field name */}
                 <div className='w-full'>
                     <label className='block w-full my-2' htmlFor="name" >Name of Product</label>
+                   {errors.name?.type === 'required' && <p className='text-red-500'>Name required</p>}
                     <input className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800' type="text" id='name'
                         placeholder='Name product'
                         {...register('name', { required: true })}
@@ -115,22 +125,40 @@ const FormProduct = () => {
                 {/* field price */}
                 <div className='w-full'>
                     <label className='block w-full my-2' htmlFor="price" >Price of Product</label>
+                    {errors.price?.type === 'required' && <p className='text-red-500'>Price required</p>}
+                    {errors.price?.type === 'min' && <p className='text-red-500'>Price min 1</p>}
+                    {errors.price?.type === 'pattern' && <p className='text-red-500'>Must be a number</p>}
                     <input className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800' type="text" id='price'
                         placeholder='$1,500'
-                        {...register('price', { required: true })}
+                        {...register('price', {
+                            required: true, min: 1, pattern: {
+                                value: /^[0-9]*$/,
+                                message: 'Must be a number'
+                            }
+                        })}
                     />
                 </div>
                 {/* field stock */}
                 <div className='w-full'>
                     <label className='block w-full my-2' htmlFor="stock" >Stock total of product</label>
+                    {errors.stock?.type === 'required' && <p className='text-red-500'>Stock required</p>}
+                    {errors.stock?.type === 'min' && <p className='text-red-500'>Stock min 1</p>}
+                    {errors.stock?.type === 'pattern' && <p className='text-red-500'>Must be a number</p>}
                     <input className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800' type="text" id='stock'
                         placeholder='10 pieces'
-                        {...register('stock', { required: true })}
+                        {...register('stock', {
+                            required: true, min: 1, pattern: {
+                                value: /^[0-9]*$/,
+                                message: 'Must be a number'
+                            }
+                        })}
                     />
                 </div>
                 {/* field mark */}
                 <div className='w-full'>
                     <label className='block w-full my-2' htmlFor="mark" >Mark</label>
+                    {errors.mark?.type === 'required' && <p className='text-red-500'>Mark required</p>}
+
                     <select className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800' id="mark"
                         {...register('mark', { required: true })}>
                         {marks.length > 0 && marks?.map(mark => (
@@ -142,7 +170,9 @@ const FormProduct = () => {
                 {/* field category */}
                 <div className='w-full'>
                     <label className='block w-full my-2' htmlFor="category" >Category</label>
+                    {errors.category?.type === 'required' && <p className='text-red-500'>Category required</p>}
                     <select className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800' id="category"
+
                         {...register('category', { required: true })}>
                         {categories.length > 0 && categories.map(category => (
                             <option key={category.id} value={category.name}
@@ -168,13 +198,15 @@ const FormProduct = () => {
 
                     <input id="discount"
                         className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800' type="text"
-                        placeholder='10%'	
+                        placeholder='10%'
                         defaultValue={0}
-                        {...register('discount', {  min : 0, max: 99, pattern : {
-                            value: /^[0-9]+$/,
-                            message: 'Discount must be a number'
-                        }},)}></input>
-                    
+                        {...register('discount', {
+                            min: 0, max: 99, pattern: {
+                                value: /^[0-9]+$/,
+                                message: 'Discount must be a number'
+                            }
+                        },)}></input>
+
                 </div>
                 {/* Field image */}
                 <div className='w-full'>
@@ -186,7 +218,7 @@ const FormProduct = () => {
                     />
 
                 </div>
-                <button className='bg-blue-800 text-white p-2 block w-full mt-4 font-bold uppercase' type='submit'>{id ? 'update Product' : 'Add Product'}</button>
+                <button className='bg-blue-800 text-white p-2 block w-full mt-4 font-bold uppercase' type='submit'>{id ? 'update Product' : 'Next'}</button>
             </form>
         </main>
     )

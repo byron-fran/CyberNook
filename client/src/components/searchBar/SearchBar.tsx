@@ -29,19 +29,20 @@ const SearchBar = () => {
 
   // filter products by mark
   const producstFilterByMark = products.filter(product => {
-    if(searhTerm.length >=1) {
+    if (searhTerm.length >= 1) {
       return product.mark?.toLowerCase().includes(searhTerm)
     }
   })
 
   // limit search results to 10
   const producstFilterByMarkLimit = producstFilterByMark.slice(0, 10);
- 
+
   // onChange term for search
   const onChangeTerm = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value); // set search term
 
   }
+
 
   return (
     <>
@@ -54,36 +55,47 @@ const SearchBar = () => {
           onChange={onChangeTerm} />
       </div>
       {/* list search */}
-      {productsFileryName.length >= 1 ? (
+      {productsFileryName.length > 0 ? (
 
-        <li className='bg-white w-[95%] md:w-[70%] lg:w-[60%] mx-auto  absolute left-0 right-0 top-[7rem] z-10 rounded-md no-style'>
+        <li className='bg-white w-[95%] md:w-[70%] lg:w-[60%] mx-auto pb-2 mt-10 md:mt-2 absolute left-0 right-0 top-[7rem] z-10 rounded-md no-style'>
           {productsFileryNameLimit.map(product => {
             return (
               <ul key={product.id}>
 
-                <NavLink to={`/store/${'name'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')}>{product.name} </NavLink>
+                <NavLink className='ml-4 hover:underline hover:text-blue-800' to={`/store/${'name'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')}>{product.name} </NavLink>
               </ul>
             )
           })}
         </li>
       ) :
-        <li className='bg-white w-[95%] md:w-[70%] lg:w-[60%] mx-auto  absolute left-0 right-0 top-[7rem] z-10 rounded-md no-style'>
-          {productsFilterByCategory.length > 0 ?productsFilterByCategoryLimit.map(product => {
-            return (
-              <ul key={product.id}>
-                <NavLink to={`/store/${'category'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')}>{product.category} </NavLink>
-              </ul>
-            )
-          }) : (
-            producstFilterByMarkLimit.map(product => {
+        productsFilterByCategory.length > 0 ? (
+          <li className='bg-white w-[95%] md:w-[70%] lg:w-[60%] mx-auto pb-2  absolute left-0 right-0 top-[7rem] z-10 rounded-md no-style'>
+            {productsFilterByCategoryLimit.map(product => {
               return (
                 <ul key={product.id}>
-                   <NavLink to={`/store/${'mark'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')} >{product.mark} - <span>{product.name}</span></NavLink>
+                  <NavLink className='ml-4' to={`/store/${'category'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')}>{product.category} </NavLink>
                 </ul>
               )
-            })
-          )}
-        </li>}
+            })}
+          </li>
+
+        ) :
+          producstFilterByMark.length > 0 ? (
+            <li className='bg-white w-[95%] md:w-[70%] lg:w-[60%] mx-auto pb-2  absolute left-0 right-0 top-[7rem] z-10 rounded-md no-style'>
+              {
+                producstFilterByMarkLimit.map(product => {
+                  return (
+                    <ul key={product.id}>
+                      <NavLink className='ml-4' to={`/store/${'mark'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')} >{product.mark} - <span>{product.name}</span></NavLink>
+                    </ul>
+                  )
+                })
+              }
+            </li>
+          ) : null
+
+
+      }
 
     </>
 

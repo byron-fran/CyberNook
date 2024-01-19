@@ -11,7 +11,11 @@ const ProductsPage = (): JSX.Element => {
     const Navigate = useNavigate()
 
     const handleDeleteProduct = async (id: number | string) => {
-        await dispatch(deleteProductByIdThunk(id))
+        if(confirm('Are you sure you want to delete this product?')) {
+            await dispatch(deleteProductByIdThunk(id))
+            return
+        }
+        
     }
 
     const handleUpdateProduct = (id: number | string) => {

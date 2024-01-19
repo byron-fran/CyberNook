@@ -19,7 +19,7 @@ const DetailProduct: React.FC = (): JSX.Element => {
     const { cart } = useAppSelector(state => state.cart);
     const { isAuthenticated } = useAppSelector(state => state.auth)
 
-
+    console.log(product);
     const purchase: Order = {
         image: '',
         name: '',
@@ -100,7 +100,7 @@ const DetailProduct: React.FC = (): JSX.Element => {
         } 
     }
     
-
+    console.log(product?.Spec?.color.toLowerCase())
     return (
         <>
             {isLoading ? (
@@ -121,12 +121,18 @@ const DetailProduct: React.FC = (): JSX.Element => {
                             {product.discount > 0 && (<p>On offer: {product.discount > 0 && <span className="text-blue-500 font-bold">{formaterDinero(product.price - (product.price * (product.discount / 100)))}</span>}
                             <span className="bg-lime-600 text-white p-1 ml-1 rounded-md text-[12px]">save{' '}{product.discount}%</span></p>)}
                             <ul className="mt-4">
-                                <li>memory: <span>12gb</span></li>
-                                <li>size: <span>6.4 inch</span></li>
-                                <li>ram <span>16gb</span></li>
-                                <li>Color : <span>blue</span></li>
-                                <li>weight: <span>1 kg</span></li>
-                                <li> mesasures: <span>12 x 13 ml</span></li>
+                                {product.mark && <li className=" list-disc">{product.mark}</li>}
+                                {product.category && <li className=" list-disc">{product.category}</li>}
+                                {product.Spec?.screen && <li className=" list-disc">{product.Spec.screen}</li>}
+                                {product.Spec?.color && <li className="list-disc">{product.Spec?.color}</li>}
+                                {product.Spec?.memory && <li className=" list-disc">{product.Spec?.memory}</li>}
+                                {product.Spec?.ram && <li className=" list-disc">{product.Spec?.ram}</li>}
+                                {product.Spec?.model && <li className=" list-disc">{product.Spec.model}</li>}
+                                {product.Spec?.weight && <li className=" list-disc">{product.Spec.weight}</li>}
+                                {product.Spec?.mesasures && <li className=" list-disc">{product.Spec.mesasures}</li>}
+
+
+
                             </ul>
 
                             {product.stock! >= 1 && (

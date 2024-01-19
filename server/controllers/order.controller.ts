@@ -55,7 +55,7 @@ const getAllOrdersByUser = async (req = request, res = response) => {
 const updateOrder = async (req = request, res = response) => {
     const { id } = req.params;
     const { price, quantity, paid, ProductId , discount}: OrderInterface = req.body;
-    console.log(req.body)
+
     try {
 
         const orderFound = await Order.findByPk<Order>(id);

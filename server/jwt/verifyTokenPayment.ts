@@ -7,7 +7,8 @@ dotenv.config();
 export const verifyTokenPayment = async (req = request, res = response, next: NextFunction) => {
     const { authorization } = req.headers;
     let token = "";
-
+    
+    
 
     if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
         token = authorization.substring(7);

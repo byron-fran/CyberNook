@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import bcrypt from 'bcrypt'
 import Order from '../models/Order';
 import Address from '../models/Address';
+import Reviews from '../models/Reviews';
 
 dotenv.config();
 
@@ -162,7 +163,9 @@ const updateProfile = async (req = request, res = response) => {
 const getAllUsers = async (req = request, res = response) => {
     try{
         
-        const users = await User.findAll();
+        const users = await User.findAll({
+            include :[Order,  Reviews],
+        });
         if(!users){return res.status(404).json({message : "users not found"})};
 
         return res.status(200).json(users);

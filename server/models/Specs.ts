@@ -5,26 +5,31 @@ import {Model, AutoIncrement, Table, DataType, PrimaryKey, Column, Default} from
     timestamps : true
 })
 
-class Spces extends Model<Spces>{
-    @AutoIncrement
+class Specs extends Model<Specs>{
+
+
     @PrimaryKey
-    @Column(DataType.INTEGER)
-    id!: number;
+    @Column({
+        type: DataType.UUID,
+        defaultValue: DataType.UUIDV4,
+        allowNull: false // Puedes agregar allowNull si el campo no debería ser nulo
+    })
+    id!: string; // Cambiado de string a DataType.UUID
 
     @Column (DataType.STRING)
     model! : string
 
     @Column (DataType.STRING)
-    ram! : string
+    ram? : string
 
     @Column(DataType.STRING)
-    memory! : string
+    memory? : string
 
     @Column(DataType.STRING)
     color! : string
 
     @Column(DataType.STRING)
-    size! : string
+    screen? : string
 
     @Column(DataType.STRING)
     weight! :string
@@ -33,7 +38,7 @@ class Spces extends Model<Spces>{
     mesasures! : string
 
     @Column(DataType.INTEGER)
-    productId! : number
+    ProductId! : number
 
 };
-export default Spces
+export default Specs

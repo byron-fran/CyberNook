@@ -14,7 +14,7 @@ const Categories = () => {
                     <li className='mt-4 mb-4 hover:border p-2 hover:border-slate-400 ' key={category.id}>
                         <NavLink to={`category/${category.name}`}>
                             <h2 className='text-center font-bold '>{category.name}</h2>
-                            <img className='w-full md:w-[150px] mx-auto  h-[200px] object-contain' src={`${category.image}`} alt="img-category" />
+                            <img className='w-[100px] md:w-[150px] mx-auto  h-[200px] object-contain' src={`${category.image}`} alt="img-category" />
 
                         </NavLink>
                     </li>

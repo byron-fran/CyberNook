@@ -3,7 +3,7 @@ import { request, response } from 'express';
 import { Review } from '../interfaces/Review';
 import Reviews from '../models/Reviews';
 import User from '../models/User';
-
+import Product from '../models/Product';
 
 const createReview = async (req = request, res = response) => {
     const {} : Review= req.body;
@@ -30,7 +30,7 @@ const getReviewsByProduct = async (req = request, res = response) => {
 
     try{
         const reviews = await Reviews.findAll({where : {ProductId, }, 
-        include : User,
+        include : [User, Product],
     
     });
         if(!reviews ){return res.status(404).json({message : "not found"})};
@@ -52,7 +52,7 @@ const getAllReviews = async (req = request,res = response ) => {
     try{
         
         const reviews = await Reviews.findAll({
-            include : User
+            include :[ User, Product],
         });
         if(!reviews){return res.status(404).json({message  : 'not found reviews'})};
 

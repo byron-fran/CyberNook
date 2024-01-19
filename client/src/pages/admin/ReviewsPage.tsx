@@ -1,4 +1,4 @@
-import { useAppSelector,useAppDispatch } from '../../redux/hooks/hooks'
+import { useAppSelector, useAppDispatch } from '../../redux/hooks/hooks'
 import { deleteReviewByIdThunk } from '../../redux/thunks/ReviewsThunk';
 
 const ReviewsPage = () => {
@@ -7,7 +7,11 @@ const ReviewsPage = () => {
   const dispatch = useAppDispatch();
 
   const handleDeleteReviewById = (id: number) => {
-      dispatch(deleteReviewByIdThunk(id))    
+    if (confirm('Are you sure you want to delete this review ?')) {
+      dispatch(deleteReviewByIdThunk(id))
+      return
+    }
+
   }
 
   return (
@@ -17,9 +21,9 @@ const ReviewsPage = () => {
         <div className='w-[90%] mx-auto mt-10 grid md:grid-cols-2 gap-4'>
 
           {reviews.length > 0 ? reviews?.map(review => {
-     
+
             const date = new Date(review.updatedAt!).toLocaleDateString('es');
-             
+
             return (
               <div key={review.id} className='border border-slate-200 p-2 shadow-md rounded-md'>
                 <div className='flex items-center '>
@@ -36,9 +40,14 @@ const ReviewsPage = () => {
                   <p>{review.comment}</p>
                   <p className='font-bold  text-[12px] text-blue-800'>{date}</p>
                 </div>
-                <div className='flex justify-center mt-4'>
+                <div className='flex justify-between gap-4 mt-4'>
+                  <div className='flex gap-2'>
+                    <p className='font-bold text-blue-800'>{review?.Product?.category}</p>
+                    <p className='font-bold'>{review?.Product?.name}</p>
+                  </div>
+
                   <button
-                  onClick={() => handleDeleteReviewById(review.id)}><img className='w-[20px]' src="/images/basura.png" alt="icon-trash" /></button>
+                    onClick={() => handleDeleteReviewById(review.id)}><img className='w-[20px]' src="/images/basura.png" alt="icon-trash" /></button>
                 </div>
               </div>
             )

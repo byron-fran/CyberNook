@@ -7,8 +7,13 @@ const UsersPage = () => {
     const dispatch = useAppDispatch();
 
     const handleDeleteUserById = (id: string | number) => {
-      dispatch(deleteUserByIdThunk(id))
-    }
+      if(confirm('Are you sure you want to delete this user ?')) {
+        dispatch(deleteUserByIdThunk(id))
+        return
+      }
+      
+    };
+   
     return (
 <>
   <main className="col-span-3 w-full md:w-[90%] mx-auto mt-10 overflow-x-scroll no-scrollbar">
@@ -19,6 +24,8 @@ const UsersPage = () => {
             <th className="py-2 px-4 border-b text-left">Name</th>
             <th className="py-2 px-4 border-b text-left">Email</th>
             <th className="py-2 px-4 border-b text-left">Phone</th>
+            <th className="py-2 px-4 border-b text-left">Orders</th>
+            <th className="py-2 px-4 border-b text-left">Reviews</th>
             <th></th>
           </tr>
         </thead>
@@ -29,6 +36,8 @@ const UsersPage = () => {
                 <td className="py-2 px-4 border-b text-left">{user?.name}</td>
                 <td className="py-2 px-4 border-b text-left">{user.email}</td>
                 <td className="py-2 px-4 border-b text-left">{user.phone}</td>
+                <td className="py-2 px-4 border-b text-left">{user.Orders?.filter((order) => order.paid === true).length || 0}</td>
+                <td className="py-2 px-4 border-b text-left">{user.Reviews?.length || 0}</td>
                 <td className="py-2 px-4 border-b text-left">
                   <button
                     onClick={() => handleDeleteUserById(user.id)}

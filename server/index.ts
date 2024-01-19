@@ -9,6 +9,7 @@ import routersAddress from './routes/address.routes';
 import routersPayment from './routes/payment.routes';
 import routerReviews from './routes/reviews.routes'
 import routesQuestion from './routes/question.routes'
+import routesSpecs from './routes/specs.routes'
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
@@ -28,7 +29,8 @@ app.use('/', routerOrder);
 app.use('/', routerUser);
 app.use('/', routesCategory);
 app.use('/', routersAddress);
-app.use('/', routerReviews)
+app.use('/', routerReviews);
+app.use('/', routesSpecs);
 app.use('/cart', routersPayment)
 app.use('/', routesQuestion)
 

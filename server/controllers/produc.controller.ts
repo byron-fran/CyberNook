@@ -8,6 +8,7 @@ import fs from 'fs'
 import path from 'path';
 import { Op, } from 'sequelize';
 import Reviews from '../models/Reviews';
+import Specs from '../models/Specs';
 import { Product as ProductInterface } from '../interfaces/Product';
 
 const createProduct = async (req = request, res = response) => {
@@ -41,7 +42,7 @@ const getProductById = async (req = request, res = response) => {
     const {id} = req.params;
     try{
         const productFind = await Product.findByPk(id, {
-            include : Reviews
+            include : [Reviews, Specs]
         });
         if(!productFind){return res.status(404).json({ error : `Product ${id} does not exist`})};
 
@@ -65,11 +66,12 @@ const getProducts = async (req = request, res = response) => {
 
     try{
         if(category === 'category') {
-
+            const cleanedName  = name?.toString().replace(/\+/g, '');
+      
             const productFilterByName = await Product.findOne({
                 where : {
                     name :{
-                        [Op.iLike]: `%${name}%`
+                        [Op.like]: `%${cleanedName}%`
                     } 
                 }
             })
@@ -83,6 +85,7 @@ const getProducts = async (req = request, res = response) => {
             })
             
             if(!productFilters){ return res.status(404).json({message : 'not found'})};
+    
             return res.status(200).json({
                 product : productFilterByName,
                 products : productFilters
@@ -90,10 +93,11 @@ const getProducts = async (req = request, res = response) => {
 
         }
         else if(category === 'name'){
+            const cleanedName  = name?.toString().replace(/\+/g, '');
             const productFilterByName = await Product.findOne({
                 where : {
                     name :{
-                        [Op.iLike]: `%${name}%`
+                        [Op.like]: `%${cleanedName}%`
                     } 
                 }
             })
@@ -107,16 +111,18 @@ const getProducts = async (req = request, res = response) => {
             })
 
             if(!productFilters){ return res.status(404).json({message : 'not found'})};
+
             return res.status(200).json({
                 product : productFilterByName,
                 products : productFilters
             });
         }
         else if(category=== 'mark') {
+            const cleanedName  = name?.toString().replace(/\+/g, '');
             const productFilterByName = await Product.findOne({
                 where : {
                     name :{
-                        [Op.iLike]: `%${name}%`
+                        [Op.like]: `%${cleanedName}%`
                     } 
                 }
             })
@@ -129,6 +135,7 @@ const getProducts = async (req = request, res = response) => {
             })
            
             if(!productFilters){ return res.status(404).json({message : 'not found'})};
+
             return res.status(200).json({
                 product : productFilterByName,
                 products : productFilters
@@ -140,7 +147,7 @@ const getProducts = async (req = request, res = response) => {
         //console.log(products)
         return res.status(200).json(products)
     }
-    catch (error: any) {
+    catch (error: unknown) {
         if (error instanceof AxiosError) {
 
           return res.status(500).json({ error: (error as AxiosError).message });

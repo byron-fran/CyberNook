@@ -1,6 +1,7 @@
 // import { Order } from "../types/cart/Order"
 import { Order } from "../types/cart/Order"
 import { Review } from "./Review"
+import { Specs } from "./Specs"
 export type ProductType = {
     name: string,
     quantity: number,
@@ -17,6 +18,7 @@ export type ProductType = {
     description? : string,
     discount : number,
     createdAt? : string,
+    Spec? : Specs
 
     
 }

@@ -1,5 +1,5 @@
 import { UserType } from "../types/auth/User"
-
+import { ProductType } from "./Product"
 export interface Review {
     id : number,
     comment : string
@@ -8,6 +8,8 @@ export interface Review {
     ProductId?: string | number,
     UserId? : number | string,
     User? : UserType,
-    updatedAt? : string
+    updatedAt? : string,
+    Product? : ProductType,
+   
 
 }

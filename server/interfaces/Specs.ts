@@ -3,7 +3,7 @@ export interface Specs {
     ram? : string,
     memory? : string,
     color : string,
-    size? : string,
+    screen? : string,
     weight : string,
     mesasures?: string,
     ProductId :  string

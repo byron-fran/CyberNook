@@ -23,6 +23,7 @@ import SuccessPayment from './components/cart/SuccessPayment';
 //Admin Page
 import FormProduct from './components/admin/FormProduct';
 import FormCategory from './components/admin/FormCategory';
+import FormSpecs from './components/admin/FormSpecs';
 import FormPage from './pages/admin/FormPage';
 import UsersPage from './pages/admin/UsersPage';
 import ReviewsPage from './pages/admin/ReviewsPage';
@@ -88,6 +89,8 @@ function App(): JSX.Element {
             <Route index element={<FormPage />} />
             <Route path='/admin/*' element={< FormPage />} />
             <Route path='/admin/create-product' element={<FormProduct />} />
+            <Route path='/admin/create-specs/:ProductId' element={<FormSpecs />} />
+            <Route path='/admin/update-specs/:ProductId/:id' element={<FormSpecs />} />
             <Route path='/admin/update-product/:id' element={<FormProduct />} />
             <Route path='/admin/create-category' element={<FormCategory />} />
             <Route path='/admin/orders' element={<OrdersPage />} />

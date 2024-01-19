@@ -9,6 +9,6 @@ router.get('/list_order', verifyToken, getAllOrdersByUser);
 router.put('/order/:id', verifyToken, updateOrder);
 router.delete('/order/:id', verifyToken, deleteOrderById);
 router.get('/all_orders',verifyToken,  getAllOrdersByAdmin);
-router.post('/verifyToken-payment', verifyTokenPayment, updatePayment);
+router.post('/verifyToken-payment',verifyTokenPayment, updatePayment);
 
 export default router 

@@ -24,7 +24,7 @@ const UsePagination = ( products : ProductType[] | Order[], itemsPerPage : numbe
         const [startPage, endPage] = getIndexRange(currentPage);
         setProductsPerPage(products?.slice(startPage, endPage));
 
-    }, [currentPage, products])
+    }, [products, currentPage, itemsPerPage]);
 
     const pageButtons = () => {
         const bottons: number[]  = [];
