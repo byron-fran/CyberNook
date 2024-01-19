@@ -51,7 +51,7 @@ const SearchBar = () => {
         <input
           className='border border-slate-500 w-full rounded-md p-2 focus:outline-white'
           type="text"
-          placeholder='buscar, producto, marca, etc.'
+          placeholder='Search... something' 
           onChange={onChangeTerm} />
       </div>
       {/* list search */}
