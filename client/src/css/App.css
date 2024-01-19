@@ -1442,6 +1442,10 @@ video {
   opacity: 0.7;
 }
 
+.opacity-10 {
+  opacity: 0.1;
+}
+
 .bg-blend-multiply {
   background-blend-mode: multiply;
 }
@@ -1580,6 +1584,18 @@ video {
 
 .hover\:decoration-blue-950:hover {
   text-decoration-color: #172554;
+}
+
+.hover\:opacity-10:hover {
+  opacity: 0.1;
+}
+
+.hover\:opacity-50:hover {
+  opacity: 0.5;
+}
+
+.hover\:opacity-70:hover {
+  opacity: 0.7;
 }
 
 .focus\:outline-none:focus {

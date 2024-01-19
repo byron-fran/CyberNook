@@ -11,6 +11,7 @@ const CardProduct: React.FC<Product> = ({ product }) => {
   const [successOrder, setSuccessOrder] = useState<boolean>(false)
   const dispatch = useAppDispatch();
   const { cart } = useAppSelector(state => state.cart)
+  const {isAuthenticated} = useAppSelector(state => state.auth)
   const purchase: Order = {
     image: '',
     name: '',
@@ -24,7 +25,7 @@ const CardProduct: React.FC<Product> = ({ product }) => {
     discount: 0,
 
   }
-
+  
   const handleAddToCart = () => {
     const priceTotal = product.discount > 0 ? (product.price - (product.price * (product.discount / 100))) * 1 : product.price * 1  //product.price * quantity;
     purchase.quantity = 1
@@ -129,11 +130,11 @@ const CardProduct: React.FC<Product> = ({ product }) => {
           {product.discount > 0 && (
             <p className="bg-blue-800 text-white py-1 px-5 rounded-sm text-[13px]  md:text-[1rem]">Save {formaterDinero(product.price - (product.price - (product.price * (product.discount / 100))))}</p>
           )}
-          <div className="bg-orange-500 py-1 flex gap-2 rounded-sm mt-4 cursor-pointer px-2"
+          <button disabled={isAuthenticated ? false : true} className={`bg-orange-500 py-1 flex gap-2 rounded-sm mt-4 ${isAuthenticated ? 'cursor-pointer' : 'cursor-not-allowed hover:opacity-70'}  px-2`}
             onClick={handleAddToCart}>
             <img className="w-[20px] h-[20px]" src="/images/cart.svg" alt="" />
             <p className="text-white font-bold text-[13px] md:text-[1rem]">Add to cart</p>
-          </div>
+          </button>
         </div>
       </div>
     </>

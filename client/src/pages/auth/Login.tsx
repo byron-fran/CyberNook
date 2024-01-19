@@ -48,7 +48,7 @@ const Login = () => {
             <label htmlFor="password" className='block p-2'>Password</label>
             {errors.password?.type === 'required' && (<p className='text-red-500'>Password is required</p>)}
             {errors.password?.type === 'pattern' && (<p className='text-red-500'>Password must be have a number and a letter </p>)}
-            <input type='text' placeholder='pedro123' id='password'
+            <input type='password' placeholder='pedro123' id='password'
                 className='border border-slate-200 w-full p-2 rounded-md mb-2'
                 {...register('password', {
                     required: true, minLength: 1, maxLength: 50, pattern: {
