@@ -6,7 +6,7 @@ import Cart from './components/cart/Cart';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
 import Home from './pages/home/Home';
-import { useAppDispatch } from './redux/hooks/hooks';
+import { useAppDispatch, } from './redux/hooks/hooks';
 import { getUserProfileThunk, verifyTokenThunk } from './redux/thunks/AuthThunk';
 import { getAllOrdersThunk } from './redux/thunks/CartThunks';
 import { getProductsThunk } from './redux/thunks/ProductsThunk';
@@ -43,6 +43,7 @@ function App(): JSX.Element {
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState<boolean>(true);
 
+
   //get user profile
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
@@ -63,7 +64,7 @@ function App(): JSX.Element {
 
   }, [dispatch]);
 
-
+ 
   return (
     <>
 

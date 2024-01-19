@@ -37,7 +37,7 @@ export const logOutUserThunk = createAsyncThunk('auth/logout',async (_, {rejectW
     catch (error) {
         if (axios.isAxiosError(error)) {
             // Aquí, error es de tipo AxiosError
-            return rejectWithValue(error.response?.data.message || 'Error genérico');
+            return rejectWithValue(error.response?.data.message );
         }
     }
 })
@@ -49,7 +49,7 @@ export const getUserProfileThunk = createAsyncThunk('auth/profile', async (_, { 
     catch (error) {
         if (axios.isAxiosError(error)) {
             // Aquí, error es de tipo AxiosError
-            return rejectWithValue(error.response?.data.message || 'Error genérico');
+            return rejectWithValue(error.response?.data.message );
         }
     }
 });
@@ -63,7 +63,7 @@ export const updateProfileThunk = createAsyncThunk('auth/update', async(user : U
     catch (error) {
         if (axios.isAxiosError(error)) {
             // Aquí, error es de tipo AxiosError
-            return rejectWithValue(error.response?.data.message || 'Error genérico');
+            return rejectWithValue(error.response?.data.message );
         }
     }
 })
@@ -76,7 +76,7 @@ export const deleteProfileThunk = createAsyncThunk('auth/delete', async (_, {rej
        catch (error) {
            if (axios.isAxiosError(error)) {
                // Aquí, error es de tipo AxiosError
-               return rejectWithValue(error.response?.data.message || 'Error genérico');
+               return rejectWithValue(error.response?.data.message );
            }
        }
 })
@@ -93,7 +93,7 @@ export const verifyTokenThunk = createAsyncThunk('auth/verify', async (_, { reje
     catch (error) {
         if (axios.isAxiosError(error)) {
             // Aquí, error es de tipo AxiosError
-            return rejectWithValue(error.response?.data.message || 'Error genérico');
+            return rejectWithValue(error.response?.data.message );
         }
     }
 });

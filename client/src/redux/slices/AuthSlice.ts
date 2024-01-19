@@ -14,7 +14,7 @@ import {
 
 const initialState: Auth = {
     isAdmin: false,
-    isAuthenticated: false,
+    isAuthenticated:false,
     isLoading: false,
     error: '',
     user: {
@@ -42,9 +42,9 @@ const authSlice = createSlice({
             })
             .addCase(registerUserThunk.fulfilled, (state, action: PayloadAction<UserType>) => {
                 state.user = action.payload,
-                    state.isLoading = false,
-                    state.isAuthenticated = true
-                    state.isAdmin = state.user.isAdmin ? true : false
+                state.isLoading = false,
+                state.isAuthenticated = true
+                state.isAdmin = state.user.isAdmin ? true : false
             })
             .addCase(registerUserThunk.rejected, (state, action ) => {
                 state.isLoading = false
@@ -59,9 +59,9 @@ const authSlice = createSlice({
             })
             .addCase(loginUserThunk.fulfilled, (state, action: PayloadAction<UserType>) => {
                 state.user = action.payload,
-                    state.isLoading = false,
-                    state.isAuthenticated = true
-                    state.isAdmin = state.user.isAdmin ? true : false
+                state.isLoading = false,
+                state.isAuthenticated = true
+                state.isAdmin = state.user.isAdmin ? true : false
             })
             .addCase(loginUserThunk.rejected, (state, action) => {
                 state.isLoading = false
@@ -92,7 +92,7 @@ const authSlice = createSlice({
         builder
             .addCase(getUserProfileThunk.pending, (state) => {
                 state.isLoading = true
-                state.isAuthenticated = false
+                
             })
             .addCase(getUserProfileThunk.fulfilled, (state, action: PayloadAction<UserType>) => {
                 state.user = action.payload
@@ -145,7 +145,7 @@ const authSlice = createSlice({
         builder
             .addCase(verifyTokenThunk.pending, (state) => {
                 state.isLoading = true
-                state.isAuthenticated = false
+                
             })
             .addCase(verifyTokenThunk.fulfilled, (state, action: PayloadAction<UserType>) => {
                 state.user = action.payload

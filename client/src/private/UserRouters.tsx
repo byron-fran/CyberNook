@@ -8,19 +8,20 @@ type UserRoutersProps = {
 
 }
 
-const UserRouters: FC<UserRoutersProps> = ({ loading }) => {
+const UserRouters: FC<UserRoutersProps> = () => {
+    
+    const { isAuthenticated, isLoading, } = useAppSelector(state => state.auth);
 
-    const { isAuthenticated } = useAppSelector(state => state.auth);
-
-    if (loading) {
+    if ( isLoading) {
         // Muestra un indicador de carga o componente de carga mientras se verifican las credenciales
         return <div className="bg-white h-[60vh] w-full flex items-center justify-center"><Spinner/></div>;
     }
-
-    if (!isAuthenticated) {
+    console.log(isLoading)
+    //console.log(isAuthenticated)
+    if (!isAuthenticated ) {
         return <Navigate to="/" />;
     }
-
+    
     return (
         <div>
             <Outlet />

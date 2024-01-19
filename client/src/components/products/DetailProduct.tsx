@@ -19,7 +19,6 @@ const DetailProduct: React.FC = (): JSX.Element => {
     const { cart } = useAppSelector(state => state.cart);
     const { isAuthenticated } = useAppSelector(state => state.auth)
 
-    console.log(product);
     const purchase: Order = {
         image: '',
         name: '',
@@ -33,7 +32,6 @@ const DetailProduct: React.FC = (): JSX.Element => {
         discount: 0,
 
     }
-
 
     useEffect(() => {
         // Cargar el detalle del producto si hay un ID válido
@@ -49,8 +47,6 @@ const DetailProduct: React.FC = (): JSX.Element => {
 
     const handleAddQuantityProduct = () => {
         setQuantity(value => value + 1);
-
-
     };
     //
     const handleLessQuantityProduct = () => {
@@ -60,15 +56,15 @@ const DetailProduct: React.FC = (): JSX.Element => {
             return
         }
     };
-  
 
-    const handleAddPurchase = async () : Promise<void> => {
-        
+
+    const handleAddPurchase = async (): Promise<void> => {
+
         //calcular el total de la orden
         const unitPrice = product.price;
-        
-        const priceTotal = product.discount > 0 ? (product.price - (product.price * (product.discount / 100))) * quantity  :  product.price * quantity   //product.price * quantity;
-        
+
+        const priceTotal = product.discount > 0 ? (product.price - (product.price * (product.discount / 100))) * quantity : product.price * quantity   //product.price * quantity;
+
         // Crear objeto de orden
         purchase.unitPrice = unitPrice
         purchase.price = priceTotal
@@ -83,24 +79,28 @@ const DetailProduct: React.FC = (): JSX.Element => {
 
 
         const productExist = cart?.find(order => order.ProductId === product.id);
- 
+
         if (productExist) {
             // Actualizar producto en el carrito
-           
+            if (productExist.paid) {
+
+                dispatch(createOrderThunk({ ...purchase, paid: false, quantity, price: priceTotal }))
+                    .then(() => { Navigate('/cart') })
+                    .catch((error: unknown) => { console.error(error) });
+                return
+            }
             dispatch(updateOrderThunk({ id: productExist.id!, order: { ...purchase, quantity, price: priceTotal, paid: false, unitPrice } }))
-                .then(() => { Navigate('/cart')  })
+                .then(() => { Navigate('/cart') })
                 .catch((error: unknown) => { console.error(error) });
-        } else  {
-            // Crear una nueva orden
-            console.log(quantity)
-            console.log(priceTotal)
+        } else {
+            //Crear una nueva orden
             dispatch(createOrderThunk({ ...purchase, paid: false, quantity, price: priceTotal }))
-                .then(() => {  Navigate('/cart') })
+                .then(() => { Navigate('/cart') })
                 .catch((error: unknown) => { console.error(error) });
-        } 
+        }
     }
-    
-    console.log(product?.Spec?.color.toLowerCase())
+
+    console.log(cart)
     return (
         <>
             {isLoading ? (
@@ -119,7 +119,7 @@ const DetailProduct: React.FC = (): JSX.Element => {
                         <div className="flex flex-col justify-center items-center">
                             <p className={`text-2xl ${product.discount > 0 ? 'line-through text-red-600' : ''} `}>Price: {product.price && formaterDinero(product.price)}</p>
                             {product.discount > 0 && (<p>On offer: {product.discount > 0 && <span className="text-blue-500 font-bold">{formaterDinero(product.price - (product.price * (product.discount / 100)))}</span>}
-                            <span className="bg-lime-600 text-white p-1 ml-1 rounded-md text-[12px]">save{' '}{product.discount}%</span></p>)}
+                                <span className="bg-lime-600 text-white p-1 ml-1 rounded-md text-[12px]">save{' '}{product.discount}%</span></p>)}
                             <ul className="mt-4">
                                 {product.mark && <li className=" list-disc">{product.mark}</li>}
                                 {product.category && <li className=" list-disc">{product.category}</li>}
@@ -130,9 +130,6 @@ const DetailProduct: React.FC = (): JSX.Element => {
                                 {product.Spec?.model && <li className=" list-disc">{product.Spec.model}</li>}
                                 {product.Spec?.weight && <li className=" list-disc">{product.Spec.weight}</li>}
                                 {product.Spec?.mesasures && <li className=" list-disc">{product.Spec.mesasures}</li>}
-
-
-
                             </ul>
 
                             {product.stock! >= 1 && (

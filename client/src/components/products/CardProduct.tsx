@@ -24,7 +24,7 @@ const CardProduct: React.FC<Product> = ({ product }) => {
     discount: 0,
 
   }
-  
+
   const handleAddToCart = () => {
     const priceTotal = product.discount > 0 ? (product.price - (product.price * (product.discount / 100))) * 1 : product.price * 1  //product.price * quantity;
     purchase.quantity = 1
@@ -39,6 +39,23 @@ const CardProduct: React.FC<Product> = ({ product }) => {
     // Verificar si el producto ya existe
     const productFind = cart.find(p => p.ProductId === product.id);
     if (productFind) {
+
+      if (productFind.paid) {
+        dispatch(createOrderThunk({ ...purchase, price: priceTotal }))
+          .then(() => {
+            setSuccessOrder(true)
+
+            setTimeout(() => {
+              setSuccessOrder(false)
+            }, 2000)
+          })
+          .catch(error => {
+            setSuccessOrder(false)
+            throw new Error(error)
+
+          })
+        return
+      }
 
       dispatch(updateOrderThunk({ id: productFind.id!, order: { ...purchase }, }))
         .then(() => {
