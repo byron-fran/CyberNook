@@ -20,7 +20,7 @@ const CardPurchase: FC<OrderProps> = ({ purchase, filterOrdersByDelete }) => {
 
     <div className="flex border border-slate-300 w-full items-start md:items-center p-4 gap-4 flex-col sm:flex-row sm:justify-between">
       <div className="flex items-center gap-4">
-        <NavLink to={`/detail/${purchase.ProductId}`}>
+        <NavLink to={`/product/${purchase.ProductId}`}>
           <img className="w-[75px] sm-[80px] object-contain md:h-[80px]" src={purchase?.image} alt="img-purchase" />
         </NavLink>
 

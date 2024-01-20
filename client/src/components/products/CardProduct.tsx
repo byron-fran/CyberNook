@@ -97,7 +97,7 @@ const CardProduct: React.FC<Product> = ({ product }) => {
       )}
       <div className="mx-auto w-full  shadow-md border border-gray-300  p-2 rounded-sm flex flex-col md:flex-row md:justify-between mt-4 gap-4 ">
         <div className="flex gap-4">
-          <div className="  cursor-pointer" onClick={() => Navigate(`/detail/${product?.id}`)}>
+          <div className="  cursor-pointer" onClick={() => Navigate(`/product/${product?.id}`)}>
             <img className=' w-[150px] object-contain h-auto md:h-[150px] ' src={`${product.image}`} alt="img-product" />
           </div>
           <div className=" flex flex-col  md:justify-between md:flex-row">

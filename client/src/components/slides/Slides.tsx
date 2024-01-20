@@ -63,7 +63,7 @@ const Slides = () => {
                                     <img className='object-contain h-[100px] w-full mx-auto' src={product.image} />
                                     <p className='mt-4 font-bold h-[50px] line-clamp-2'>{product.name}</p>
                                     <p className='text-white bg-blue-800 font-bold p-2 rounded-sm mt-4 text-[10px] lg:text-[20px]'>{formaterDinero(product.price)}</p>
-                                    <NavLink className='mt-4 hover:text-blue-800 hover:decoration-blue-800 hover:underline' to={`/detail/${product.id}`} >Shop now</NavLink>
+                                    <NavLink className='mt-4 hover:text-blue-800 hover:decoration-blue-800 hover:underline' to={`/product/${product.id}`} >Shop now</NavLink>
                                 </SwiperSlide>
                             )
                         })}

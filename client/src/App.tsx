@@ -30,7 +30,6 @@ import ReviewsPage from './pages/admin/ReviewsPage';
 import OrdersPage from './pages/admin/OrdersPage';
 import ProductsPage from './pages/admin/ProductsPage';
 import SalesPage from './pages/admin/SalesPage';
-import CuponsPage from './pages/admin/CuponsPage';
 import AdminRoutes from './private/AdminRoutes';
 import ProductsOferts from './pages/products/ProductsOferts';
 
@@ -73,8 +72,9 @@ function App(): JSX.Element {
           <Route path='/' element={<Home />} />
           <Route path='/store/:category?/:name?/:filter?' element={<Products />} />
           <Route path='/store/*' element={<Products />} />
-          <Route path='/detail/:id' element={<DetailProduct />} />
+          <Route path='/product/:id' element={<DetailProduct />} />
           <Route path='/category/:category' element={<CategoryPage />} />
+          <Route path='/category/*' element={<Products />} />
           <Route path='/mark/:mark' element={<MarkPage />} />
           <Route path='/oferts' element={<ProductsOferts />} />
           <Route path='/success-payment' element={<SuccessPayment />} />
@@ -99,7 +99,7 @@ function App(): JSX.Element {
             <Route path='/admin/reviews' element={<ReviewsPage />} />
             <Route path='/admin/products' element={<ProductsPage />} />
             <Route path='/admin/sales' element={<SalesPage />} />
-            <Route path='/admin/cupons' element={<CuponsPage />} />
+       
           </Route>
         </Route>
 

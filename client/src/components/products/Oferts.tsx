@@ -88,7 +88,7 @@ const Oferts = () => {
                             <div className='text-black p-4'>
                                 <p className='font-bold'>{productGreaterOffert.name}</p>
                                 <p className='text-sm line-clamp-5 my-4'>{productGreaterOffert.description}</p>
-                                <NavLink to={`/detail/${productGreaterOffert.id}`} className='mt-20 bg-orange-500 text-white p-2 rounded-sm font-bold'>Shop now
+                                <NavLink to={`/product/${productGreaterOffert.id}`} className='mt-20 bg-orange-500 text-white p-2 rounded-sm font-bold'>Shop now
                                     and save {productGreaterOffert.discount} %</NavLink>
                             </div>
 
@@ -104,7 +104,7 @@ const Oferts = () => {
                                         <p className='mt-4 font-bold'>{product.name}
                                             <span className='text-blue-800 block font-extrabold text-lg'> Save up {formaterDinero(save)}</span></p>
 
-                                        <NavLink to={`/detail/${product.id}`}
+                                        <NavLink to={`/product/${product.id}`}
                                             className='text-orange-500 '>Shop now</NavLink>
                                     </div>
                                 )
