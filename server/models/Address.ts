@@ -8,10 +8,13 @@ import User from './User';
 })
 class Address extends Model<Address>{
 
-    @AutoIncrement
     @PrimaryKey
-    @Column(DataType.INTEGER)
-    id! : number
+    @Column({
+        type: DataType.UUID,
+        defaultValue: DataType.UUIDV4,
+        allowNull: false 
+    })
+    id!: string; 
 
     @Column(DataType.STRING)
     street! :string

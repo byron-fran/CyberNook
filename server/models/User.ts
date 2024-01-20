@@ -10,11 +10,14 @@ import Order from './Order';
 
 
 class User extends Model<User>{
-    @AutoIncrement
     @PrimaryKey
-    @Column(DataType.INTEGER)
-    id!: number;
-
+    @Column({
+        type: DataType.UUID,
+        defaultValue: DataType.UUIDV4,
+        allowNull: false 
+    })
+    id!: string; 
+    
     @Column(DataType.STRING)
     name!: string
 

@@ -27,7 +27,7 @@ const Cart: React.FC = () => {
   }, [refreshData, dispatch]);
 
 
-  const filterOrdersByDelete = (id: number) => {
+  const filterOrdersByDelete = (id: string) => {
 
     setRefresData(true);
 

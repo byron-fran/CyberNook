@@ -41,6 +41,7 @@ User.hasMany(Order, {
 
 Order.belongsTo(User, {
     foreignKey : 'UserId',
+    
 })
 
 //Relations address /user

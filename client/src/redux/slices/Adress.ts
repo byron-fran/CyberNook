@@ -15,7 +15,7 @@ const initialState: AddressType = {
         exteriorNumber: 0,
         postalCode: '',
         street: '',
-        id: 0
+        id: ''
     },
     isLoading: false
 }
@@ -75,7 +75,7 @@ const AddressSlice = createSlice({
                     exteriorNumber: 0,
                     postalCode: '',
                     street: '',
-                    id: 0
+                    id: ''
                 }
             })
             .addCase(deleteAddressThunk.rejected, state => {

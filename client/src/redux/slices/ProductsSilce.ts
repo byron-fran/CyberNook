@@ -20,8 +20,9 @@ const initialState: Products = {
         price: 0,
         stock: 0,
         quantity: 0,
-        id: 0
-
+        id: '',
+        description: '',
+        discount: 0
     }
 }
 
@@ -99,7 +100,7 @@ const ProductsSlice = createSlice({
             .addCase(clearDetailProductThunk.fulfilled, state => {
                 state.detailProduct = {
                     category: '',
-                    id: 0,
+                    id: '',
                     image: '',
                     name: '',
                     price: 0,
@@ -109,7 +110,10 @@ const ProductsSlice = createSlice({
                     ProductId: '',
                     Reviews: [],
                     stock: 0,
-                    unitPrice: 0
+                    unitPrice: 0,
+                    description: '',
+                    discount: 0
+
                 }
 
 

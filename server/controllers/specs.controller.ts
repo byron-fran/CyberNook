@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 
 const createSpecs = async   (req : Request, res : Response) =>{
     const {ProductId, model, ram, memory, color, size, weight, mesasures}  = req.body;
-    console.log(req.body)
+  
     try{
         
         const specs = await Spces.create(req.body);
@@ -27,7 +27,7 @@ const createSpecs = async   (req : Request, res : Response) =>{
 };
 
 const getSpecsByProduct = async ( req : Request, res : Response) =>{
-    console.log(req.params.ProductId, 'desde los params')
+ 
     try{
         
         const specs = await Spces.findOne({where : {id : req.params.ProductId}});

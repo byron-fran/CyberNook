@@ -46,7 +46,7 @@ const FormProduct = () => {
     const onSubmit = handleSubmit(async (data) => {
 
         setIsLoading(true)
-        const productFind = products.find(product => product.id === Number(id));
+        const productFind = products.find(product => product.id ===id);
 
 
         const urlProductImage = await uploadImageClodinary(imgProduct!);

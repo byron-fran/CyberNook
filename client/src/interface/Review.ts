@@ -1,7 +1,7 @@
 import { UserType } from "../types/auth/User"
 import { ProductType } from "./Product"
 export interface Review {
-    id : number,
+    id : string,
     comment : string
     stars : number,
     likes : number,
@@ -11,5 +11,4 @@ export interface Review {
     updatedAt? : string,
     Product? : ProductType,
    
-
 }

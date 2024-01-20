@@ -16,7 +16,7 @@ export const createAddressThunk = createAsyncThunk<Address, {address : Address},
     }
 });
 
-export const getAddressThunk = createAsyncThunk('address/get', async (id : number, {rejectWithValue}) => {
+export const getAddressThunk = createAsyncThunk('address/get', async (id : string, {rejectWithValue}) => {
     try{
         const {data} = await getAddress(id)
         return data
@@ -28,7 +28,7 @@ export const getAddressThunk = createAsyncThunk('address/get', async (id : numbe
         }
     } 
 })
-export const updateAddressThunk = createAsyncThunk< number, {id : number | string, address : Address}, {rejectValue : string}>('address/update', async({id, address}, {rejectWithValue}) => {
+export const updateAddressThunk = createAsyncThunk< Address, {id :  string, address : Address}, {rejectValue : string}>('address/update', async({id, address}, {rejectWithValue}) => {
         try{
             const {data} = await updateAddress(id, address);
             return data
@@ -42,7 +42,7 @@ export const updateAddressThunk = createAsyncThunk< number, {id : number | strin
 
 })
 
-export const deleteAddressThunk = createAsyncThunk('address/delete', async (id: number | string, {rejectWithValue}) => {
+export const deleteAddressThunk = createAsyncThunk('address/delete', async (id: string, {rejectWithValue}) => {
     try{
           await deleteAdress(id)
     }   

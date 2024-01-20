@@ -49,14 +49,14 @@ const FormSpecs = () => {
         }
         getSpecById()
     }, [id]);
-
+    console.log(ProductId)
     const onSubmit = handleSubmit(async specs => {
         specs.ProductId = ProductId;
 
         if (id) {
             try {
                 setIsLoading(true)
-                await axios.put(`${import.meta.env.VITE_BACKEND_URL}/specs/${id}`, { ...specs, ProductId: Number(ProductId) }, { withCredentials: true });
+                await axios.put(`${import.meta.env.VITE_BACKEND_URL}/specs/${id}`, { ...specs,  ProductId: ProductId }, { withCredentials: true });
                 setShowAlert(true)
                 setIsLoading(false)
                 setTimeout(() => {
@@ -72,7 +72,7 @@ const FormSpecs = () => {
         }
         try {
             setIsLoading(true)
-            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/specs`, { ...specs, ProductId: Number(ProductId) }, { withCredentials: true });
+            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/specs`, { ...specs, ProductId:  ProductId }, { withCredentials: true });
             setShowAlert(true)
             setIsLoading(false)
             setTimeout(() => {

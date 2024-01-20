@@ -16,7 +16,7 @@ export const getProductsThunk = createAsyncThunk('get/product', async (_, { reje
     }
 });
 
-export const getDetailProduct = createAsyncThunk('detail/product', async (id: number | string, { rejectWithValue }) => {
+export const getDetailProduct = createAsyncThunk('detail/product', async (id: string, { rejectWithValue }) => {
     try {
 
         const { data } = await axios(`http://localhost:4000/store/product/${id}`);
@@ -61,7 +61,7 @@ export const createProduct = createAsyncThunk('create/product', async (product: 
 
 
 //detail product
-export const getDetailProductThunk = createAsyncThunk('detail/product', async (id: number | string, { rejectWithValue }) => {
+export const getDetailProductThunk = createAsyncThunk('detail/product', async (id:  string, { rejectWithValue }) => {
     try {
 
         const { data } = await axios(`http://localhost:4000/store/product/${id}`)
@@ -74,7 +74,7 @@ export const getDetailProductThunk = createAsyncThunk('detail/product', async (i
     }
 });
 
-export const deleteProductByIdThunk = createAsyncThunk('delete/product', async (id: number |string, { rejectWithValue }) => {
+export const deleteProductByIdThunk = createAsyncThunk('delete/product', async (id: string, { rejectWithValue }) => {
     try {
 
          await axios.delete(`http://localhost:4000/store/product/${id}`, {

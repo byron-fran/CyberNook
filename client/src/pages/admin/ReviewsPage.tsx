@@ -6,7 +6,7 @@ const ReviewsPage = () => {
   const { allReviews: reviews } = useAppSelector(state => state.reviews);
   const dispatch = useAppDispatch();
 
-  const handleDeleteReviewById = (id: number) => {
+  const handleDeleteReviewById = (id: string) => {
     if (confirm('Are you sure you want to delete this review ?')) {
       dispatch(deleteReviewByIdThunk(id))
       return

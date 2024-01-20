@@ -1,18 +1,18 @@
-import {Column, DataType, Table, Model, Default,PrimaryKey, AutoIncrement, } from 'sequelize-typescript';
+import { Column, DataType, Table, Model, Default, PrimaryKey, AutoIncrement, } from 'sequelize-typescript';
 
 
 @Table({
-    tableName : 'marks',
-    timestamps : false
+    tableName: 'marks',
+    timestamps: false
 })
-class Mark extends Model<Mark>{
-    @AutoIncrement
+class Mark extends Model<Mark> {
     @PrimaryKey
+    @AutoIncrement
     @Column(DataType.INTEGER)
-    id!: number;
+    id!: number
 
     @Column(DataType.STRING)
-    name! : string
+    name!: string
 
 }
 export default Mark

@@ -12,10 +12,13 @@ import Product from './Product';
 
 class Order extends Model<Order> {
 
-  @AutoIncrement
   @PrimaryKey
-  @Column(DataType.INTEGER)
-  id!: number;
+  @Column({
+      type: DataType.UUID,
+      defaultValue: DataType.UUIDV4,
+      allowNull: false 
+  })
+  id!: string; 
 
 
   @Column(DataType.STRING)
@@ -36,8 +39,6 @@ class Order extends Model<Order> {
   @Column(DataType.INTEGER)
   unitPrice!: number
 
-  @Column(DataType.INTEGER)
-  UserId!: number
 
   @Column({
     type : DataType.INTEGER,
@@ -49,8 +50,12 @@ class Order extends Model<Order> {
   saved! : number
  
 
-  @Column(DataType.INTEGER)
-  ProductId!: number
+  @Column(DataType.UUID)
+  ProductId!: string
+
+  
+  @Column(DataType.UUID)
+  UserId!: string
   // @HasMany(() => User, 'UserId')
   // userOrders!: Order[]
 

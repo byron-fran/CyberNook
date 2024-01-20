@@ -10,7 +10,7 @@ const ProductsPage = (): JSX.Element => {
     const dispatch = useAppDispatch();
     const Navigate = useNavigate()
 
-    const handleDeleteProduct = async (id: number | string) => {
+    const handleDeleteProduct = async (id:  string) => {
         if(confirm('Are you sure you want to delete this product?')) {
             await dispatch(deleteProductByIdThunk(id))
             return
@@ -18,7 +18,7 @@ const ProductsPage = (): JSX.Element => {
         
     }
 
-    const handleUpdateProduct = (id: number | string) => {
+    const handleUpdateProduct = (id:  string) => {
         Navigate(`/admin/update-product/${id}`)
     }
     return (

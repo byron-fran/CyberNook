@@ -6,14 +6,14 @@ import { Order } from "../../types/cart/Order"
 
 type OrderProps = {
   purchase: Order,
-  filterOrdersByDelete: (id: number) => void
+  filterOrdersByDelete: (id: string) => void
 
 }
 
 const CardPurchase: FC<OrderProps> = ({ purchase, filterOrdersByDelete }) => {
 
 
-  const handleDeleteById = (id: number) => {
+  const handleDeleteById = (id: string) => {
     filterOrdersByDelete(id)
   }
   return (

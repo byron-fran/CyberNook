@@ -35,7 +35,7 @@ app.use('/cart', routersPayment)
 app.use('/', routesQuestion)
 
 
-sequelize.sync({force : true})
+sequelize.sync({force : false})
     .then(() => {
         app.listen(process.env.PORT, () => {
             console.log(`El puerto ${process.env.PORT}`);

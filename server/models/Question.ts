@@ -10,9 +10,11 @@ class Question extends Model<Question>{
     // id must be uuid
     @PrimaryKey
     @Column({
-        type:DataType.UUID,
-        defaultValue: DataType.UUIDV4})
-    id!: string
+        type: DataType.UUID,
+        defaultValue: DataType.UUIDV4,
+        allowNull: false 
+    })
+    id!: string; 
 
     @Column(DataType.STRING)
     email!: string

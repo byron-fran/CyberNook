@@ -7,10 +7,13 @@ import {Model, Column, Table, DataType, PrimaryKey, AutoIncrement, Default} from
     timestamps : true
 })
 class Reviews extends Model<Reviews>{
-    @AutoIncrement
     @PrimaryKey
-    @Column(DataType.INTEGER)
-    id!: number;
+    @Column({
+        type: DataType.UUID,
+        defaultValue: DataType.UUIDV4,
+        allowNull: false 
+    })
+    id!: string; 
 
     @Column(DataType.STRING)
     comment! : string
@@ -21,8 +24,8 @@ class Reviews extends Model<Reviews>{
     @Column(DataType.INTEGER )
     likes! : number
 
-    @Column(DataType.INTEGER)
-    ProductId! : number
+    @Column(DataType.UUID)
+    ProductId! : string
 
 
     

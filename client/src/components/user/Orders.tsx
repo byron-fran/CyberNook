@@ -1,12 +1,18 @@
+import { useEffect } from 'react';
 import { formaterDinero } from '../../helpers';
 import { useAppSelector } from '../../redux/hooks/hooks'
 import Spinner from '../../spinner/Spinner';
+import { useAppDispatch } from '../../redux/hooks/hooks';
+import { getAllOrdersThunk } from '../../redux/thunks/CartThunks';
+
 const Orders = () => {
   const { user, isLoading } = useAppSelector(state => state.auth);
-
+  const dispatch = useAppDispatch();
 
   const filterOrderPayed = user.Orders?.filter(order => order.paid === true);
-
+  useEffect(() => {
+    dispatch(getAllOrdersThunk())
+  }, [])
 
   return (
     <>

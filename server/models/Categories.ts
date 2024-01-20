@@ -6,10 +6,13 @@ import {Column, Table, DataType, PrimaryKey, Model, AutoIncrement, Default} from
     tableName : 'category'
 })
 class Category extends Model<Category>{
-    @AutoIncrement
     @PrimaryKey
-    @Column(DataType.INTEGER)
-    id?: number;
+    @Column({
+        type: DataType.UUID,
+        defaultValue: DataType.UUIDV4,
+        allowNull: false 
+    })
+    id!: string; 
 
     @Column(DataType.STRING)
     name! : string

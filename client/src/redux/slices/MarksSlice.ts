@@ -4,7 +4,7 @@ import { ProductType } from "../../interface/Product"
 
 interface Mark {
     name: string,
-    id: number
+    id: string
 }
 
 type MarksType = {

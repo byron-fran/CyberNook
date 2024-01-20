@@ -7,14 +7,13 @@ import {Model, AutoIncrement, Table, DataType, PrimaryKey, Column, Default} from
 
 class Specs extends Model<Specs>{
 
-
     @PrimaryKey
     @Column({
         type: DataType.UUID,
         defaultValue: DataType.UUIDV4,
-        allowNull: false // Puedes agregar allowNull si el campo no debería ser nulo
+        allowNull: false 
     })
-    id!: string; // Cambiado de string a DataType.UUID
+    id!: string; 
 
     @Column (DataType.STRING)
     model! : string
@@ -37,8 +36,8 @@ class Specs extends Model<Specs>{
     @Column (DataType.STRING)
     mesasures! : string
 
-    @Column(DataType.INTEGER)
-    ProductId! : number
+    @Column(DataType.UUID)
+    ProductId! : string
 
 };
 export default Specs

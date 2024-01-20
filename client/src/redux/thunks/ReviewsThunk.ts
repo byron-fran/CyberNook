@@ -18,7 +18,7 @@ export const createReviewThunk = createAsyncThunk('create/review', async (review
     }
 })
 
-export const getReviewsByProductThunk = createAsyncThunk('get/review', async (id : string | number, {rejectWithValue}) => {
+export const getReviewsByProductThunk = createAsyncThunk('get/review', async (id : string , {rejectWithValue}) => {
     try {
       
         const {data} = await axios(`http://localhost:4000/reviews/${id}`)     
@@ -48,7 +48,7 @@ export const getAllReviewsThunk = createAsyncThunk('getAll/review', async(_, {re
     }
 });
 
-export const deleteReviewByIdThunk = createAsyncThunk('delete/review', async (id : number, {rejectWithValue}) => {
+export const deleteReviewByIdThunk = createAsyncThunk('delete/review', async (id : string, {rejectWithValue}) => {
     try {
       
         await axios.delete(`http://localhost:4000/review/${id}`, {

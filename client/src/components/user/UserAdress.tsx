@@ -68,7 +68,7 @@ const UserAddress = () => {
         }
     });
 
-    const handleDeleteAddress = (id: number) => {
+    const handleDeleteAddress = (id: string) => {
         if (confirm(' Are you sure you want to delete this address ?')) {
             dispatch(deleteAddressThunk(id))
             return

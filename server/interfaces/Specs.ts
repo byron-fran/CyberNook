@@ -1,4 +1,5 @@
 export interface Specs {
+    id : string,
     model : string,
     ram? : string,
     memory? : string,

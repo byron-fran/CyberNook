@@ -8,11 +8,14 @@ import { Table, Column, Model, DataType, AutoIncrement, PrimaryKey, HasMany, Bel
 })
 
 class Product extends Model<Product> {
-  @AutoIncrement
   @PrimaryKey
-  @Column(DataType.INTEGER)
-  id!: number;
-
+  @Column({
+      type: DataType.UUID,
+      defaultValue: DataType.UUIDV4,
+      allowNull: false 
+  })
+  id!: string; 
+  
   @Column(DataType.STRING)
   name!: string
 

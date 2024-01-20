@@ -33,7 +33,7 @@ export const getAllOrdersThunk = createAsyncThunk('orders/cart', async (_, {reje
     }
 });
 
-export const deleteOrderByIdThunk = createAsyncThunk('delete/cart', async(id : number | string, {rejectWithValue}) => {
+export const deleteOrderByIdThunk = createAsyncThunk('delete/cart', async(id : string, {rejectWithValue}) => {
     try {
         await axios.delete(`http://localhost:4000/order/${id}`, {
             withCredentials : true
@@ -49,7 +49,7 @@ export const deleteOrderByIdThunk = createAsyncThunk('delete/cart', async(id : n
 
 
 
-export const updateOrderThunk = createAsyncThunk<number, { id: number; order: object }, { rejectValue: string }>(
+export const updateOrderThunk = createAsyncThunk<string, { id: string; order: object }, { rejectValue: string }>(
     'update/cart',
     async ({ id, order }, { rejectWithValue }) => {
       try {
