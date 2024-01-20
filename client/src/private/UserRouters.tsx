@@ -16,7 +16,7 @@ const UserRouters: FC<UserRoutersProps> = () => {
         // Muestra un indicador de carga o componente de carga mientras se verifican las credenciales
         return <div className="bg-white h-[60vh] w-full flex items-center justify-center"><Spinner/></div>;
     }
-    console.log(isLoading)
+
     //console.log(isAuthenticated)
     if (!isAuthenticated ) {
         return <Navigate to="/" />;

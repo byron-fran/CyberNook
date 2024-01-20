@@ -6,10 +6,11 @@ import { useAppDispatch } from '../../redux/hooks/hooks';
 import { getAllOrdersThunk } from '../../redux/thunks/CartThunks';
 
 const Orders = () => {
-  const { user, isLoading } = useAppSelector(state => state.auth);
+  const {  isLoading } = useAppSelector(state => state.auth);
+  const {cart} = useAppSelector(state => state.cart);
   const dispatch = useAppDispatch();
 
-  const filterOrderPayed = user.Orders?.filter(order => order.paid === true);
+  const filterOrderPayed = cart?.filter(order => order.paid === true);
   useEffect(() => {
     dispatch(getAllOrdersThunk())
   }, [])

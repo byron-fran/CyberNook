@@ -31,6 +31,9 @@ class Address extends Model<Address>{
     @Column(DataType.INTEGER)
     exteriorNumber! : number
 
+    @Column(DataType.UUID)
+    UserId! : string
+
 }
 
 export default Address

@@ -3,7 +3,7 @@ import { getAddress, updatAddress, createAdress, deleteAddress } from '../contro
 import { verifyToken } from '../jwt/verifyToken';
 const router = Router();
 
-router.get('/address/:id', verifyToken, getAddress);
+router.get('/address', verifyToken, getAddress);
 router.put('/address/:id', verifyToken, updatAddress);
 router.post('/address', verifyToken, createAdress);
 router.delete('/address/:id', verifyToken, deleteAddress)

@@ -52,10 +52,13 @@ const updatAddress = async (req = request, res = response) => {
 
 const getAddress = async (req = request, res = response) => {
     const {id} = req.params;
+    const { UserId } = req.body;
+
     try{
-        const address = await Address.findByPk(id);
-        if(!address){return res.status(404).json({message : 'address no found'})}
+        const address = await Address.findAll({where : {UserId}})
       
+        if(!address){return res.status(404).json({message : 'address no found'})}
+        
         return res.status(200).json(address)
         
     }

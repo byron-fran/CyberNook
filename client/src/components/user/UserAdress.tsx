@@ -28,7 +28,7 @@ const UserAddress = () => {
             setValue('exteriorNumber', Addresses[0].exteriorNumber);
             setValue('postalCode', Addresses[0].postalCode);
             setValue('street', Addresses[0].street);
-            dispatch(getAddressThunk(Addresses![0].id))
+            dispatch(getAddressThunk())
         }
 
     }, [Addresses]);

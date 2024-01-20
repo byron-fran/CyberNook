@@ -16,9 +16,9 @@ export const createAddressThunk = createAsyncThunk<Address, {address : Address},
     }
 });
 
-export const getAddressThunk = createAsyncThunk('address/get', async (id : string, {rejectWithValue}) => {
+export const getAddressThunk = createAsyncThunk('address/get', async (_, {rejectWithValue}) => {
     try{
-        const {data} = await getAddress(id)
+        const {data} = await getAddress()
         return data
     }   
     catch (error) {

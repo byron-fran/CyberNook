@@ -1,18 +1,20 @@
-import { useAppSelector } from "../../redux/hooks/hooks"
+import { useAppSelector, useAppDispatch } from "../../redux/hooks/hooks"
 import { formaterDinero } from "../../helpers";
 import { Fragment, useEffect, useState } from "react";
 import { StripeInterface } from "../../interface/Stripe";
-
+import { getAddressThunk } from "../../redux/thunks/AddressThunk";
 
 import axios from "axios";
 import { NavLink } from "react-router-dom";
+import { Address } from "../../interface/Address";
 
 const Payment = () => {
   const [priceTotal, setPriceTotal] = useState(0);
   const [quantityTotal, setQuantityTotal] = useState(0)
   const { cart } = useAppSelector(state => state.cart);
-  const { user: { Addresses } } = useAppSelector(state => state.auth)
+  const[Addresses, setAddress] = useState([] as Address[]);
 
+  const dispatch = useAppDispatch()
   useEffect(() => {
     // Calcula el precio total cuando Orders cambia
     let total = 0;
@@ -30,10 +32,17 @@ const Payment = () => {
     setPriceTotal(total);
     setQuantityTotal(totalQuantity)
   }, [cart]);
+  
 
-
+  useEffect(() => {
+    dispatch(getAddressThunk())
+      .then((response) => {
+        setAddress(response.payload)
+      })
+   
+  }, [])
   const handlePayment = async () => {
-    console.log(cart)
+
     try {
       const { data } = await axios<StripeInterface>('http://localhost:4000/cart/payment-checkout', { withCredentials: true });
 
