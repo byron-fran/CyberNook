@@ -23,7 +23,7 @@ const Products = () => {
   const [productFilterByName, setProductFilterByName] = useState({} as ProductType);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  
+
 
   const {
     currentPage,
@@ -44,7 +44,7 @@ const Products = () => {
 
           setProductFilterByName(data.product)
           setProductsFilterBySearch(data.products.filter((product: ProductType) => Number(product.id) !== Number(data.product.id)));
-    
+
         }
         catch (error: unknown) {
           if (error instanceof AxiosError) {
@@ -66,28 +66,28 @@ const Products = () => {
           <div className="w-full md:w-3/4 mx-auto grid  gap-4 mt-8">
             {productFilterByName ? <CardProduct product={productFilterByName} /> : null}
             {productsFilterBySearch.length > 0 ?
-              productsFilterBySearch.map(product => {
+              productsFilterBySearch.filter(product => product.id !== productFilterByName.id).map(product => {
                 return (
                   <CardProduct key={product.id} product={product} />
                 )
               })
-              : 
+              :
               productsPerPage.filter(product => product.id !== productFilterByName.id).map((product) => {
                 return (
                   <CardProduct key={product.id} product={product} />
                 )
               })}
-              
+
           </div>
         )}
 
       {/* PAGINATION */}
-<ListButtons
-  currentPage={currentPage}
-  setCurrentPage={setCurrentPage}
-  totalPages={totalPages}
-  pageButtons={pageButtons}
-/>
+      <ListButtons
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+        pageButtons={pageButtons}
+      />
 
     </>
   )

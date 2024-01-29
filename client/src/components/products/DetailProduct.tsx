@@ -100,7 +100,7 @@ const DetailProduct: React.FC = (): JSX.Element => {
         }
     }
 
-    console.log(cart)
+   
     return (
         <>
             {isLoading ? (
