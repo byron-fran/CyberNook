@@ -12,27 +12,17 @@ import Question from '../models/Question';
 
 dotenv.config()
 
-export const sequelize = new Sequelize({
+// Configuración de la base de datos
+export const sequelize = new Sequelize(`${process.env.POSTGRES_URL}`, {
     dialect: 'postgres',
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT),
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    models: [
-        Product, 
-        User,
-        Address, 
-        Order, 
-        Spces, 
-        Category,
-        Mark,
-        Reviews,
-        Question
-     
-    ] 
-
-})
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false, // Solo si estás teniendo problemas con certificados SSL
+      },
+    },
+    models: [Product, User, Address, Order, Spces, Category, Mark, Reviews, Question],
+  });
 
 //Order / User
 User.hasMany(Order, {
