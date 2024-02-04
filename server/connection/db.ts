@@ -15,12 +15,6 @@ dotenv.config()
 // Configuración de la base de datos
 export const sequelize = new Sequelize(`${process.env.POSTGRES_URL}`, {
     dialect: 'postgres',
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false, // Solo si estás teniendo problemas con certificados SSL
-      },
-    },
     models: [Product, User, Address, Order, Spces, Category, Mark, Reviews, Question],
   });
 
