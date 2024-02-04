@@ -8,7 +8,6 @@ import { ProductType } from "../../interface/Product";
 import UsePagination from "../../hooks/UsePagination";
 import ListButtons from "../buttons/ListButtons";
 
-
 type ParamsType = {
   category?: string,
   name?: string,
@@ -22,8 +21,6 @@ const Products = () => {
   const [productsFilterBySearch, setProductsFilterBySearch] = useState<ProductType[]>([]);
   const [productFilterByName, setProductFilterByName] = useState({} as ProductType);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-
 
   const {
     currentPage,
@@ -39,7 +36,7 @@ const Products = () => {
         try {
 
           setIsLoading(true)
-          const { data } = await axios(`http://localhost:4000/store/products/?category=${category}&name=${name}&filter=${filter}`);
+          const { data } = await axios(`${import.meta.env.VITE_BACKEND_URL}/store/products/?category=${category}&name=${name}&filter=${filter}`);
           setIsLoading(false);
 
           setProductFilterByName(data.product)

@@ -12,7 +12,7 @@ const FormQuestion = () => {
     const onSubmit = handleSubmit (async question => {
 
         try {
-            await axios.post('http://localhost:4000/question', question);
+            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/question`, question);
             setMessageSuccess(true)
 
             reset()

@@ -54,7 +54,7 @@ const Slides = () => {
                         }}
                         navigation={true}
                         virtual
-
+                        
                         className='md:h-[300px] w-[270px] sm:w-[400px] md:w-full'
                     >
                         {firstFiveProducts.map(product => {

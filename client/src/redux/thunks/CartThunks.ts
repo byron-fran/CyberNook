@@ -5,7 +5,7 @@ import { Order } from "../../types/cart/Order";
 
 export const createOrderThunk = createAsyncThunk('create_order/cart', async (order : Order , {rejectWithValue}) => {
     try {
-        const {data} = await axios.post('http://localhost:4000/order', order, {
+        const {data} = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/order`, order, {
             withCredentials : true
         })
         console.log(data)
@@ -20,7 +20,7 @@ export const createOrderThunk = createAsyncThunk('create_order/cart', async (ord
 
 export const getAllOrdersThunk = createAsyncThunk('orders/cart', async (_, {rejectWithValue}) => {
     try {
-        const {data} = await axios('http://localhost:4000/list_order', {
+        const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/list_order`, {
             withCredentials : true
         });
        
@@ -35,7 +35,7 @@ export const getAllOrdersThunk = createAsyncThunk('orders/cart', async (_, {reje
 
 export const deleteOrderByIdThunk = createAsyncThunk('delete/cart', async(id : string, {rejectWithValue}) => {
     try {
-        await axios.delete(`http://localhost:4000/order/${id}`, {
+        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/order/${id}`, {
             withCredentials : true
         });
         return id
@@ -53,7 +53,7 @@ export const updateOrderThunk = createAsyncThunk<string, { id: string; order: ob
     'update/cart',
     async ({ id, order }, { rejectWithValue }) => {
       try {
-       const {data} = await axios.put(`http://localhost:4000/order/${id}`, order, {
+       const {data} = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/order/${id}`, order, {
           withCredentials: true,
         });
         console.log(data)
@@ -85,7 +85,7 @@ export const updateOrderThunk = createAsyncThunk<string, { id: string; order: ob
 
   export const paymentConfirmThunk = createAsyncThunk('confirm/cart', async (token : string, {rejectWithValue}) => {
     try{
-        const {data } = await axios.post('http://localhost:4000/verifyToken-payment', {}, {
+        const {data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/verifyToken-payment`, {}, {
         headers : {
             Authorization: `Bearer ${token}`
         }
@@ -107,7 +107,7 @@ export const updateOrderThunk = createAsyncThunk<string, { id: string; order: ob
   export const updatePaymentConfirmThunk = createAsyncThunk('confirm-payment/cart', async (cart : Order[], {rejectWithValue}) => {
     try{
         const updatePromises = cart.map((order) => (
-            axios.put(`http://localhost:4000/order/${order.id}`, { ...order, paid: true }, {
+            axios.put(`${import.meta.env.VITE_BACKEND_URL}/order/${order.id}`, { ...order, paid: true }, {
               withCredentials: true
             })));
         await Promise.all(updatePromises);   

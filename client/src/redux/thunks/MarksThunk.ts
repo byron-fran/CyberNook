@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const getAllMarks = createAsyncThunk('marks/get', async(_, {rejectWithValue}) => {
     try{
-        const {data} = await axios(`http://localhost:4000/mark`);
+        const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/mark`);
         return data
     }
     catch (error) {
@@ -17,7 +17,7 @@ export const getAllMarks = createAsyncThunk('marks/get', async(_, {rejectWithVal
 export const getProductByMark = createAsyncThunk('marks/product', async (mark : string, {rejectWithValue}) => {
    
     try{
-        const {data} = await axios(`http://localhost:4000/store/products/${mark}`);
+        const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/store/products/${mark}`);
         return data
     }
     catch (error) {

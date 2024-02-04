@@ -5,7 +5,7 @@ import { Review } from "../../interface/Review";
 export const createReviewThunk = createAsyncThunk('create/review', async (review : Review, {rejectWithValue}) => {
     try {
       
-        const {data} = await axios.post('http://localhost:4000/review', review, {
+        const {data} = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/review`, review, {
             withCredentials : true
         })      
         return data
@@ -21,7 +21,7 @@ export const createReviewThunk = createAsyncThunk('create/review', async (review
 export const getReviewsByProductThunk = createAsyncThunk('get/review', async (id : string , {rejectWithValue}) => {
     try {
       
-        const {data} = await axios(`http://localhost:4000/reviews/${id}`)     
+        const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/reviews/${id}`)     
         return data
   
     } catch (error : unknown) {
@@ -35,7 +35,7 @@ export const getReviewsByProductThunk = createAsyncThunk('get/review', async (id
 export const getAllReviewsThunk = createAsyncThunk('getAll/review', async(_, {rejectWithValue}) => {
     try {
       
-    const {data} = await axios('http://localhost:4000/reviews', {
+    const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/reviews`, {
         withCredentials : true
     });
     return data
@@ -51,7 +51,7 @@ export const getAllReviewsThunk = createAsyncThunk('getAll/review', async(_, {re
 export const deleteReviewByIdThunk = createAsyncThunk('delete/review', async (id : string, {rejectWithValue}) => {
     try {
       
-        await axios.delete(`http://localhost:4000/review/${id}`, {
+        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/review/${id}`, {
             withCredentials : true
         })
         return id

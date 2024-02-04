@@ -44,7 +44,7 @@ const Payment = () => {
   const handlePayment = async () => {
 
     try {
-      const { data } = await axios<StripeInterface>('http://localhost:4000/cart/payment-checkout', { withCredentials: true });
+      const { data } = await axios<StripeInterface>(`${import.meta.env.VITE_BACKEND_URL}/cart/payment-checkout`, { withCredentials: true });
 
       window.location.href = data.url!;
     }

@@ -15,7 +15,7 @@ const FormCategory = () => {
             image: imgUrl
         };
         try {
-            const { data } = await axios.post('http://localhost:4000/category', updateCategory);
+            const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/category`, updateCategory);
             return data
         }
         catch (error: unknown) {

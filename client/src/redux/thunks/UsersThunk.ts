@@ -4,7 +4,7 @@ import axios from "axios";
 export const getAllUsers = createAsyncThunk('get/users', async (_, {rejectWithValue}) => {
     try {
 
-        const {data} = await axios.get(`http://localhost:4000/users`,  {
+        const {data} = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users`,  {
             withCredentials : true
         })
         
@@ -20,7 +20,7 @@ export const getAllUsers = createAsyncThunk('get/users', async (_, {rejectWithVa
 export const deleteUserByIdThunk = createAsyncThunk('delete/users', async(id :string | number, {rejectWithValue}) => {
     try {
 
-        await axios.delete(`http://localhost:4000/user/${id}`,  {
+        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/user/${id}`,  {
             withCredentials : true
         })
         

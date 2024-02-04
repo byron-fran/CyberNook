@@ -9,9 +9,7 @@ const UsePagination = ( products : ProductType[] | Order[], itemsPerPage : numbe
     const [currentPage, setCurrentPage] = useState<number>(1)
 
     const data = Array.from({length : products?.length}, (_, index ) => index + 1);
-
     
-
     const totalPages = Math.ceil(data?.length / itemsPerPage);
 
     const getIndexRange = (page : number) => {

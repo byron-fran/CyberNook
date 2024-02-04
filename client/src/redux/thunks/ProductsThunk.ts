@@ -5,7 +5,7 @@ import { ProductType,  } from "../../interface/Product";
 export const getProductsThunk = createAsyncThunk('get/product', async (_, { rejectWithValue }) => {
     try {
 
-        const { data } = await axios('http://localhost:4000/store/products',);
+        const { data } = await axios(`${import.meta.env.VITE_BACKEND_URL}/store/products`,);
 
         return data
     } catch (error) {
@@ -19,7 +19,7 @@ export const getProductsThunk = createAsyncThunk('get/product', async (_, { reje
 export const getDetailProduct = createAsyncThunk('detail/product', async (id: string, { rejectWithValue }) => {
     try {
 
-        const { data } = await axios(`http://localhost:4000/store/product/${id}`);
+        const { data } = await axios(`${import.meta.env.VITE_BACKEND_URL}/store/product/${id}`);
 
         return data
     } catch (error) {
@@ -46,7 +46,7 @@ export const clearDetailProductThunk = createAsyncThunk('clear/product', (_, { r
 export const createProduct = createAsyncThunk('create/product', async (product: ProductType, { rejectWithValue }) => {
     try {
 
-        const { data } = await axios.post('http://localhost:4000/store/product', product, {
+        const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/store/product`, product, {
             withCredentials: true
         });
 
@@ -64,7 +64,7 @@ export const createProduct = createAsyncThunk('create/product', async (product: 
 export const getDetailProductThunk = createAsyncThunk('detail/product', async (id:  string, { rejectWithValue }) => {
     try {
 
-        const { data } = await axios(`http://localhost:4000/store/product/${id}`)
+        const { data } = await axios(`${import.meta.env.VITE_BACKEND_URL}/store/product/${id}`)
         return data
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -77,7 +77,7 @@ export const getDetailProductThunk = createAsyncThunk('detail/product', async (i
 export const deleteProductByIdThunk = createAsyncThunk('delete/product', async (id: string, { rejectWithValue }) => {
     try {
 
-         await axios.delete(`http://localhost:4000/store/product/${id}`, {
+         await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/store/product/${id}`, {
             withCredentials : true
         })
 
@@ -95,7 +95,7 @@ export const updateProductByIdThunk =
      async ({id, product}, {rejectWithValue}) => {
         try {
 
-            const {data} = await axios.put(`http://localhost:4000/store/product/${id}`, product, {
+            const {data} = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/store/product/${id}`, product, {
                 withCredentials : true
             })
             

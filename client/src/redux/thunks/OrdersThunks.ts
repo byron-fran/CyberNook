@@ -4,7 +4,7 @@ import axios from "axios";
 export const getAllOrdersByAdmin = createAsyncThunk('get/orders', async (_, {rejectWithValue}) => {
     try {
 
-        const {data} = await axios.get(`http://localhost:4000/all_orders`,  {
+        const {data} = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/all_orders`,  {
             withCredentials : true
         })
         
