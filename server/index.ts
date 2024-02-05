@@ -33,9 +33,7 @@ app.use('/', routerReviews);
 app.use('/', routesSpecs);
 app.use('/cart', routersPayment)
 app.use('/', routesQuestion)
-app.get('/', () => {
-    
-})
+
 
 sequelize.sync({force : false})
     .then(() => {
