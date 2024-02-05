@@ -29,7 +29,6 @@ import UsersPage from './pages/admin/UsersPage';
 import ReviewsPage from './pages/admin/ReviewsPage';
 import OrdersPage from './pages/admin/OrdersPage';
 import ProductsPage from './pages/admin/ProductsPage';
-import SalesPage from './pages/admin/SalesPage';
 import AdminRoutes from './private/AdminRoutes';
 import ProductsOferts from './pages/products/ProductsOferts';
 
@@ -98,7 +97,6 @@ function App(): JSX.Element {
             <Route path='/admin/users' element={<UsersPage />} />
             <Route path='/admin/reviews' element={<ReviewsPage />} />
             <Route path='/admin/products' element={<ProductsPage />} />
-            <Route path='/admin/sales' element={<SalesPage />} />
        
           </Route>
         </Route>

@@ -1,6 +1,6 @@
 import Swl from 'sweetalert2';
 
-import React, { FC } from 'react'
+import  { FC } from 'react'
 
 type SweetAlertProps = {
     type : string,
@@ -14,8 +14,7 @@ const SweetAlert : FC<SweetAlertProps> = ({type, colorText, bgColor, title}) => 
         title : `${title}`,
         color : `${colorText}`,
         background : `${bgColor}`,
-        
-        icon : `${type}`,
+        icon : 'success',
         showConfirmButton : false,
         iconColor : `${colorText}`,
         timer : 3000,

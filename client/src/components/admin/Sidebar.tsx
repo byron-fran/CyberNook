@@ -21,9 +21,6 @@ const Sidebar = () => {
                 <NavLink  className='text-blue-800  uppercase  md:mt-2' to='/admin/reviews'>
                     Reviews
                 </NavLink>
-                <NavLink  className='text-blue-800  uppercase  md:mt-2' to='/admin/sales'>
-                    Sales
-                </NavLink>
          
             </nav>
         </div>
