@@ -9,7 +9,7 @@ type SweetAlertProps = {
     title : string
 }
 
-const SweetAlert : FC<SweetAlertProps> = ({type, colorText, bgColor, title}) => {
+const SweetAlert : FC<SweetAlertProps> = ({ colorText, bgColor, title}) => {
     Swl.fire({
         title : `${title}`,
         color : `${colorText}`,

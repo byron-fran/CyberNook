@@ -1,6 +1,8 @@
 import { useAppSelector } from '../../redux/hooks/hooks'
 import UsePagination from '../../hooks/UsePagination';
+
 const OrdersPage = () => {
+
     const { orders } = useAppSelector(state => state.orders);
     const { productsPerPage : ordersPerPage, pageButtons, totalPages, currentPage, setCurrentPage } = UsePagination(orders, 10)
 
@@ -8,7 +10,8 @@ const OrdersPage = () => {
         <>
             <main className=' col-span-3 w-[95%] md:w-[90%] mx-auto mt-10'>
                 <div className='h-[70vh] md:h-[83vh] w-full overflow-y-scroll no-scrollbar'>
-                    {ordersPerPage.length > 0 ? ordersPerPage?.map(order => {
+                    {ordersPerPage.length > 0 ? ordersPerPage?.map((order ) => {
+
                         
                         return (
                             <div key={order.id} className='grid grid-cols-4 border border-slate-300 mt-4 p-2 rounded-sm'>
@@ -22,7 +25,7 @@ const OrdersPage = () => {
                                     </div>
                                 </div>
                                 <div className='flex flex-col col-span-1'>
-                                    <p className='font-thin text-[13px] uppercase'>user: <span>{order?.User.name}</span></p>
+                                    <p className='font-thin text-[13px] uppercase'>user: <span>{order?.User?.name}</span></p>
                                     <p className='font-thin text-[13px] uppercase'>Price Total: <span>{order.price}</span></p>
                                     <p className={`font-thin  text-[13px] uppercase`}>Paid: <span className={`${order.paid ? 'text-lime-500' : 'text-red-500'}`}>{order.paid ? 'success': 'pending' }</span></p>
                                 </div>

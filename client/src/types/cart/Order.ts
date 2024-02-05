@@ -1,7 +1,7 @@
 import { UserType } from "../auth/User";
 export interface Order {
     id?: string,
-    updatedAt?: string | number | Date;
+    updatedAt?: string | number | Date,
     name: string,
     quantity: number,
     price: number,
