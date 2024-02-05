@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { useAppSelector } from '../../redux/hooks/hooks'
 import UserData from '../../components/user/UserData';
 import NavProfile from '../../components/navbar/NavProfile';

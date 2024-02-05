@@ -1,4 +1,4 @@
-import React from 'react'
+
 import AboutMessage from './AboutMessage'
 import FormQuestion from './FormQuestion'
 

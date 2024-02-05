@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { ProductType } from '../interface/Product';
 import { Order } from '../types/cart/Order';

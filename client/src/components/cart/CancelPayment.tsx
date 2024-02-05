@@ -1,4 +1,4 @@
-import React from 'react'
+
 import CancelAnimation from '../../libs/CancelAnimation.json'
 import Lottie from 'lottie-react'
 import { NavLink } from 'react-router-dom'

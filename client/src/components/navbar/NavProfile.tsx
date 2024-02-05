@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import  { FC } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAppDispatch } from '../../redux/hooks/hooks';
 import { logOutUserThunk } from '../../redux/thunks/AuthThunk';
