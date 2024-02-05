@@ -13,7 +13,7 @@ import Question from '../models/Question';
 dotenv.config()
 
 // Configuración de la base de datos
-export const sequelize = new Sequelize(`${process.env.POSTGRES_URL}`, {
+export const sequelize = new Sequelize('postgres://default:zoWZla0nI3OS@ep-square-wave-a43bnd49-pooler.us-east-1.postgres.vercel-storage.com:5432/verceldb', {
     dialect: 'postgres',
     dialectOptions: {
       ssl: {
