@@ -35,7 +35,7 @@ const register = async (req = request, res = response) => {
             expiresIn: '1d'
         })
         res.cookie('token', token, {
-            httpOnly: true,
+            httpOnly:false,
             sameSite: false,
             secure: true 
         })
@@ -54,6 +54,7 @@ const register = async (req = request, res = response) => {
 
 const login = async (req = request, res = response) => {
     const { email, password }: UserInterface = req.body
+    console.log(req.cookies, 'desde las cookoies')
     try {
 
         const userFound = await User.findOne({ where: { email } });
@@ -71,7 +72,7 @@ const login = async (req = request, res = response) => {
             expiresIn: '1d',
 
         });
-        res.cookie('token', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000, secure: true, sameSite : false })
+        res.cookie('token', token, { httpOnly: false, maxAge: 24 * 60 * 60 * 1000, secure: true, sameSite : false })
         return res.status(200).json(userFound);
     }
     catch (error: unknown) {
