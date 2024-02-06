@@ -36,7 +36,8 @@ const register = async (req = request, res = response) => {
         })
         res.cookie('token', token, {
             httpOnly: true,
-            sameSite: true
+            sameSite: false,
+            secure: true 
         })
         return res.status(200).json({
             user,
