@@ -35,10 +35,11 @@ const register = async (req = request, res = response) => {
             expiresIn: '1d'
         })
         res.cookie('token', token, {
-            httpOnly:false,
+            httpOnly:true,
             sameSite: false,
             secure: true ,
-            domain : 'https://cyber-nook-8wwr.vercel.app',
+            domain : 'https://cyber-nook-8wwr.vercel.app/',
+            signed : true
         })
         return res.status(200).json({
             user,
@@ -71,11 +72,16 @@ const login = async (req = request, res = response) => {
         };
         const token = jwt.sign({ id: userFound.id }, process.env.SECRET_KEY!, {
             expiresIn: '1d',
+            algorithm : 'HS256'
 
         });
-        res.cookie('token', token, { httpOnly: false, maxAge: 24 * 60 * 60 * 1000, secure: true, sameSite : false , 
-            domain : 'https://cyber-nook-8wwr.vercel.app',
-            
+        res.cookie('token', token, { 
+            httpOnly:true,  
+            secure: true, 
+            sameSite : false , 
+            domain : 'https://cyber-nook-8wwr.vercel.app/',
+            signed : true
+
         })
         return res.status(200).json(userFound);
     }
