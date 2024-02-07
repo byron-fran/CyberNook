@@ -89,7 +89,7 @@ const login = async (req = request, res = response) => {
         if (error instanceof AxiosError) {
             return res.status(404).json({ message: error.response?.data })
         }
-        return res.status(500).json({ error: 'Error unknown' })
+        return res.status(500).json({ error: error })
     }
 }
 
