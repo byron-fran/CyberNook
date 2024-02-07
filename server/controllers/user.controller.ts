@@ -36,10 +36,10 @@ const register = async (req = request, res = response) => {
         })
         res.cookie('token', token, {
             httpOnly:true,
-            sameSite: false,
+            sameSite: 'none',
             secure: true ,
             domain : 'https://cyber-nook-8wwr.vercel.app/',
-            signed : true
+            
         })
         return res.status(200).json({
             user,
@@ -78,9 +78,9 @@ const login = async (req = request, res = response) => {
         res.cookie('token', token, { 
             httpOnly:true,  
             secure: true, 
-            sameSite : false , 
+            sameSite : 'none' , 
             domain : 'https://cyber-nook-8wwr.vercel.app/',
-            signed : true
+
 
         })
         return res.status(200).json(userFound);
