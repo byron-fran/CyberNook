@@ -69,11 +69,11 @@ const SearchBar = () => {
         </li>
       ) :
         productsFilterByCategory.length > 0 ? (
-          <li className='bg-white w-[95%] md:w-[70%] lg:w-[60%] mx-auto pb-2  absolute left-0 right-0 top-[7rem] z-10 rounded-md no-style'>
+          <li className='bg-white w-[95%] md:w-[70%] lg:w-[60%] mx-auto pb-2 mt-10 md:mt-2 absolute left-0 right-0 top-[7rem] z-10 rounded-md no-style'>
             {productsFilterByCategoryLimit.map(product => {
               return (
                 <ul key={product.id}>
-                  <NavLink className='ml-4' to={`/store/${'category'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')}>{product.category} </NavLink>
+                  <NavLink className='ml-4 hover:underline hover:text-blue-800' to={`/store/${'category'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')}>{product.category} - <span>{product.name}</span></NavLink>
                 </ul>
               )
             })}
@@ -81,12 +81,12 @@ const SearchBar = () => {
 
         ) :
           producstFilterByMark.length > 0 ? (
-            <li className='bg-white w-[95%] md:w-[70%] lg:w-[60%] mx-auto pb-2  absolute left-0 right-0 top-[7rem] z-10 rounded-md no-style'>
+            <li className='bg-white w-[95%] md:w-[70%] lg:w-[60%] mx-auto pb-2 mt-10 md:mt-2 absolute left-0 right-0 top-[7rem] z-10 rounded-md no-style'>
               {
                 producstFilterByMarkLimit.map(product => {
                   return (
                     <ul key={product.id}>
-                      <NavLink className='ml-4' to={`/store/${'mark'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')} >{product.mark} - <span>{product.name}</span></NavLink>
+                      <NavLink className='ml-4 hover:underline hover:text-blue-800' to={`/store/${'mark'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')} >{product.mark} - <span>{product.name}</span></NavLink>
                     </ul>
                   )
                 })
