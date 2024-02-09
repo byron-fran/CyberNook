@@ -25,16 +25,17 @@ app.use(
     session({
       secret: process.env.SESSION_SECRET!,
       resave: false,
-      saveUninitialized: true,
+      saveUninitialized: false,
       cookie: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'produccion',
+        secure:true,
         sameSite: 'none',
         maxAge: 3600000,
       },
     })
   );
 app.use(cors({ origin: 'https://cyber-nook-8wwr.vercel.app', credentials: true }));
+app.set('trust proxy', 1)
 app.use(cookieParser());
 app.use(express.json());
 
