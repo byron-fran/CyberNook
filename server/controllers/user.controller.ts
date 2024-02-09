@@ -34,8 +34,7 @@ const register = async (req = request, res = response) => {
             algorithm: 'HS256',
             expiresIn: '1d'
         })
-        // Allow requests from any origin
-        res.setHeader('Access-Control-Allow-Origin', '*');
+
 
         // Allow specific HTTP methods
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -90,8 +89,7 @@ const login = async (req = request, res = response) => {
             algorithm: 'HS256'
 
         });
-        // Allow requests from any origin
-        res.setHeader('Access-Control-Allow-Origin', '*');
+
 
         // Allow specific HTTP methods
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
