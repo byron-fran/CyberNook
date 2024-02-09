@@ -20,6 +20,8 @@ export const sequelize = new Sequelize("postgres://default:zoWZla0nI3OS@ep-squar
         require: true,
       },
     },
+    host : 'localhost',
+    database : '',
     models: [Product, User, Address, Order, Spces, Category, Mark, Reviews, Question],
   });
 
