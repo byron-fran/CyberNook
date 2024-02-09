@@ -13,6 +13,7 @@ import routesSpecs from './routes/specs.routes'
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import session from 'express-session'
 
 dotenv.config()
 const app = express();
@@ -20,10 +21,23 @@ const app = express();
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}));
-app.use(cors({ origin : 'https://cyber-nook-8wwr.vercel.app',credentials : true , }));
-
+app.use(
+    session({
+      secret: process.env.SESSION_SECRET!,
+      resave: false,
+      saveUninitialized: true,
+      cookie: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'produccion',
+        sameSite: 'none',
+        maxAge: 3600000,
+      },
+    })
+  );
+app.use(cors({ origin: 'https://cyber-nook-8wwr.vercel.app', credentials: true }));
+app.use(cookieParser());
 app.use(express.json());
-app.use(cookieParser())
+
 app.use('/store', routerProduct);
 app.use('/', routerOrder);
 app.use('/', routerUser);

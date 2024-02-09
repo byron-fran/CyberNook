@@ -35,12 +35,11 @@ const register = async (req = request, res = response) => {
             expiresIn: '1d'
         })
         res.cookie('token', token, {
-            httpOnly:true,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
             sameSite: 'none',
-            secure: true ,
-            domain : 'https://cyber-nook-8wwr.vercel.app/',
-            
-        })
+            domain: 'https://cyber-nook-8wwr.vercel.app/',
+          });
         return res.status(200).json({
             user,
         })
@@ -75,14 +74,12 @@ const login = async (req = request, res = response) => {
             algorithm : 'HS256'
 
         });
-        res.cookie('token', token, { 
-            httpOnly:true,  
-            secure: true, 
-            sameSite : 'none' , 
-            domain : 'https://cyber-nook-8wwr.vercel.app/',
-
-
-        })
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'none',
+            domain: 'https://cyber-nook-8wwr.vercel.app/',
+          });
         return res.status(200).json(userFound);
     }
     catch (error: unknown) {
