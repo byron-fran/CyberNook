@@ -34,12 +34,28 @@ const register = async (req = request, res = response) => {
             algorithm: 'HS256',
             expiresIn: '1d'
         })
+        // Allow requests from any origin
+        res.setHeader('Access-Control-Allow-Origin', '*');
+
+        // Allow specific HTTP methods
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+
+        // Allow specific headers to be sent in the request
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+        // Allow credentials (e.g., cookies, authentication) to be included in requests
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.setHeader('Set-Cookie', `token=${token}; HttpOnly `);
+
+
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure:true,
             sameSite: 'none',
             domain: 'https://cyber-nook-8wwr.vercel.app/',
-          });
+            path : '/'
+        });
+        
         return res.status(200).json({
             user,
         })
@@ -71,15 +87,30 @@ const login = async (req = request, res = response) => {
         };
         const token = jwt.sign({ id: userFound.id }, process.env.SECRET_KEY!, {
             expiresIn: '1d',
-            algorithm : 'HS256'
+            algorithm: 'HS256'
 
         });
+        // Allow requests from any origin
+        res.setHeader('Access-Control-Allow-Origin', '*');
+
+        // Allow specific HTTP methods
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+
+        // Allow specific headers to be sent in the request
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+        // Allow credentials (e.g., cookies, authentication) to be included in requests
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.setHeader('Set-Cookie', `token=${token}; HttpOnly `);
+
+
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure:true,
             sameSite: 'none',
             domain: 'https://cyber-nook-8wwr.vercel.app/',
-          });
+            path : '/'
+        });
         return res.status(200).json(userFound);
     }
     catch (error: unknown) {
@@ -107,9 +138,10 @@ const getProfile = async (req = request, res = response) => {
     const { UserId } = req.body;
 
     try {
-        const user = await User.findOne({where : {id : UserId}, 
-            include :[ Order, Address],
-            
+        const user = await User.findOne({
+            where: { id: UserId },
+            include: [Order, Address],
+
         })
         if (!user) { return res.status(404).json({ message: 'user not found' }) };
 
@@ -119,7 +151,7 @@ const getProfile = async (req = request, res = response) => {
         if (error instanceof AxiosError) {
             return res.status(404).json({ message: error.response?.data })
         }
-        return res.status(500).json({ message:error })
+        return res.status(500).json({ message: error })
     }
 }
 
@@ -129,7 +161,7 @@ const deleteProfile = async (req = request, res = response) => {
         const userDelete = await User.findByPk(UserId);
         userDelete?.destroy()
         res.clearCookie('token')
-        return res.status(200).json({message : "Delete success"});
+        return res.status(200).json({ message: "Delete success" });
 
     }
     catch (error: unknown) {
@@ -144,15 +176,15 @@ const updateProfile = async (req = request, res = response) => {
 
     const { UserId, name, email, phone } = req.body;
     try {
-        
-        const user  = await User.findOne({where : {id : UserId}});
+
+        const user = await User.findOne({ where: { id: UserId } });
 
         if (user) {
             // Actualiza los valores del usuario
             user.email = email;
             user.name = name;
             user.phone = phone
-           // user.isAdmin = true
+            // user.isAdmin = true
 
             // Guarda los cambios en la base de datos
             await user?.save();
@@ -166,57 +198,57 @@ const updateProfile = async (req = request, res = response) => {
         if (error instanceof AxiosError) {
             return res.status(404).json({ message: error.response?.data })
         }
-        return res.status(500).json({ message:error })
+        return res.status(500).json({ message: error })
     }
 }
 const getAllUsers = async (req = request, res = response) => {
-    try{
-        
+    try {
+
         const users = await User.findAll({
-            include :[Order,  Reviews],
+            include: [Order, Reviews],
         });
-        if(!users){return res.status(404).json({message : "users not found"})};
+        if (!users) { return res.status(404).json({ message: "users not found" }) };
 
         return res.status(200).json(users);
 
     }
-    catch(error : unknown){
-        if(error instanceof AxiosError){
-            return res.status(500).json({message : error.message})
+    catch (error: unknown) {
+        if (error instanceof AxiosError) {
+            return res.status(500).json({ message: error.message })
         }
-        else{
-        return res.status(500).json({message : 'Error unknown'})
+        else {
+            return res.status(500).json({ message: 'Error unknown' })
         }
     }
 };
 
 
 const deleteUserById = async (req = request, res = response) => {
-    const {id} = req.params
-    try{
-        
+    const { id } = req.params
+    try {
+
         const userFound = await User.findByPk(id);
-        if(!userFound) {return res.status(404).json({message : "Not found"})};
+        if (!userFound) { return res.status(404).json({ message: "Not found" }) };
         await userFound.destroy()
-        return res.status(204).json({message : "Success delete"})
+        return res.status(204).json({ message: "Success delete" })
     }
-    catch(error : unknown){
-        if(error instanceof AxiosError){
-            return res.status(500).json({message : error.message})
+    catch (error: unknown) {
+        if (error instanceof AxiosError) {
+            return res.status(500).json({ message: error.message })
         }
-        else{
-        return res.status(500).json({message : 'Error unknown'})
+        else {
+            return res.status(500).json({ message: 'Error unknown' })
         }
     }
 }
-const verify = async (req =request, res = response) => {
-    const {token} = req.cookies;
-    if(!token){return res.status(404).json({message: 'Token no provided'})};
-    try{
+const verify = async (req = request, res = response) => {
+    const { token } = req.cookies;
+    if (!token) { return res.status(404).json({ message: 'Token no provided' }) };
+    try {
         const user = jwt.verify(token, process.env.SECRET_KEY!) as UserInterface;
 
-        const userFound = await User.findOne({where : {id : user.id}});
-        if(!userFound) return res.status(401).json({message : 'Unauthorized'});
+        const userFound = await User.findOne({ where: { id: user.id } });
+        if (!userFound) return res.status(401).json({ message: 'Unauthorized' });
         return res.status(200).json(userFound);
     }
     catch (error: unknown) {

@@ -21,21 +21,21 @@ const app = express();
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}));
-app.use(
-    session({
-      secret: process.env.SESSION_SECRET!,
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        httpOnly: true,
-        secure:true,
-        sameSite: 'none',
-        maxAge: 3600000,
-      },
-    })
-  );
+// app.use(
+//     session({
+//       secret: process.env.SESSION_SECRET!,
+//       resave: false,
+//       saveUninitialized: false,
+//       cookie: {
+//         httpOnly: true,
+//         secure:true,
+//         sameSite: 'none',
+//         maxAge: 3600000,
+//       },
+//     })
+//   );
 app.use(cors({ origin: 'https://cyber-nook-8wwr.vercel.app', credentials: true }));
-app.set('trust proxy', 1)
+// app.set('trust proxy', 1)
 app.use(cookieParser());
 app.use(express.json());
 
