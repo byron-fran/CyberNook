@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { createAddress, updateAddress, deleteAdress, getAddress } from "../../pages/auth/api/address";
+import { createAddress, updateAddress, deleteAdress } from "../../pages/auth/api/address";
 import { Address } from "../../interface/Address";
 
 export const createAddressThunk = createAsyncThunk<Address, {address : Address}, {rejectValue : string}>('address/create', async ( {address}, {rejectWithValue}) => {
@@ -16,9 +16,14 @@ export const createAddressThunk = createAsyncThunk<Address, {address : Address},
     }
 });
 
-export const getAddressThunk = createAsyncThunk('address/get', async (_, {rejectWithValue}) => {
+export const getAddressThunk = createAsyncThunk('address/get', async (token :string, {rejectWithValue}) => {
     try{
-        const {data} = await getAddress()
+        const {data} = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/address`, {
+
+           withCredentials : true,
+            headers : {
+                Authorization: `Bearer ${token}`
+        }} )
         return data
     }   
     catch (error : unknown) {

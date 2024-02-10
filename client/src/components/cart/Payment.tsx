@@ -6,14 +6,14 @@ import { getAddressThunk } from "../../redux/thunks/AddressThunk";
 import { configHeaders } from "../../redux/thunks/config";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
-import { Address } from "../../interface/Address";
+
 
 const Payment = () => {
 
   const [priceTotal, setPriceTotal] = useState(0);
   const [quantityTotal, setQuantityTotal] = useState(0)
   const { cart } = useAppSelector(state => state.cart);
-  const [Addresses, setAddress] = useState([] as Address[]);
+  const {user : {Addresses}} = useAppSelector(state => state.auth)
   const config = configHeaders()
   const dispatch = useAppDispatch();
 
@@ -39,10 +39,8 @@ const Payment = () => {
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
-      dispatch(getAddressThunk())
-        .then((response) => {
-          setAddress(response.payload)
-        })
+      dispatch(getAddressThunk(token))
+
       return
     }
 
@@ -75,7 +73,7 @@ const Payment = () => {
 
       <div className="border-t border-t-slate-300 mt-4">
         <p className="mt-4">Shipping Address</p>
-        {Addresses?.length > 0 ? Addresses.map(address => (
+        {Addresses?.length! > 0 ? Addresses?.map(address => (
           <Fragment key={address.id}>
             <p className="font-bold text-[0.8rem]">Exterior number: <span className="text-blue-800">{address?.exteriorNumber}</span></p>
             <p className="font-bold text-[0.8rem]">Street: <span className="text-blue-800">{address?.street}</span></p>
@@ -90,9 +88,9 @@ const Payment = () => {
 
       </div>
       <h2 className="text-2xl mt-4">Total: <span className="text-blue-800">{formaterDinero(priceTotal)}</span></h2>
-      <button className={`bg-lime-500 hover:bg-lime-600 text-white w-full p-2 rounded-sm uppercase mt-4 ${Addresses?.length > 0 ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+      <button className={`bg-lime-500 hover:bg-lime-600 text-white w-full p-2 rounded-sm uppercase mt-4 ${Addresses?.length! > 0 ? 'cursor-pointer' : 'cursor-not-allowed'}`}
         onClick={handlePayment}
-        disabled={Addresses?.length > 0 ? false : true}
+        disabled={Addresses?.length! > 0 ? false : true}
       >Pay now
       </button>
     </div>
