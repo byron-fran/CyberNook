@@ -6,7 +6,7 @@ import Cart from './components/cart/Cart';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
 import Home from './pages/home/Home';
-import { useAppDispatch, useAppSelector, } from './redux/hooks/hooks';
+import { useAppDispatch } from './redux/hooks/hooks';
 import { getUserProfileThunk} from './redux/thunks/AuthThunk';
 import { getAllOrdersThunk } from './redux/thunks/CartThunks';
 import { getProductsThunk } from './redux/thunks/ProductsThunk';

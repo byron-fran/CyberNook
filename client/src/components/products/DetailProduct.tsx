@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { NavLink, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { formaterDinero } from "../../helpers";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";

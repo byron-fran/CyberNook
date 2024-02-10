@@ -1,24 +1,12 @@
-
-import { useAppDispatch, useAppSelector } from '../../redux/hooks/hooks'
+import { useAppSelector } from '../../redux/hooks/hooks'
 import UserData from '../../components/user/UserData';
 import NavProfile from '../../components/navbar/NavProfile';
 import Orders from '../../components/user/Orders';
 import UserAddress from '../../components/user/UserAdress';
-import { useEffect } from 'react';
-import { getAllOrdersThunk } from '../../redux/thunks/CartThunks';
-import { getUserProfileThunk } from '../../redux/thunks/AuthThunk';
-
 
 const UserPage = () => {
+
   const { user } = useAppSelector(state => state.auth);
-  const dispatch = useAppDispatch();
-
-  // useEffect(() =>{
-  //   dispatch(getAllOrdersThunk())
-  //   dispatch(getUserProfileThunk())
-    
-  // }, [])
-
   if (!user) { return null }
 
   return (
