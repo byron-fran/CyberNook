@@ -1,20 +1,22 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { UserType } from "../../types/auth/User";
 import { Auth } from "../../interface/Auth";
-import Cookies from 'js-cookie'
+
 import { 
     registerUserThunk, 
     getUserProfileThunk, 
-    verifyTokenThunk, 
     logOutUserThunk, 
     loginUserThunk,
     updateProfileThunk,
     deleteProfileThunk
 } from "../thunks/AuthThunk";
 
+const token = localStorage.getItem('token')
+
+
 const initialState: Auth = {
     isAdmin: false,
-    isAuthenticated:false,
+    isAuthenticated:token ? true : false,
     isLoading: false,
     error: '',
     user: {
@@ -40,10 +42,11 @@ const authSlice = createSlice({
             .addCase(registerUserThunk.pending, state => {
                 state.isLoading = true
             })
-            .addCase(registerUserThunk.fulfilled, (state, action: PayloadAction<UserType>) => {
-                state.user = action.payload,
+            .addCase(registerUserThunk.fulfilled, (state, action: any) => {
+                localStorage.setItem('token', action.payload.token)
                 state.isLoading = false,
                 state.isAuthenticated = true
+                state.user = action.payload.user
                 state.isAdmin = state.user.isAdmin ? true : false
             })
             .addCase(registerUserThunk.rejected, (state, action ) => {
@@ -57,10 +60,11 @@ const authSlice = createSlice({
             .addCase(loginUserThunk.pending, state => {
                 state.isLoading = true
             })
-            .addCase(loginUserThunk.fulfilled, (state, action: PayloadAction<UserType>) => {
-                state.user = action.payload,
+            .addCase(loginUserThunk.fulfilled, (state, action: PayloadAction<any>) => {
+                localStorage.setItem('token', action.payload.token)
                 state.isLoading = false,
                 state.isAuthenticated = true
+                state.user = action.payload.userFound
                 state.isAdmin = state.user.isAdmin ? true : false
             })
             .addCase(loginUserThunk.rejected, (state, action) => {
@@ -75,7 +79,8 @@ const authSlice = createSlice({
                 state.isLoading = false
             })
             .addCase(logOutUserThunk.fulfilled, state => {
-                Cookies.remove('token')
+          
+                localStorage.removeItem('token')
                 state.isLoading = false
                 state.isAuthenticated = false
                 state.user = {
@@ -141,23 +146,7 @@ const authSlice = createSlice({
             .addCase(deleteProfileThunk.rejected, state => {
                 state.isLoading = false
             })
-        //VerifyToken
-        builder
-            .addCase(verifyTokenThunk.pending, (state) => {
-                state.isLoading = true
-                
-            })
-            .addCase(verifyTokenThunk.fulfilled, (state, action: PayloadAction<UserType>) => {
-                state.user = action.payload
-                state.isAuthenticated = true
-                state.isLoading = false
-                state.isAdmin = state.user.isAdmin ? true : false
-            })
-            .addCase(verifyTokenThunk.rejected, (state, action) => {
-                state.isLoading = false
-                state.isAuthenticated = false
-                state.error = action.payload
-            })
+
 
     }
 });

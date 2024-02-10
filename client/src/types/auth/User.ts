@@ -10,5 +10,6 @@ export type UserType = {
     Orders?: Order[],
     Addresses?: Address[],
     Reviews?: Review[],
-    isAdmin: boolean
+    isAdmin: boolean,
+  
 }

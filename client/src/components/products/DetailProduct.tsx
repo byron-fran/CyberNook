@@ -150,13 +150,11 @@ const DetailProduct: React.FC = (): JSX.Element => {
                                 (<p className="font-bold uppercase">Stock: <span className={`${product.stock! <= 5 ? 'text-red-500' : 'text-blue-800'}`}>{product.stock}</span></p>)}
 
                             <div className="w-full mt-4">
-                                {!isAuthenticated && (
-                                    <NavLink className='bg-blue-800 text-white mx-auto  w-[50%] text-center block mb-4 p-2 rounded-md text-[0.7rem] uppercase' to='/login'>create account or sign In</NavLink>
-                                )}
                                 <button className=" bg-orange-500 hover:bg-orange-600 cursor-pointer text-white font-bold p-2 w-full block rounded-md uppercase"
-                                    disabled={product.stock! <= 0 || !isAuthenticated ? true : false}
+                                    disabled={product.stock! <= 0  ? true : false}
                                     onClick={() => {
-                                        if (!isAuthenticated || product.stock! <= 0) {
+                                        if (!isAuthenticated ) {
+                                            Navigate('/login')
                                             return
                                         }
                                         handleAddPurchase()

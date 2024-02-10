@@ -21,19 +21,7 @@ const app = express();
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}));
-// app.use(
-//     session({
-//       secret: process.env.SESSION_SECRET!,
-//       resave: false,
-//       saveUninitialized: false,
-//       cookie: {
-//         httpOnly: true,
-//         secure:true,
-//         sameSite: 'none',
-//         maxAge: 3600000,
-//       },
-//     })
-//   );
+
 app.use(cors({ origin: ' http://localhost:5173', credentials: true }));
 // app.set('trust proxy', 1)
 app.use(cookieParser());
@@ -47,6 +35,7 @@ app.use('/', routersAddress);
 app.use('/', routerReviews);
 app.use('/', routesSpecs);
 app.use('/cart', routersPayment)
+
 app.use('/', routesQuestion)
 
 

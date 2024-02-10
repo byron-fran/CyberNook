@@ -16,8 +16,8 @@ const UserData = () => {
     const [showAlert, setShowAlert] = useState(false)
     const Navigate = useNavigate()
     const dispatch = useAppDispatch()
+    
     useEffect(() => {
-
         if (user) {
             setValue('name', user.name);
             setValue('email', user.email)

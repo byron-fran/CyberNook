@@ -1,14 +1,14 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Order } from "../../types/cart/Order";
+import { configHeaders } from "./config";
 
+const config = configHeaders()
 
 export const createOrderThunk = createAsyncThunk('create_order/cart', async (order : Order , {rejectWithValue}) => {
     try {
-        const {data} = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/order`, order, {
-            withCredentials : true
-        })
-        console.log(data)
+        const {data} = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/order`, order, config)
+     
        return data
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -20,9 +20,7 @@ export const createOrderThunk = createAsyncThunk('create_order/cart', async (ord
 
 export const getAllOrdersThunk = createAsyncThunk('orders/cart', async (_, {rejectWithValue}) => {
     try {
-        const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/list_order`, {
-            withCredentials : true
-        });
+        const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/list_order`,config);
        
         return data
     } catch (error) {
@@ -35,9 +33,7 @@ export const getAllOrdersThunk = createAsyncThunk('orders/cart', async (_, {reje
 
 export const deleteOrderByIdThunk = createAsyncThunk('delete/cart', async(id : string, {rejectWithValue}) => {
     try {
-        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/order/${id}`, {
-            withCredentials : true
-        });
+        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/order/${id}`, config);
         return id
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -53,9 +49,7 @@ export const updateOrderThunk = createAsyncThunk<string, { id: string; order: ob
     'update/cart',
     async ({ id, order }, { rejectWithValue }) => {
       try {
-       const {data} = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/order/${id}`, order, {
-          withCredentials: true,
-        });
+       const {data} = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/order/${id}`, order, config);
         console.log(data)
         return id;
       } catch (error) {
@@ -92,7 +86,7 @@ export const updateOrderThunk = createAsyncThunk<string, { id: string; order: ob
         })
         return data
     }
-    catch (error) {
+    catch (error : unknown) {
         if (axios.isAxiosError(error)) {
           // Here, error is of type AxiosError
              
@@ -107,9 +101,7 @@ export const updateOrderThunk = createAsyncThunk<string, { id: string; order: ob
   export const updatePaymentConfirmThunk = createAsyncThunk('confirm-payment/cart', async (cart : Order[], {rejectWithValue}) => {
     try{
         const updatePromises = cart.map((order) => (
-            axios.put(`${import.meta.env.VITE_BACKEND_URL}/order/${order.id}`, { ...order, paid: true }, {
-              withCredentials: true
-            })));
+            axios.put(`${import.meta.env.VITE_BACKEND_URL}/order/${order.id}`, { ...order, paid: true },config)));
         await Promise.all(updatePromises);   
         return
   

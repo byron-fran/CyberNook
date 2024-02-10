@@ -1,6 +1,7 @@
 import { useAppSelector, useAppDispatch } from '../../redux/hooks/hooks'
 import { deleteReviewByIdThunk } from '../../redux/thunks/ReviewsThunk';
 
+
 const ReviewsPage = () => {
 
   const { allReviews: reviews } = useAppSelector(state => state.reviews);

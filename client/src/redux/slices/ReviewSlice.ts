@@ -55,7 +55,7 @@ const ReviewSlice = createSlice({
             })
             .addCase(createReviewThunk.fulfilled, (state, action: PayloadAction<Review>) => {
                 state.isLoading = false
-                state.reviews.push(action.payload)
+                state.allReviews.push(action.payload)
             })
             .addCase(createReviewThunk.rejected, state => {
                 state.isLoading = false

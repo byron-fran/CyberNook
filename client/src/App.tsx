@@ -6,11 +6,10 @@ import Cart from './components/cart/Cart';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
 import Home from './pages/home/Home';
-import { useAppDispatch, } from './redux/hooks/hooks';
-import { getUserProfileThunk, verifyTokenThunk } from './redux/thunks/AuthThunk';
+import { useAppDispatch, useAppSelector, } from './redux/hooks/hooks';
+import { getUserProfileThunk} from './redux/thunks/AuthThunk';
 import { getAllOrdersThunk } from './redux/thunks/CartThunks';
 import { getProductsThunk } from './redux/thunks/ProductsThunk';
-import { getAllReviewsThunk } from './redux/thunks/ReviewsThunk';
 import NavBar from './components/navbar/NavBar';
 import AdminPage from './pages/admin/AdminPage';
 import UserPage from './pages/profile/UserPage';
@@ -32,37 +31,43 @@ import ProductsPage from './pages/admin/ProductsPage';
 import AdminRoutes from './private/AdminRoutes';
 import ProductsOferts from './pages/products/ProductsOferts';
 
-import { getAllOrdersByAdmin } from './redux/thunks/OrdersThunks';
-import { getAllUsers } from './redux/thunks/UsersThunk';
 import { getListCategories } from './redux/thunks/CategoryThunks';
 import { getAllMarks } from './redux/thunks/MarksThunk';
+import { getAllReviewsThunk } from './redux/thunks/ReviewsThunk';
 
 function App(): JSX.Element {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
+  //const [token, setToken] = useState<string>('')
+  const token = localStorage.getItem('token')
   const [loading, setLoading] = useState<boolean>(true);
-
 
   //get user profile
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
-      dispatch(verifyTokenThunk())
-      dispatch(getUserProfileThunk());
       dispatch(getProductsThunk())
-      dispatch(getAllOrdersThunk())
-      dispatch(getAllOrdersByAdmin())
-      dispatch(getAllUsers());
-      dispatch(getAllReviewsThunk())
       dispatch(getListCategories());
       dispatch(getAllMarks())
       setLoading(false);
-
-
     }
     fetchData()
 
   }, [dispatch]);
+  // console.log(isAuthenticated)
+  // console.log(user)
+  useEffect(() => {
+    if(token){
+    
+      dispatch(getUserProfileThunk());
+      dispatch(getAllOrdersThunk())
+      return
+    }
+    
+  }, [])
 
- 
+  useEffect(() => {
+  dispatch(getAllReviewsThunk())
+  }, [])
+
   return (
     <>
 

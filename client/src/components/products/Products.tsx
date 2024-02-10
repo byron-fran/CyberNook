@@ -61,7 +61,7 @@ const Products = () => {
           <Spinner />
         </div> : (
           <div className="w-full md:w-3/4 mx-auto grid  gap-4 mt-8">
-            {productFilterByName ? <CardProduct product={productFilterByName} /> : null}
+            {Object.values(productFilterByName ).length > 0 && <CardProduct product={productFilterByName} /> }
             {productsFilterBySearch.length > 0 ?
               productsFilterBySearch.filter(product => product.id !== productFilterByName.id).map(product => {
                 return (

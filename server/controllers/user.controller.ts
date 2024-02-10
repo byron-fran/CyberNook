@@ -34,30 +34,11 @@ const register = async (req = request, res = response) => {
             algorithm: 'HS256',
             expiresIn: '1d'
         })
-
-
-        // Allow specific HTTP methods
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-
-        // Allow specific headers to be sent in the request
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-        // Allow credentials (e.g., cookies, authentication) to be included in requests
-        res.setHeader('Access-Control-Allow-Credentials', 'true');
-        res.setHeader('Set-Cookie', `token=${token}; HttpOnly `);
-
-
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure:true,
-            sameSite: 'none',
-            domain: 'https://cyber-nook-8wwr.vercel.app/',
-            path : '/'
-        });
         
         return res.status(200).json({
-            user,
-        })
+            token,
+            user
+        });
     }
     catch (error: unknown) {
         if (error instanceof AxiosError) {
@@ -70,7 +51,7 @@ const register = async (req = request, res = response) => {
 
 const login = async (req = request, res = response) => {
     const { email, password }: UserInterface = req.body
-    console.log(req.cookies, 'desde las cookoies')
+
     try {
 
         const userFound = await User.findOne({ where: { email } });
@@ -90,26 +71,10 @@ const login = async (req = request, res = response) => {
 
         });
 
-
-        // Allow specific HTTP methods
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-
-        // Allow specific headers to be sent in the request
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-        // Allow credentials (e.g., cookies, authentication) to be included in requests
-        res.setHeader('Access-Control-Allow-Credentials', 'true');
-        res.setHeader('Set-Cookie', `token=${token}; HttpOnly `);
-
-
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure:true,
-            sameSite: 'none',
-            domain: 'https://cyber-nook-8wwr.vercel.app/',
-            path : '/'
+        return res.status(200).json({
+            token,
+            userFound
         });
-        return res.status(200).json(userFound);
     }
     catch (error: unknown) {
         if (error instanceof AxiosError) {

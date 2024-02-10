@@ -2,6 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { createAddress, updateAddress, deleteAdress, getAddress } from "../../pages/auth/api/address";
 import { Address } from "../../interface/Address";
+import { configHeaders } from "./config";
+
 
 export const createAddressThunk = createAsyncThunk<Address, {address : Address}, {rejectValue : string}>('address/create', async ( {address}, {rejectWithValue}) => {
     try{

@@ -5,7 +5,7 @@ import { verifyToken } from "../jwt/verifyToken";
 const router = Router();
 
 router.get('/reviews/:ProductId', getReviewsByProduct);
-router.get('/reviews', verifyToken, getAllReviews)
+router.get('/reviews', getAllReviews)
 router.post('/review', verifyToken, createReview);
 router.delete('/review/:id', verifyToken, deleteReviewById)
 

@@ -28,3 +28,15 @@ export const getListCategories = createAsyncThunk('list/category', async (_, {re
         }
     }
 })
+
+export const cleanCategoryList = createAsyncThunk('category/clean', async (_, {rejectWithValue}) => {
+    try {
+
+        return
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+
+            return rejectWithValue(error.response?.data.message);
+        }
+    }
+})

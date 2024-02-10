@@ -3,23 +3,23 @@ import { ProductType } from '../../interface/Product';
 import { useForm } from 'react-hook-form'
 import { Review } from '../../interface/Review';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks/hooks';
-import { createReviewThunk, getReviewsByProductThunk, clearReviewsThunk } from '../../redux/thunks/ReviewsThunk';
+import { createReviewThunk, } from '../../redux/thunks/ReviewsThunk';
 
 
 type ReviewsProps = {
     product: ProductType
 }
 
-const Reviews: FC<ReviewsProps> = ({ product }) => {
+const Reviews: FC<ReviewsProps> = ({ product }) => { 
 
 
     const [valueStar, setValueStar] = useState<number>(0);
     const { handleSubmit, formState: { errors }, register, reset } = useForm<Review>();
     const { user, isAuthenticated } = useAppSelector(state => state.auth)
-    const { reviews } = useAppSelector(state => state.reviews)
+    const { allReviews } = useAppSelector(state => state.reviews)
     const dispatch = useAppDispatch()
     const [foundComment, setFoundCommet] = useState(false);
-
+    const reviews = allReviews.filter(review => review.ProductId === product?.id)
 
     const onSubmit = handleSubmit(async review => {
         review.ProductId = product?.id;
@@ -38,19 +38,10 @@ const Reviews: FC<ReviewsProps> = ({ product }) => {
     const handleStarClick = (selectedStar: number) => {
         setValueStar(selectedStar === valueStar ? 0 : selectedStar);
     };
-
-    useEffect(() => {
-
-        dispatch(getReviewsByProductThunk(product?.id))
-
-        return () => {
-            dispatch(clearReviewsThunk())
-        }
-    }, [product?.id, dispatch, foundComment]);
-
+  
     useEffect(() => {
         for (let i = 0; i < reviews?.length; i++) {
-            if (reviews[i].User?.id === user.id) {
+            if (reviews[i].UserId === user.id) {
                 setFoundCommet(true)
 
             }
@@ -60,7 +51,7 @@ const Reviews: FC<ReviewsProps> = ({ product }) => {
             setFoundCommet(false)
         }
 
-    }, [foundComment, reviews, user.id])
+    }, [foundComment, reviews])
 
     return (
         <div className='w-[95%] md:w-[85%] mx-auto'>

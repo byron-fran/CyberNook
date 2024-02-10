@@ -7,8 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./build/index.js --watch",
-    "start": "node ./build/index.js",
-    "build": "tsc",
+    "start": "nodemon ./build/index.js --watch",
+    "build": "tsc --watch",
     "sequelize": "sequelize",
     "sequelize:migrate": "npm run sequelize -- db:migrate",
     "sequelize:migrate:undo": "npm run sequelize -- db:migrate:undo"

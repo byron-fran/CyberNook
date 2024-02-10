@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { getProductsByCategoryThunk, getListCategories } from "../thunks/CategoryThunks";
+import { getProductsByCategoryThunk, getListCategories, cleanCategoryList } from "../thunks/CategoryThunks";
 import { Order } from "../../types/cart/Order";
 import { Category } from "../../interface/Category";
 
@@ -25,7 +25,7 @@ const CategorySlice = createSlice({
                 state.isLoading = true
             })
             .addCase(getProductsByCategoryThunk.fulfilled, (state, action : PayloadAction<Order[]>) => {
-                state.isLoading = true,
+                state.isLoading = false,
                 state.productByCategory = action.payload
             })
             .addCase(getProductsByCategoryThunk.rejected, state => {
@@ -41,6 +41,14 @@ const CategorySlice = createSlice({
             })  
             .addCase(getListCategories.rejected, state => {
                 state.isLoading = false
+            })
+        builder
+            .addCase(cleanCategoryList.pending, state => {
+                state.isLoading = false
+            })    
+            .addCase(cleanCategoryList.fulfilled, state => {
+                state.listCategory = []
+                state.productByCategory = []
             })
     }
 });

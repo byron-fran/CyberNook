@@ -1,13 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Review } from "../../interface/Review";
+import { configHeaders } from "./config";
+
 
 export const createReviewThunk = createAsyncThunk('create/review', async (review : Review, {rejectWithValue}) => {
+    const config = configHeaders()
     try {
       
-        const {data} = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/review`, review, {
-            withCredentials : true
-        })      
+        const {data} = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/review`, review, config)      
         return data
   
     } catch (error : unknown) {
@@ -21,7 +22,8 @@ export const createReviewThunk = createAsyncThunk('create/review', async (review
 export const getReviewsByProductThunk = createAsyncThunk('get/review', async (id : string , {rejectWithValue}) => {
     try {
       
-        const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/reviews/${id}`)     
+        const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/reviews/${id}`, )     
+     
         return data
   
     } catch (error : unknown) {
@@ -33,11 +35,10 @@ export const getReviewsByProductThunk = createAsyncThunk('get/review', async (id
 })
 
 export const getAllReviewsThunk = createAsyncThunk('getAll/review', async(_, {rejectWithValue}) => {
+    const config = configHeaders()
     try {
       
-    const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/reviews`, {
-        withCredentials : true
-    });
+    const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/reviews`, config);
     return data
   
     } catch (error : unknown) {
@@ -49,11 +50,10 @@ export const getAllReviewsThunk = createAsyncThunk('getAll/review', async(_, {re
 });
 
 export const deleteReviewByIdThunk = createAsyncThunk('delete/review', async (id : string, {rejectWithValue}) => {
+    const config = configHeaders()
     try {
       
-        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/review/${id}`, {
-            withCredentials : true
-        })
+        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/review/${id}`, config)
         return id
       
         } catch (error : unknown) {
