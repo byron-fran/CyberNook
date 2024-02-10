@@ -22,13 +22,14 @@ const UserAddress = () => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
+        const token = localStorage.getItem('token')
         if (Addresses?.length) {
             setValue('city', Addresses[0].city);
             setValue('country', Addresses[0].country);
             setValue('exteriorNumber', Addresses[0].exteriorNumber);
             setValue('postalCode', Addresses[0].postalCode);
             setValue('street', Addresses[0].street);
-            dispatch(getAddressThunk())
+            dispatch(getAddressThunk(token!))
         }
 
     }, [Addresses]);
