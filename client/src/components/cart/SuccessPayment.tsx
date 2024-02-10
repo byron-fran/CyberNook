@@ -17,7 +17,7 @@ const SuccessPayment = () => {
 
   const navigate = useNavigate()
   const [searchParams] = useSearchParams();
-  const token = searchParams.get("token");
+  const token = searchParams.get("payment_transaction");
   const dispatch = useAppDispatch();
 
   useEffect(() => {

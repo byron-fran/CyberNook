@@ -47,7 +47,7 @@ const createSession = async (req =request, res = response) => {
             mode : 'payment',
             
             //redirect url success and cancel
-            success_url : `http://localhost:5173/success-payment/?token=${token}`,
+            success_url : `http://localhost:5173/success-payment/?payment_transaction=${token}`,
             cancel_url : 'http://localhost:5173/cancel-payment',
         })
         
