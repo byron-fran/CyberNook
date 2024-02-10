@@ -21,7 +21,7 @@ export const getAddressThunk = createAsyncThunk('address/get', async (_, {reject
         const {data} = await getAddress()
         return data
     }   
-    catch (error) {
+    catch (error : unknown) {
         if (axios.isAxiosError(error)) {
            
             return rejectWithValue(error.response?.data.message );
@@ -33,7 +33,7 @@ export const updateAddressThunk = createAsyncThunk< Address, {id :  string, addr
             const {data} = await updateAddress(id, address);
             return data
         }   
-        catch (error) {
+        catch (error : unknown) {
             if (axios.isAxiosError(error)) {
                
                 return rejectWithValue(error.response?.data.message );
@@ -46,7 +46,7 @@ export const deleteAddressThunk = createAsyncThunk('address/delete', async (id: 
     try{
           await deleteAdress(id)
     }   
-    catch (error) {
+    catch (error : unknown) {
         if (axios.isAxiosError(error)) {
            
             return rejectWithValue(error.response?.data.message );
