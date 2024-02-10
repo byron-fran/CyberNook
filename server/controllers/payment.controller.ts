@@ -47,8 +47,8 @@ const createSession = async (req =request, res = response) => {
             mode : 'payment',
             
             //redirect url success and cancel
-            success_url : `http://localhost:5173/success-payment/?payment_transaction=${token}`,
-            cancel_url : 'http://localhost:5173/cancel-payment',
+            success_url : `https://cyber-nook-8wwr.vercel.app/success-payment/?payment_transaction=${token}`,
+            cancel_url : 'https://cyber-nook-8wwr.vercel.app/cancel-payment',
         })
         
         return res.status(200).json(session)
