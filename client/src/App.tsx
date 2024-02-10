@@ -6,7 +6,7 @@ import Cart from './components/cart/Cart';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
 import Home from './pages/home/Home';
-import { useAppDispatch } from './redux/hooks/hooks';
+import { useAppDispatch, useAppSelector } from './redux/hooks/hooks';
 import { getUserProfileThunk} from './redux/thunks/AuthThunk';
 import { getAllOrdersThunk } from './redux/thunks/CartThunks';
 import { getProductsThunk } from './redux/thunks/ProductsThunk';
@@ -40,6 +40,7 @@ function App(): JSX.Element {
 
 
   const [loading, setLoading] = useState<boolean>(true);
+  const {isAuthenticated} = useAppSelector(state => state.auth)
 
   //get user profile
   useEffect(() => {
@@ -52,16 +53,16 @@ function App(): JSX.Element {
     fetchData()
 
   }, [dispatch]);
-  // console.log(isAuthenticated)
-  // console.log(user)
+
+   const token = localStorage.getItem('token')
   useEffect(() => {
-    const token = localStorage.getItem('token')
+   
     if(token){
       dispatch(getUserProfileThunk(token));
-      dispatch(getAllOrdersThunk())
+      dispatch(getAllOrdersThunk(token))
       return
     }
-  }, [dispatch])
+  }, [dispatch, isAuthenticated])
 
   useEffect(() => {
     dispatch(getAllReviewsThunk())

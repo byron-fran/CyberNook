@@ -18,9 +18,14 @@ export const createOrderThunk = createAsyncThunk('create_order/cart', async (ord
     }
 })
 
-export const getAllOrdersThunk = createAsyncThunk('orders/cart', async (_, {rejectWithValue}) => {
+export const getAllOrdersThunk = createAsyncThunk('orders/cart', async (token : string, {rejectWithValue}) => {
     try {
-        const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/list_order`,config);
+        const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/list_order`,{
+          withCredentials : true,
+          headers : {
+              Authorization: `Bearer ${token}`
+    
+    }})
        
         return data
     } catch (error) {

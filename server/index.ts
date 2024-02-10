@@ -22,7 +22,7 @@ app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}));
 
-app.use(cors({ origin: 'https://cyber-nook-8wwr.vercel.app', credentials: true }));
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 // app.set('trust proxy', 1)
 app.use(cookieParser());
 app.use(express.json());

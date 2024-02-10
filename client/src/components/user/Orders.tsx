@@ -12,7 +12,8 @@ const Orders = () => {
 
   const filterOrderPayed = cart?.filter(order => order.paid === true);
   useEffect(() => {
-    dispatch(getAllOrdersThunk())
+    const token = localStorage.getItem('token')
+    dispatch(getAllOrdersThunk(token!))
   }, [])
 
   return (

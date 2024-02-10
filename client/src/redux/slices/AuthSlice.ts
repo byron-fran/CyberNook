@@ -133,6 +133,7 @@ const authSlice = createSlice({
             .addCase(deleteProfileThunk.fulfilled, state => {
                 state.isLoading = false;
                 state.isAuthenticated = false;
+                localStorage.removeItem('token')
                 state.user = {
                     name : '',
                     email : '',

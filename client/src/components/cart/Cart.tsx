@@ -19,8 +19,10 @@ const Cart: React.FC = () => {
 
 
   useEffect(() => {
+
     const getOrders = async () => {
-      await dispatch(getAllOrdersThunk())
+      const token = localStorage.getItem('token');
+      await dispatch(getAllOrdersThunk(token!))
     }
     getOrders()
 
