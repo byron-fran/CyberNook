@@ -13,7 +13,7 @@ const Payment = () => {
   const [priceTotal, setPriceTotal] = useState(0);
   const [quantityTotal, setQuantityTotal] = useState(0)
   const { cart } = useAppSelector(state => state.cart);
-  const[Addresses, setAddress] = useState([] as Address[]);
+  const [Addresses, setAddress] = useState([] as Address[]);
   const config = configHeaders()
   const dispatch = useAppDispatch();
 
@@ -34,14 +34,19 @@ const Payment = () => {
     setPriceTotal(total);
     setQuantityTotal(totalQuantity)
   }, [cart]);
-  
+
 
   useEffect(() => {
-    dispatch(getAddressThunk())
-      .then((response) => {
-        setAddress(response.payload)
-      })
-   
+    const token = localStorage.getItem('token')
+    if (token) {
+      dispatch(getAddressThunk())
+        .then((response) => {
+          setAddress(response.payload)
+        })
+      return
+    }
+
+
   }, []);
 
 
@@ -51,9 +56,9 @@ const Payment = () => {
 
       window.location.href = data.url!;
     }
-    catch (error : unknown) {
-        console.log(error)
-        return error
+    catch (error: unknown) {
+      console.log(error)
+      return error
     }
 
 
@@ -70,24 +75,24 @@ const Payment = () => {
 
       <div className="border-t border-t-slate-300 mt-4">
         <p className="mt-4">Shipping Address</p>
-        {Addresses?.length ? Addresses.map(address => (
+        {Addresses?.length > 0 ? Addresses.map(address => (
           <Fragment key={address.id}>
-            <p className="font-bold text-[0.8rem]">Exterior number: <span className="text-blue-800">{address.exteriorNumber}</span></p>
-            <p className="font-bold text-[0.8rem]">Street: <span className="text-blue-800">{address.street}</span></p>
-            <p className="font-bold text-[0.8rem]">Postal Code: <span className="text-blue-800">{address.postalCode}</span></p>
-            <p className="font-bold text-[0.8rem]">City: <span className="text-blue-800">{address.city}</span></p>
-            <p className="font-bold text-[0.8rem]">Country: <span className="text-blue-800">{address.country}
+            <p className="font-bold text-[0.8rem]">Exterior number: <span className="text-blue-800">{address?.exteriorNumber}</span></p>
+            <p className="font-bold text-[0.8rem]">Street: <span className="text-blue-800">{address?.street}</span></p>
+            <p className="font-bold text-[0.8rem]">Postal Code: <span className="text-blue-800">{address?.postalCode}</span></p>
+            <p className="font-bold text-[0.8rem]">City: <span className="text-blue-800">{address?.city}</span></p>
+            <p className="font-bold text-[0.8rem]">Country: <span className="text-blue-800">{address?.country}
             </span></p>
           </Fragment>
         )) : <div className="mt-4">
           <NavLink className='bg-red-500 hover:bg-red-600 text-white w-full p-2 rounded-sm ' to='/profile'>Add your address</NavLink>
-          </div>}
+        </div>}
 
       </div>
       <h2 className="text-2xl mt-4">Total: <span className="text-blue-800">{formaterDinero(priceTotal)}</span></h2>
-      <button className={`bg-lime-500 hover:bg-lime-600 text-white w-full p-2 rounded-sm uppercase mt-4 ${Addresses?.length ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+      <button className={`bg-lime-500 hover:bg-lime-600 text-white w-full p-2 rounded-sm uppercase mt-4 ${Addresses?.length > 0 ? 'cursor-pointer' : 'cursor-not-allowed'}`}
         onClick={handlePayment}
-        disabled={Addresses?.length ? false : true}
+        disabled={Addresses?.length > 0 ? false : true}
       >Pay now
       </button>
     </div>
