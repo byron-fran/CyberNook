@@ -57,7 +57,7 @@ function App(): JSX.Element {
   useEffect(() => {
     const token = localStorage.getItem('token')
     if(token){
-      dispatch(getUserProfileThunk());
+      dispatch(getUserProfileThunk(token));
       dispatch(getAllOrdersThunk())
       return
     }
