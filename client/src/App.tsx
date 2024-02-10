@@ -37,8 +37,8 @@ import { getAllReviewsThunk } from './redux/thunks/ReviewsThunk';
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
-  //const [token, setToken] = useState<string>('')
-  const token = localStorage.getItem('token')
+
+
   const [loading, setLoading] = useState<boolean>(true);
 
   //get user profile
@@ -55,17 +55,16 @@ function App(): JSX.Element {
   // console.log(isAuthenticated)
   // console.log(user)
   useEffect(() => {
+    const token = localStorage.getItem('token')
     if(token){
-    
       dispatch(getUserProfileThunk());
       dispatch(getAllOrdersThunk())
       return
     }
-    
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
-  dispatch(getAllReviewsThunk())
+    dispatch(getAllReviewsThunk())
   }, [])
 
   return (

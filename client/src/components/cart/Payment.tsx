@@ -3,18 +3,20 @@ import { formaterDinero } from "../../helpers";
 import { Fragment, useEffect, useState } from "react";
 import { StripeInterface } from "../../interface/Stripe";
 import { getAddressThunk } from "../../redux/thunks/AddressThunk";
-
-import axios from "axios";
+import { configHeaders } from "../../redux/thunks/config";
+import axios, { AxiosError } from "axios";
 import { NavLink } from "react-router-dom";
 import { Address } from "../../interface/Address";
 
 const Payment = () => {
+
   const [priceTotal, setPriceTotal] = useState(0);
   const [quantityTotal, setQuantityTotal] = useState(0)
   const { cart } = useAppSelector(state => state.cart);
   const[Addresses, setAddress] = useState([] as Address[]);
+  const config = configHeaders()
+  const dispatch = useAppDispatch();
 
-  const dispatch = useAppDispatch()
   useEffect(() => {
     // Calcula el precio total cuando Orders cambia
     let total = 0;
@@ -40,16 +42,20 @@ const Payment = () => {
         setAddress(response.payload)
       })
    
-  }, [])
-  const handlePayment = async () => {
+  }, []);
 
+
+  const handlePayment = async () => {
     try {
-      const { data } = await axios<StripeInterface>(`${import.meta.env.VITE_BACKEND_URL}/cart/payment-checkout`, { withCredentials: true });
+      const { data } = await axios<StripeInterface>(`${import.meta.env.VITE_BACKEND_URL}/cart/payment-checkout`, config);
 
       window.location.href = data.url!;
     }
-    catch (error) {
-      console.log(error)
+    catch (error : unknown) {
+        if(error instanceof AxiosError){
+          throw new Error(error.response?.data)
+        }
+        return error
     }
 
 
