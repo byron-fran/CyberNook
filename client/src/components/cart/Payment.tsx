@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import { StripeInterface } from "../../interface/Stripe";
 import { getAddressThunk } from "../../redux/thunks/AddressThunk";
 import { configHeaders } from "../../redux/thunks/config";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { Address } from "../../interface/Address";
 
@@ -52,9 +52,7 @@ const Payment = () => {
       window.location.href = data.url!;
     }
     catch (error : unknown) {
-        if(error instanceof AxiosError){
-          throw new Error(error.response?.data)
-        }
+        console.log(error)
         return error
     }
 
