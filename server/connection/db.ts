@@ -12,21 +12,35 @@ import Question from '../models/Question';
 
 dotenv.config()
 
-
+//`${process.env.POSTGRES_URL}`
 if(!process.env.POSTGRES_URL){
     throw new Error('error db')
 }
 // Configuración de la base de datos
-export const sequelize = new Sequelize(`${process.env.POSTGRES_URL}`, {
+export const sequelize = new Sequelize( {
     dialect: 'postgres',
-    dialectOptions: {
-      ssl: {
-        require: true,
-      },
-    },
-    // host : 'localhost',
-    // database : '',
-    models: [Product, User, Address, Order, Spces, Category, Mark, Reviews, Question],
+
+    // dialectOptions: { 
+    //  ssl: {
+    //    require: true,
+    //   },
+    // },
+    host : 'localhost',
+    database : 'tecno',
+    password : 'byron',
+    port : 5434,
+    username : 'postgres',
+    models: [ 
+        Product, 
+        User, 
+        Address, 
+        Order, 
+        Spces, 
+        Category, 
+        Mark, 
+        Reviews, 
+        Question
+    ],
   });
 
 //Order / User
@@ -40,7 +54,7 @@ Order.belongsTo(User, {
 })
 
 //Relations address /user
-User.hasMany(Address, {
+User.hasOne(Address, {
     onDelete : 'CASCADE'
 });
 

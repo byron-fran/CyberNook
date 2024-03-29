@@ -10,6 +10,7 @@ import { Op, } from 'sequelize';
 import Reviews from '../models/Reviews';
 import Specs from '../models/Specs';
 import { Product as ProductInterface } from '../interfaces/Product';
+import Order from '../models/Order';
 
 const createProduct = async (req = request, res = response) => {
     const {name,  price, category, stock, image,  }  = req.body
@@ -62,7 +63,10 @@ const getProductById = async (req = request, res = response) => {
 };
 
 const getProducts = async (req = request, res = response) => {
-    const {category, name, filter } = req.query;
+    const {category, name, filter, page } = req.query;
+
+
+    const offset = (Number(page) - 1) * 12 || 0;
 
     try{
         if(category === 'category') {
@@ -71,13 +75,16 @@ const getProducts = async (req = request, res = response) => {
             const productFilterByName = await Product.findOne({
                 where : {
                     name :{
-                        [Op.like]: `%${cleanedName}%`
+                        [Op.like]: `%${cleanedName}%`    
                     } 
                 }
             })
             
             const productFilters = await Product.findAll({
+                limit : 12,
+                offset: offset,
                 where : {
+
                     category :{
                         [Op.iLike]: `%${filter}%`
                     }
@@ -103,6 +110,8 @@ const getProducts = async (req = request, res = response) => {
             })
          
             const productFilters = await Product.findAll({
+                limit : 12,
+                offset: offset,
                 where : {
                     name :{
                         [Op.iLike]: `%${filter}%`
@@ -127,6 +136,8 @@ const getProducts = async (req = request, res = response) => {
                 }
             })
             const productFilters = await Product.findAll({
+                limit : 12,
+               offset: offset,
                 where : {
                     mark :{
                         [Op.iLike]: `%${filter}%`
@@ -141,11 +152,24 @@ const getProducts = async (req = request, res = response) => {
                 products : productFilters
             });
         }
+       
 
-        const products = await Product.findAll();
-        if(!products){return res.status(404).json({error : 'there not products'})};
-        //console.log(products)
-        return res.status(200).json(products)
+        // Consultar productos con limit y offset adecuados
+        const products = await Product.findAll({
+            limit: 12,
+            offset: offset,
+            order: [['mark', 'ASC']]
+        });
+
+        // Verificar si no hay productos
+        if (products.length === 0) {
+            return res.status(404).json([]);
+        }
+        return res.status(200).json({
+            products,
+            totalItems: products.length, // Esto debería ser el número total de productos en la base de datos, no solo los obtenidos en esta página
+            currentPage: page ? Number(page) : 1 // Si no se proporciona una página, establecerla en 1 por defecto
+        });
     }
     catch (error: unknown) {
         if (error instanceof AxiosError) {
@@ -201,22 +225,7 @@ const updateProductById = async (req = request, res = response) => {
         }
     }
 }
-const getImageProduct = (req = request, res = response) => {
-    const {fichero} = req.params;
-    //console.log(fichero)
-    let ruta = './uploads/'+fichero;
-    //console.log(ruta)
-    fs.stat(ruta, (error, exist) => {
-        if(exist){
-            return res.sendFile(path.resolve(ruta));
-        }
-        else{
-            return res.status(404).json({
-                error : "El imagen no se pudo encontrar"
-           })
-        }
-    })
-};
+
 
 const getProductByMark = async (req = request, res = response) => {
     const {mark}= req.params;
@@ -240,7 +249,6 @@ export {
     createProduct,
     getProductById,
     getProducts,
-    getImageProduct,
     deleteProductById,
     getProductByMark,
     updateProductById

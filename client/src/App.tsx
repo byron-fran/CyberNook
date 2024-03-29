@@ -17,8 +17,8 @@ import CategoryPage from './pages/Category/CategoryPage';
 import MarkPage from './pages/Mark/MarkPage';
 //protected routes
 import UserRouters from './private/UserRouters';
-import CancelPayment from './components/cart/CancelPayment';
-import SuccessPayment from './components/cart/SuccessPayment';
+import CancelPayment from './pages/payment/CancelPayment';
+import SuccessPayment from './pages/payment/SuccessPayment';
 //Admin Page
 import FormProduct from './components/admin/FormProduct';
 import FormCategory from './components/admin/FormCategory';

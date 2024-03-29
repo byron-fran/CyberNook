@@ -7,8 +7,6 @@ dotenv.config();
 export const verifyToken = async (req = request, res = response,next : NextFunction) =>  {
     const { authorization } = req.headers;
     let token = "";
-    
-    
 
     if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
         token = authorization.substring(7);
@@ -20,7 +18,7 @@ export const verifyToken = async (req = request, res = response,next : NextFunct
         const user = jwt.verify(token, process.env.SECRET_KEY!) as JwtPayload;
         if (!user) { return res.status(401).json({ message: 'Unauthorized' }) }
         req.body.UserId = user.id as string;
-
+        req.body.token = token
     }
     catch (error: unknown) {
         if (error instanceof AxiosError) {

@@ -9,13 +9,19 @@ import Order from '../models/Order';
 import Address from '../models/Address';
 import Reviews from '../models/Reviews';
 
+
 dotenv.config();
 
 const register = async (req = request, res = response) => {
     const { email, password }: UserInterface = req.body;
 
     try {
-        const userFound = await User.findOne<User>({ where: { email } });
+        const userFound = await User.findOne<User>({ 
+            where: { email } ,
+            include: [Order, Address],
+            attributes : {exclude : ['password']}
+        
+        });
         if (userFound) {
             return res.status(404).json({ message: 'User already exits' })
         };
@@ -37,7 +43,14 @@ const register = async (req = request, res = response) => {
         
         return res.status(200).json({
             token,
-            user
+            user : {
+                id : user.id,
+                name : user.name,
+                email : user.email,
+                phone : user.phone,
+                isAdmin : user.isAdmin,
+
+            }
         });
     }
     catch (error: unknown) {
@@ -54,12 +67,15 @@ const login = async (req = request, res = response) => {
 
     try {
 
-        const userFound = await User.findOne({ where: { email } });
+        const userFound = await User.findOne({ 
+                where: { email },
+        
+            });
         if (!userFound) {
+
             return res.status(404).json({ message: 'Email not found' });
         }
         const passwordVerify = await bcrypt.compare(password, userFound.password);
-
 
         if (!passwordVerify) {
 
@@ -70,16 +86,33 @@ const login = async (req = request, res = response) => {
             algorithm: 'HS256'
 
         });
-
+        const address = await Address.findOne({ where : {UserId : userFound.id}})
         return res.status(200).json({
             token,
-            userFound
+            user : {
+                id : userFound.id,
+                name : userFound.name,
+                email : userFound.email,
+                phone : userFound.phone,
+                isAdmin : userFound.isAdmin,
+                Address : address === null ? {
+                    street: "",
+                    country : "",
+                    city : "",
+                    postalCode :'',
+                    exteriorNumber : '' 
+                }  : address
+
+            },
+        
         });
     }
     catch (error: unknown) {
         if (error instanceof AxiosError) {
-            return res.status(404).json({ message: error.response?.data })
+            
+            return res.status(401).json({ message: error.response?.data })
         }
+        console.log(error)
         return res.status(500).json({ error: error })
     }
 }
@@ -98,22 +131,33 @@ const logout = async (req = request, res = response) => {
 };
 
 const getProfile = async (req = request, res = response) => {
-    const { UserId } = req.body;
+    const { UserId, token } = req.body;
+
 
     try {
         const user = await User.findOne({
             where: { id: UserId },
-            include: [Order, Address],
+            include: [Order, {
+                model : Address,
+
+            }],
+
+            attributes : {exclude : ['password']}
 
         })
         if (!user) { return res.status(404).json({ message: 'user not found' }) };
-
-        return res.status(200).json(user)
+        const address = await Address.findOne({ where : {UserId : user.id}})
+        
+        return res.status(200).json({
+            token, 
+            user
+        })
     }
     catch (error: unknown) {
         if (error instanceof AxiosError) {
             return res.status(404).json({ message: error.response?.data })
         }
+        console.log(error)
         return res.status(500).json({ message: error })
     }
 }
@@ -205,8 +249,14 @@ const deleteUserById = async (req = request, res = response) => {
     }
 }
 const verify = async (req = request, res = response) => {
-    const { token } = req.cookies;
-    if (!token) { return res.status(404).json({ message: 'Token no provided' }) };
+    const { authorization } = req.headers;
+    let token = "";
+    
+    
+
+    if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+        token = authorization.substring(7);
+    }
     try {
         const user = jwt.verify(token, process.env.SECRET_KEY!) as UserInterface;
 

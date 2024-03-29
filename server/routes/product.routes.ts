@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createProduct, getProductById, getProducts, getImageProduct, deleteProductById, updateProductById, getProductByMark } from "../controllers/produc.controller";
+import { createProduct, getProductById, getProducts, deleteProductById, updateProductById, getProductByMark } from "../controllers/produc.controller";
 import uploads from '../middlewares/UploadImage';
 import { verifyToken } from "../jwt/verifyToken";
 
@@ -12,6 +12,6 @@ router.get('/products/:mark',getProductByMark )
 router.get('/product/:id',getProductById);
 router.delete('/product/:id', verifyToken, deleteProductById);
 router.put('/product/:id', updateProductById)
-router.get('/product_image/:fichero', getImageProduct)
+
 
 export default router

@@ -3,6 +3,7 @@ import axios from "axios";
 import { configHeaders } from "./config";
 
 const config  = configHeaders()
+
 export const getAllUsers = createAsyncThunk('get/users', async (_, {rejectWithValue}) => {
     try {
 

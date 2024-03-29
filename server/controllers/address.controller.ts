@@ -6,7 +6,7 @@ import User from "../models/User";
 const createAdress = async (req = request, res = response) => {
    
     try{
-        console.log(req.body)
+       
         const newAdress = await Address.create(req.body)
         if(!newAdress){return res.status(404).json({message : 'address not save'})};
 
@@ -14,9 +14,11 @@ const createAdress = async (req = request, res = response) => {
     }
     catch(error : unknown){
         if(error instanceof AxiosError){
+            console.log(error)
             return res.status(500).json({message : error.message})
         }
         else{
+            console.log(error)
         return res.status(500).json({message : error})
         }
     }
@@ -55,7 +57,9 @@ const getAddress = async (req = request, res = response) => {
     const { UserId } = req.body;
 
     try{
-        const address = await Address.findAll({where : {UserId}})
+        const address = await Address.findOne(
+            { where : {UserId}}
+        )
       
         if(!address){return res.status(404).json({message : 'address no found'})}
         

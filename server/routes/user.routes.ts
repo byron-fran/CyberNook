@@ -21,5 +21,5 @@ router.delete('/profile', verifyToken, deleteProfile);
 router.put('/profile',verifyToken, updateProfile);
 router.get('/users', verifyToken, getAllUsers);
 router.delete('/user/:id', verifyToken, deleteUserById)
-router.get('/verify', verify)
+router.get('/verify', verifyToken, getProfile)
 export default router

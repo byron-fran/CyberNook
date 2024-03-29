@@ -109,6 +109,7 @@ const authSlice = createSlice({
                 state.isLoading = false
                 state.isAuthenticated = false
                 state.error = action.payload
+                localStorage.removeItem('token')
             }),
          //update data profile
          builder
