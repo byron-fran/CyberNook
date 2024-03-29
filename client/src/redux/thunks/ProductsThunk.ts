@@ -2,15 +2,21 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ProductType,  } from "../../interface/Product";
 
+export type ProductsResponse = {
+    products : ProductType[],
+    totalItems : number,
+    currentPage : number
+}
 export const getProductsThunk = createAsyncThunk('get/product', async (_, { rejectWithValue }) => {
     try {
 
-        const { data } = await axios(`${import.meta.env.VITE_BACKEND_URL}/store/products`,);
+        const { data } = await axios<ProductsResponse>(`${import.meta.env.VITE_BACKEND_URL}/store/products`,);
 
-        return data
+        console.log(data)
+        return data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
-
+            
             return rejectWithValue(error.response?.data.message);
         }
     }

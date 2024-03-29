@@ -38,7 +38,7 @@ const ProductsSlice = createSlice({
             .addCase(getProductsThunk.fulfilled, (state, action) => {
 
                 state.isLoading = false
-                state.products = action.payload
+                state.products = action.payload?.products || []
             })
             .addCase(getProductsThunk.rejected, state => {
                 state.isLoading = false
