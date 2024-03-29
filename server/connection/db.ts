@@ -12,24 +12,24 @@ import Question from '../models/Question';
 
 dotenv.config()
 
-//`${process.env.POSTGRES_URL}`
+
 if(!process.env.POSTGRES_URL){
     throw new Error('error db')
 }
 // Configuración de la base de datos
-export const sequelize = new Sequelize( {
+export const sequelize = new Sequelize(`${process.env.POSTGRES_URL}`, {
     dialect: 'postgres',
 
-    // dialectOptions: { 
-    //  ssl: {
-    //    require: true,
-    //   },
-    // },
-    host : 'localhost',
-    database : 'tecno',
-    password : 'byron',
-    port : 5434,
-    username : 'postgres',
+    dialectOptions: { 
+     ssl: {
+       require: true,
+      },
+    },
+    // host : 'localhost',
+    // database : 'dbname',
+    // password : 'password,
+    // port : 'port',
+    // username : 'username',
     models: [ 
         Product, 
         User, 
