@@ -86,10 +86,7 @@ const updateOrder = async (req = request, res = response) => {
      
         await orderFound.save();
 
-        return res.status(200).json({
-            success: 'purchase update',
-            orderFound
-        })
+        return res.status(200).json(orderFound)
     }
     catch (error: unknown) {
         if (error instanceof AxiosError) {
@@ -174,3 +171,6 @@ export {
     getAllOrdersByAdmin,
     updatePayment
 }
+
+
+

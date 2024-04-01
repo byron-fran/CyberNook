@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { UserType } from "../../types/auth/User";
 import { Auth } from "../../interface/Auth";
+import { AuthResponse } from "../../pages/auth/api/auth";
 
 import { 
     registerUserThunk, 
@@ -19,16 +20,7 @@ const initialState: Auth = {
     isAuthenticated:token ? true : false,
     isLoading: false,
     error: '',
-    user: {
-        name: '',
-        email: '',
-        password: '',
-        id: '',
-        Orders : [],
-        Addresses :[],
-        isAdmin : false
-    
-    },
+    user: {} as UserType
     
 };
 
@@ -42,12 +34,12 @@ const authSlice = createSlice({
             .addCase(registerUserThunk.pending, state => {
                 state.isLoading = true
             })
-            .addCase(registerUserThunk.fulfilled, (state, action: any) => {
-                localStorage.setItem('token', action.payload.token)
+            .addCase(registerUserThunk.fulfilled, (state, action : PayloadAction<AuthResponse | undefined>) => {
+                localStorage.setItem('token', action.payload?.token!)
                 state.isLoading = false,
                 state.isAuthenticated = true
-                state.user = action.payload.user
-                state.isAdmin = state.user.isAdmin ? true : false
+                state.user = action.payload?.user
+                state.isAdmin = state.user?.isAdmin ? true : false
             })
             .addCase(registerUserThunk.rejected, (state, action ) => {
                 state.isLoading = false
@@ -60,14 +52,15 @@ const authSlice = createSlice({
             .addCase(loginUserThunk.pending, state => {
                 state.isLoading = true
             })
-            .addCase(loginUserThunk.fulfilled, (state, action: PayloadAction<any>) => {
-                localStorage.setItem('token', action.payload.token)
+            .addCase(loginUserThunk.fulfilled, (state, action: PayloadAction<AuthResponse | undefined>) => {
+                localStorage.setItem('token', action.payload?.token!)
                 state.isLoading = false,
                 state.isAuthenticated = true
-                state.user = action.payload.userFound
-                state.isAdmin = state.user.isAdmin ? true : false
+                state.user = action.payload?.user
+                state.isAdmin = state.user?.isAdmin ? true : false
             })
             .addCase(loginUserThunk.rejected, (state, action) => {
+                localStorage.removeItem('token')
                 state.isLoading = false
                 state.isAuthenticated = false
                 state.error = action.payload
@@ -83,15 +76,7 @@ const authSlice = createSlice({
                 localStorage.removeItem('token')
                 state.isLoading = false
                 state.isAuthenticated = false
-                state.user = {
-                    name: '',
-                    email: '',
-                    password: '',
-                    id: '',
-                    Addresses : [],
-                    Orders : [],
-                    isAdmin : false
-                }
+                state.user = {} as UserType
             })
         //Get user Profile   
         builder
@@ -99,11 +84,12 @@ const authSlice = createSlice({
                 state.isLoading = true
                 
             })
-            .addCase(getUserProfileThunk.fulfilled, (state, action: PayloadAction<UserType>) => {
-                state.user = action.payload
+            .addCase(getUserProfileThunk.fulfilled, (state, action: PayloadAction<AuthResponse | undefined>) => {
+                localStorage.setItem('token', action.payload?.token!)
+                state.user = action.payload?.user
                 state.isAuthenticated = true
                 state.isLoading = false
-                state.isAdmin = state.user.isAdmin ? true : false
+                state.isAdmin = state.user?.isAdmin
             })
             .addCase(getUserProfileThunk.rejected, (state, action) => {
                 state.isLoading = false
@@ -116,10 +102,10 @@ const authSlice = createSlice({
             .addCase(updateProfileThunk.pending, state => {
                 state.isLoading = true
             })
-            .addCase(updateProfileThunk.fulfilled, (state, action : PayloadAction<UserType>)  => {
+            .addCase(updateProfileThunk.fulfilled, (state, action : PayloadAction<UserType | undefined>)  => {
                 state.user = action.payload;
                 state.isLoading = false
-                state.isAdmin = state.user.isAdmin ? true : false
+                state.isAdmin = state.user?.isAdmin ? true : false
 
             })
             .addCase(updateProfileThunk.rejected, state => {
@@ -135,15 +121,7 @@ const authSlice = createSlice({
                 state.isLoading = false;
                 state.isAuthenticated = false;
                 localStorage.removeItem('token')
-                state.user = {
-                    name : '',
-                    email : '',
-                    password : '',
-                    id : '',
-                    phone : '',
-                    isAdmin : false
-
-                }
+                state.user =  {} as UserType
             })
             .addCase(deleteProfileThunk.rejected, state => {
                 state.isLoading = false

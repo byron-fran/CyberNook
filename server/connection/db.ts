@@ -16,20 +16,26 @@ dotenv.config()
 if(!process.env.POSTGRES_URL){
     throw new Error('error db')
 }
+//`${process.env.POSTGRES_URL
 // Configuración de la base de datos
-export const sequelize = new Sequelize(`${process.env.POSTGRES_URL}`, {
+
+export const sequelize = new Sequelize( {
     dialect: 'postgres',
 
-    dialectOptions: { 
-     ssl: {
-       require: true,
-      },
-    },
-    // host : 'localhost',
-    // database : 'dbname',
-    // password : 'password,
-    // port : 'port',
-    // username : 'username',
+    // only in production
+    // dialectOptions: { 
+    //  ssl: {
+    //    require: true,
+    //   },
+    // },
+
+    //only in dev
+    host :process.env.DB_HOST!,
+    database : process.env.DB_NAME!,
+    password :process.env.DB_PASSWORD!,
+    port : Number(process.env.DB_PORT!),
+    username : process.env.DB_USER!,
+    
     models: [ 
         Product, 
         User, 

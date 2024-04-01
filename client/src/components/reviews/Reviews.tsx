@@ -41,7 +41,7 @@ const Reviews: FC<ReviewsProps> = ({ product }) => {
   
     useEffect(() => {
         for (let i = 0; i < reviews?.length; i++) {
-            if (reviews[i].UserId === user.id) {
+            if (reviews[i].UserId === user?.id) {
                 setFoundCommet(true)
 
             }

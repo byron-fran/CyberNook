@@ -11,12 +11,10 @@ export const getProductsThunk = createAsyncThunk('get/product', async (_, { reje
     try {
 
         const { data } = await axios<ProductsResponse>(`${import.meta.env.VITE_BACKEND_URL}/store/products`,);
-
-        console.log(data)
         return data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            
+
             return rejectWithValue(error.response?.data.message);
         }
     }
