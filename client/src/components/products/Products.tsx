@@ -5,40 +5,34 @@ import { useParams } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import Spinner from "../../spinner/Spinner";
 import { ProductType } from "../../interface/Product";
-import UsePagination from "../../hooks/UsePagination";
-import ListButtons from "../buttons/ListButtons";
-
+import { Order } from "../../types/cart/Order";
 type ParamsType = {
   category?: string,
   name?: string,
-  filter?: string
+  filter?: string,
+  page? : string
 }
 
 const Products = () => {
 
   const { products } = useAppSelector(state => state.products);
-  const { filter, category, name } = useParams<ParamsType>();
+  const { filter, category, name, page } = useParams<ParamsType>();
   const [productsFilterBySearch, setProductsFilterBySearch] = useState<ProductType[]>([]);
-  const [productFilterByName, setProductFilterByName] = useState({} as ProductType);
+  const [productFilterByName, setProductFilterByName] = useState<Order>({} as Order);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const {
-    currentPage,
-    pageButtons,
-    totalPages,
-    setCurrentPage,
-    productsPerPage } = UsePagination(products, 10);
 
   useEffect(() => {
     const getProductFilters = async () => {
 
-      if (filter || category || filter) {
+      if (filter || category || name) {
+       
         try {
 
           setIsLoading(true)
           const { data } = await axios(`${import.meta.env.VITE_BACKEND_URL}/store/products/?category=${category}&name=${name}&filter=${filter}`);
           setIsLoading(false);
-
+         // console.log(data.product)
           setProductFilterByName(data.product)
           setProductsFilterBySearch(data.products.filter((product: ProductType) => Number(product.id) !== Number(data.product.id)));
 
@@ -51,7 +45,8 @@ const Products = () => {
       }
     }
     getProductFilters()
-  }, [filter, category, name])
+  }, [name, filter, category]);
+
 
   return (
     <>
@@ -61,31 +56,23 @@ const Products = () => {
           <Spinner />
         </div> : (
           <div className="w-full md:w-3/4 mx-auto grid  gap-4 mt-8">
-            {Object.values(productFilterByName ).length > 0 && <CardProduct product={productFilterByName} /> }
+            {productFilterByName && Object.values(productFilterByName).length > 0  && <CardProduct product={productFilterByName} /> }
             {productsFilterBySearch.length > 0 ?
-              productsFilterBySearch.filter(product => product.id !== productFilterByName.id).map(product => {
+              productsFilterBySearch.filter(product => product.id !== productFilterByName.id ?  productFilterByName.id : '' ).map(product => {
                 return (
                   <CardProduct key={product.id} product={product} />
                 )
               })
               :
-              productsPerPage.filter(product => product.id !== productFilterByName.id).map((product) => {
+              products.map((product) => {
                 return (
                   <CardProduct key={product.id} product={product} />
                 )
-              })}
+              })
+              }
 
           </div>
         )}
-
-      {/* PAGINATION */}
-      <ListButtons
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalPages={totalPages}
-        pageButtons={pageButtons}
-      />
-
     </>
   )
 }

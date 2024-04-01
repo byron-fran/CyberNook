@@ -74,7 +74,7 @@ function App(): JSX.Element {
       <Routes>
         <Route element={<NavBar />}>
           <Route path='/' element={<Home />} />
-          <Route path='/store/:category?/:name?/:filter?' element={<Products />} />
+          <Route path='/store/:category?/:name?/:filter?/:page?' element={<Products />} />
           <Route path='/store/*' element={<Products />} />
           <Route path='/product/:id' element={<DetailProduct />} />
           <Route path='/category/:category' element={<CategoryPage />} />
@@ -92,7 +92,7 @@ function App(): JSX.Element {
         <Route element={<AdminRoutes loading={loading} />}>
           <Route path='/admin' element={<AdminPage />} >
             <Route index element={<FormPage />} />
-            <Route path='/admin/*' element={< FormPage />} />
+            <Route path='/admin/e*' element={< FormPage />} />
             <Route path='/admin/create-product' element={<FormProduct />} />
             <Route path='/admin/create-specs/:ProductId' element={<FormSpecs />} />
             <Route path='/admin/update-specs/:ProductId/:id' element={<FormSpecs />} />
