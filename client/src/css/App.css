@@ -804,6 +804,10 @@ video {
   width: 17px;
 }
 
+.w-\[200px\] {
+  width: 200px;
+}
+
 .w-\[20px\] {
   width: 20px;
 }
@@ -830,10 +834,6 @@ video {
 
 .w-\[40px\] {
   width: 40px;
-}
-
-.w-\[50\%\] {
-  width: 50%;
 }
 
 .w-\[75px\] {
@@ -1382,6 +1382,10 @@ video {
 
 .opacity-70 {
   opacity: 0.7;
+}
+
+.opacity-25 {
+  opacity: 0.25;
 }
 
 .bg-blend-multiply {

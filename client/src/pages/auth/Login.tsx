@@ -27,7 +27,7 @@ const Login = () => {
             .then((data) => {
 
                 if (data?.type === 'auth/login/rejected') {
-                    seErrorLogin(data.payload)
+                    seErrorLogin(data.payload as string)
                     return
                 }
                 seErrorLogin('')
@@ -56,7 +56,7 @@ const Login = () => {
                                 <label htmlFor="email" className='block p-2'>Email</label>
                                 {errors.email?.type === 'required' && (<p className='text-red-500'>Email is required</p>)}
                                 {errors.email?.type === 'pattern' && (<p className='text-red-500'>Must be a email valid </p>)}
-                                <input type='text' placeholder='pedro123@gmail.com' id='email'
+                                <input type='text' placeholder='Example3@gmail.com' id='email'
                                     className='border border-slate-200 w-full p-2 rounded-md mb-2'
                                     {...register('email', {
                                         required: true, minLength: 1, maxLength: 50, pattern: {
@@ -70,7 +70,7 @@ const Login = () => {
                                 <label htmlFor="password" className='block p-2'>Password</label>
                                 {errors.password?.type === 'required' && (<p className='text-red-500'>Password is required</p>)}
                                 {errors.password?.type === 'pattern' && (<p className='text-red-500'>Password must be have a number and a letter </p>)}
-                                <input type='password' placeholder='pedro123' id='password'
+                                <input type='password' placeholder='Your password' id='password'
                                     className='border border-slate-200 w-full p-2 rounded-md mb-2'
                                     {...register('password', {
                                         required: true, minLength: 1, maxLength: 50, pattern: {

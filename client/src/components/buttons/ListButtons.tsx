@@ -1,50 +1,39 @@
+import { Dispatch, SetStateAction } from "react"
+import { useNavigate } from "react-router-dom"
 
 
 interface ListButtonsProps {
     currentPage: number,
-    setCurrentPage: React.Dispatch<React.SetStateAction<number>>,
     totalPages: number,
-    pageButtons: () => number[]
+    renderPaginationButtons: Function,
+    setOffset: Dispatch<SetStateAction<number>>
 }
 
-const ListButtons = ({ currentPage, setCurrentPage, totalPages, pageButtons }: ListButtonsProps) => {
+const ListButtons = ({ currentPage, totalPages, setOffset, renderPaginationButtons }: ListButtonsProps) => {
+    const navigate = useNavigate()
     return (
-        <div className='mt-6 flex justify-center items-center gap-4'>
-            {currentPage !== 1 && (
-                <button
-                    className='border border-slate-300 p-2 rounded-md'
-                    disabled={currentPage === 1}
-                    onClick={() => setCurrentPage(1)}
-                >Back</button>
-            )}
+        <div className="flex gap-4 w-[200px] mx-auto justify-center mt-4">
+    
+            <button
+                disabled={currentPage === 1}
+                className={` border border-blue-800 p-4 ${currentPage === 1 && 'opacity-25 cursor-not-allowed'}`}
+                onClick={() => {
+                    setOffset(currentPage - 1)
+                    navigate(`?page=${currentPage - 1}`)
+                }}
+            >Back
+            </button>
+            {renderPaginationButtons()}
+            <button
+                disabled={Number(totalPages) === currentPage}
+                className={` border border-blue-800 p-4 ${Number(totalPages) === currentPage && 'opacity-25 cursor-not-allowed'}`}
+                onClick={() => {
+                    setOffset(currentPage + 1)
+                    navigate(`?page=${currentPage + 1}`)
+                }}
+            >Next
+            </button>
 
-            {pageButtons()?.map((button, index) => {
-                return (
-                    <div key={index}>
-                        <button
-                            className={`${currentPage !== button ? 'border border-slate-300 p-2 rounded-md' : 'bg-blue-800 text-white p-2 rounded-md'}`}
-                            disabled={button === currentPage}
-                            onClick={() => setCurrentPage(button)}>{button}</button>
-                    </div>
-                )
-            })}
-
-            {currentPage !== totalPages && (
-                <button
-                    className='border border-slate-300 p-2 rounded-md'
-                    disabled={currentPage === totalPages}
-                    onClick={() => setCurrentPage(currentPage + 1)}
-                >Next</button>
-            )}
-            {totalPages !== 1 && (
-                <button
-                    className='border border-slate-300 p-2 rounded-md'
-                    disabled={currentPage === totalPages}
-                    onClick={() => {
-                        setCurrentPage(totalPages)
-                    }}
-                >Last</button>
-            )}
         </div>
     )
 }

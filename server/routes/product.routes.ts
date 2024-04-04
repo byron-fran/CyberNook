@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createProduct, getProductById, getProducts, deleteProductById, updateProductById, getProductByMark } from "../controllers/produc.controller";
+import { createProduct, getProductById, getProducts, deleteProductById, updateProductById,getAllProducts } from "../controllers/products.controller";
 import uploads from '../middlewares/UploadImage';
 import { verifyToken } from "../jwt/verifyToken";
 
@@ -7,11 +7,12 @@ import { verifyToken } from "../jwt/verifyToken";
 const router = Router();
 
 router.post('/product',  uploads.single('image') , createProduct);
-router.get('/products',  getProducts);
-router.get('/products/:mark',getProductByMark )
+// router.get('/products',  getProducts);
 router.get('/product/:id',getProductById);
 router.delete('/product/:id', verifyToken, deleteProductById);
-router.put('/product/:id', updateProductById)
+router.put('/product/:id', updateProductById),
+router.get('/all_products', getAllProducts),
+router.get('/products', getProducts)
 
 
 export default router

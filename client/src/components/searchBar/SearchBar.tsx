@@ -3,24 +3,23 @@ import { useAppSelector } from '../../redux/hooks/hooks';
 import { NavLink } from 'react-router-dom';
 
 const SearchBar = () => {
-  const [searhTerm, setSearchTerm] = useState<string>('');
-  const { products } = useAppSelector(state => state.products)
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const { allProducts, isLoading } = useAppSelector(state => state.products)
 
   // filter products by name
-  const productsFileryName = products.filter(product => {
-    if (searhTerm.length >= 1) {
-      return product.name.toLowerCase().includes(searhTerm)
+  const productsFilterByName = allProducts.filter(product => {
+    if (searchTerm.trim().length >= 1) {
+        return product.name.toLowerCase().includes(searchTerm.trim().toLowerCase());
     }
-
-  });
+});
 
   // limit search results to 10
-  const productsFileryNameLimit = productsFileryName.slice(0, 10);
+  const productsFilterByNameLimit = productsFilterByName.slice(0, 10);
 
   // filter products by category
-  const productsFilterByCategory = products.filter(product => {
-    if (searhTerm.length >= 1) {
-      return product.category.toLowerCase().includes(searhTerm);
+  const productsFilterByCategory = allProducts.filter(product => {
+    if (searchTerm.trim().length >= 1) {
+      return product.category.toLowerCase().includes(searchTerm.trim());
     }
   });
 
@@ -29,10 +28,10 @@ const SearchBar = () => {
 
 
   // filter products by mark
-  const producstFilterByMark = products.filter(product => {
-    if (searhTerm.length >= 1) {
-      console.log(product.mark)
-      return product.mark?.toLowerCase().includes(searhTerm)
+  const producstFilterByMark = allProducts.filter(product => {
+    if (searchTerm.trim().length >= 1) {
+    
+      return product.mark?.toLowerCase().includes(searchTerm.trim())
     }
   })
 
@@ -56,16 +55,16 @@ const SearchBar = () => {
           onChange={onChangeTerm} />
       </div>
       {/* list search */}
-      {productsFileryName.length >= 1 && productsFileryName.length > productsFilterByCategory.length
+      {productsFilterByName.length >= 1 && productsFilterByName.length > productsFilterByCategory.length
 
         ? (
 
           <li className='bg-white w-[95%] md:w-[70%] lg:w-[60%] mx-auto pb-2 mt-10 md:mt-2 absolute left-0 right-0 top-[7rem] z-10 rounded-md no-style'>
-            {productsFileryNameLimit.map(product => {
+            {productsFilterByNameLimit.map(product => {
               return (
                 <ul key={product.id}>
 
-                  <NavLink className='ml-4 hover:underline hover:text-blue-800' to={`/store/${'name'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')}>{product.name} </NavLink>
+                  <NavLink className='ml-4 hover:underline hover:text-blue-800' to={`/store/${'name'}/${product.name}/${searchTerm}`} onClick={() => setSearchTerm('')}>{product.name} </NavLink>
                 </ul>
               )
             })}
@@ -80,20 +79,20 @@ const SearchBar = () => {
               {productsFilterByCategoryLimit.map(product => {
                 return (
                   <ul key={product.id}>
-                    <NavLink className='ml-4 hover:underline hover:text-blue-800' to={`/store/${'category'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')}>{product.category} - <span>{product.name}</span></NavLink>
+                    <NavLink className='ml-4 hover:underline hover:text-blue-800' to={`/store/${'category'}/${product.name}/${searchTerm}`} onClick={() => setSearchTerm('')}>{product.category} - <span>{product.name}</span></NavLink>
                   </ul>
                 )
               })}
             </li>
 
           ) :
-          producstFilterByMark.length > 1 ? (
+          producstFilterByMark.length >= 1 ? (
             <li className='bg-white w-[95%] md:w-[70%] lg:w-[60%] mx-auto pb-2 mt-10 md:mt-2 absolute left-0 right-0 top-[7rem] z-10 rounded-md no-style'>
               {
                 producstFilterByMarkLimit.map(product => {
                   return (
                     <ul key={product.id}>
-                      <NavLink className='ml-4 hover:underline hover:text-blue-800' to={`/store/${'mark'}/${product.name}/${searhTerm}`} onClick={() => setSearchTerm('')} >{product.mark} - <span>{product.name}</span></NavLink>
+                      <NavLink className='ml-4 hover:underline hover:text-blue-800' to={`/store/${'mark'}/${product.name}/${searchTerm}`} onClick={() => setSearchTerm('')} >{product.mark} - <span>{product.name}</span></NavLink>
                     </ul>
                   )
                 })

@@ -1,16 +1,13 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ProductType,  } from "../../interface/Product";
+import { ProductsResponse } from "../../types/products/ProductsResponse";
 
-export type ProductsResponse = {
-    products : ProductType[],
-    totalItems : number,
-    currentPage : number
-}
-export const getProductsThunk = createAsyncThunk('get/product', async (_, { rejectWithValue }) => {
+//get products limit 10 items
+export const getProductsThunk = createAsyncThunk('get/product', async (offset : number = 1, { rejectWithValue }) => {
     try {
 
-        const { data } = await axios<ProductsResponse>(`${import.meta.env.VITE_BACKEND_URL}/store/products`,);
+        const { data } = await axios<ProductsResponse>(`${import.meta.env.VITE_BACKEND_URL}/store/products/?page=${offset}`,);
         return data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -20,6 +17,24 @@ export const getProductsThunk = createAsyncThunk('get/product', async (_, { reje
     }
 });
 
+//get all products
+export const getAllProductsThunk = createAsyncThunk('all/products', async(_, {rejectWithValue}) => {
+    try {
+
+        const { data } = await axios<ProductsResponse>(`${import.meta.env.VITE_BACKEND_URL}/store/all_products`);
+      
+        return data;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+
+            return rejectWithValue(error.response?.data.message);
+        }
+    }
+});
+
+
+
+// get detail product
 export const getDetailProduct = createAsyncThunk('detail/product', async (id: string, { rejectWithValue }) => {
     try {
 
@@ -34,6 +49,7 @@ export const getDetailProduct = createAsyncThunk('detail/product', async (id: st
     }
 });
 
+//clear state of product
 export const clearDetailProductThunk = createAsyncThunk('clear/product', (_, { rejectWithValue }) => {
     try {
 
@@ -45,8 +61,10 @@ export const clearDetailProductThunk = createAsyncThunk('clear/product', (_, { r
         }
     }
 })
-//Crud Procducts
 
+
+//Crud Procducts
+//create product
 export const createProduct = createAsyncThunk('create/product', async (product: ProductType, { rejectWithValue }) => {
     try {
 
@@ -78,6 +96,7 @@ export const getDetailProductThunk = createAsyncThunk('detail/product', async (i
     }
 });
 
+// remove a product
 export const deleteProductByIdThunk = createAsyncThunk('delete/product', async (id: string, { rejectWithValue }) => {
     try {
 
@@ -94,6 +113,8 @@ export const deleteProductByIdThunk = createAsyncThunk('delete/product', async (
     }
 
 });
+
+//update product
 export const updateProductByIdThunk =
      createAsyncThunk<ProductType, {id : string, product : ProductType}, {rejectValue : string}>('update/product', 
      async ({id, product}, {rejectWithValue}) => {

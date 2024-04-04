@@ -34,7 +34,7 @@ const NavBar = () => {
                                         <img className='w-[35px] ' src="/images/user.svg" alt="image-user" />
                                     </NavLink>
                                     <p className='text-white'>Hello, {user?.name}</p>
-                                    {user.isAdmin && (
+                                    {user?.isAdmin && (
                                         <NavLink to='/admin'>
                                             <img className='w-[30px] mt-2' src="/images/admin.png" alt="img-admin" />
 

@@ -20,10 +20,11 @@ export const getAddressThunk = createAsyncThunk('address/get', async (token :str
     try{
         const {data} = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/address`, {
 
-           withCredentials : true,
+
             headers : {
                 Authorization: `Bearer ${token}`
         }} )
+        console.log(data, 'desde data')
         return data
     }   
     catch (error : unknown) {

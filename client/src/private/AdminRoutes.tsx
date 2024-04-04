@@ -17,7 +17,7 @@ const AdminRoutes: FC<UserRoutersProps> = ({ loading }) => {
         return <div className="bg-white h-[60vh] w-full flex items-center justify-center"><Spinner /></div>;
     }
 
-    if(!isAdmin  || !user.isAdmin ) return <Navigate to='/'/>
+    if(!isAdmin  || !user?.isAdmin ) return <Navigate to='/'/>
     return (
         <div>
             <Outlet />

@@ -1,4 +1,3 @@
-
 import { NavLink } from 'react-router-dom';
 import { useAppSelector } from '../../redux/hooks/hooks';
 import { formaterDinero } from '../../helpers';
@@ -9,6 +8,7 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+
 
 
 const Oferts = () => {
@@ -63,14 +63,14 @@ const Oferts = () => {
                                         <div className='flex justify-center items-center w-full flex-col h-full'>
                                             <h2 className='text-white font-bold text-2xl text-center mb-2'>The best laptps </h2>
                                             <p className='text-white text-center mb-2'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas architecto tenetur sit eos quidem nobis quam officia rem ab nam sunt, debitis magni at dolores eveniet voluptatibus ut, </p>
-                                            <NavLink to='/category/Laptop' className='bg-red-500 text-white font-bold p-2 rounded-md w-[80%] text-center mx-auto'>See laptops</NavLink>
+                                            <NavLink to='store/?category=Laptop' className='bg-red-500 text-white font-bold p-2 rounded-md w-[80%] text-center mx-auto'>See laptops</NavLink>
                                         </div>
                                     </SwiperSlide>
                                     <SwiperSlide className=' bg-[url(/icons/bg-3.jpg)]  bg-opacity-60 bg-blend-multiply bg-center bg-no-repeat bg-cover'>
                                         <div className='flex justify-center items-center w-full flex-col h-full'>
                                             <h2 className='text-white font-bold text-2xl text-center mb-2'>The best phones </h2>
                                             <p className='text-white text-center mb-2'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas architecto tenetur sit eos quidem nobis quam officia rem ab nam sunt, debitis magni at dolores eveniet voluptatibus ut, </p>
-                                            <NavLink to='/category/Phone' className='bg-red-500 text-white font-bold p-2 rounded-md w-[80%] text-center mx-auto'>See phones</NavLink>
+                                            <NavLink to='store/?category=Phone' className='bg-red-500 text-white font-bold p-2 rounded-md w-[80%] text-center mx-auto'>See phones</NavLink>
                                         </div>
                                     </SwiperSlide>
                                 </Swiper>

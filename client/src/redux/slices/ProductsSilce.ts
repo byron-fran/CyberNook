@@ -1,29 +1,24 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ProductType } from "../../interface/Product";
-import { Products } from "../../interface/Products";
+import { ProductsState } from "../../interface/Products";
 import {
     getProductsThunk,
+    getAllProductsThunk,
     getDetailProductThunk,
     clearDetailProductThunk,
     deleteProductByIdThunk,
-    updateProductByIdThunk
+    updateProductByIdThunk,
+
 } from "../thunks/ProductsThunk";
 
 
-const initialState: Products = {
+const initialState: ProductsState = {
     products: [],
     isLoading: false,
-    detailProduct: {
-        name: '',
-        category: '',
-        image: '',
-        price: 0,
-        stock: 0,
-        quantity: 0,
-        id: '',
-        description: '',
-        discount: 0
-    }
+    allProducts: [],
+    detailProduct: {} as ProductType,
+    currentPage : 1,
+    totalItems : 0
 }
 
 const ProductsSlice = createSlice({
@@ -32,6 +27,18 @@ const ProductsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            .addCase(getAllProductsThunk.pending, state => {
+                state.isLoading = true
+            })
+            .addCase(getAllProductsThunk.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.allProducts = action.payload?.allProducts!
+            })
+            .addCase(getAllProductsThunk.rejected, state => {
+                state.isLoading = false
+
+            })
+        builder
             .addCase(getProductsThunk.pending, state => {
                 state.isLoading = true
             })
@@ -39,11 +46,13 @@ const ProductsSlice = createSlice({
 
                 state.isLoading = false
                 state.products = action.payload?.products || []
+                state.totalItems = action.payload?.totalItems!
             })
             .addCase(getProductsThunk.rejected, state => {
                 state.isLoading = false
 
             })
+
         //detail product 
         builder
             .addCase(getDetailProductThunk.pending, state => {
@@ -80,7 +89,7 @@ const ProductsSlice = createSlice({
                 if (productFound) {
                     const productsUpdate = state.products.map(product => {
                         if (product.id === productFound?.id) {
-                            return { ...product, ...updatedProduct  };
+                            return { ...product, ...updatedProduct };
                         }
                         return product
                     })
@@ -98,28 +107,8 @@ const ProductsSlice = createSlice({
                 state.isLoading = false
             })
             .addCase(clearDetailProductThunk.fulfilled, state => {
-                state.detailProduct = {
-                    category: '',
-                    id: '',
-                    image: '',
-                    name: '',
-                    price: 0,
-                    quantity: 0,
-                    mark: '',
-                    paid: false,
-                    ProductId: '',
-                    Reviews: [],
-                    stock: 0,
-                    unitPrice: 0,
-                    description: '',
-                    discount: 0
-
-                }
-
-
+                state.detailProduct = { } as ProductType
             })
-
-
     }
 });
 

@@ -12,7 +12,7 @@ const Categories = () => {
             <ul className='w-full border border-slate-300 rounded-md  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4 gap-1 md:gap-0 '>
                 {categories && categories.map((category ) =>  (
                     <li className='mt-4 mb-4 hover:border p-2 hover:border-slate-400 ' key={category.id}>
-                        <NavLink to={`category/${category.name}`}>
+                        <NavLink to={`store/?category=${category.name}`}>
                             <h2 className='text-center font-bold '>{category.name}</h2>
                             <img className='w-[100px] md:w-[150px] mx-auto  h-[200px] object-contain' src={`${category.image}`} alt="img-category" />
 
