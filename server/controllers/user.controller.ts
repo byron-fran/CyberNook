@@ -8,6 +8,7 @@ import bcrypt from 'bcrypt'
 import Order from '../models/Order';
 import Address from '../models/Address';
 import Reviews from '../models/Reviews';
+import Product from '../models/Product';
 
 
 dotenv.config();
@@ -16,6 +17,9 @@ const register = async (req = request, res = response) => {
     const { email, password }: UserInterface = req.body;
 
     try {
+        const isValidEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email);
+        if(!isValidEmail){return res.status(404).json({ message : 'It is not a valid email'})}
+        
         const userFound = await User.findOne<User>({ 
             where: { email } ,
             include: [Order, Address],
@@ -25,7 +29,7 @@ const register = async (req = request, res = response) => {
         if (userFound) {
             return res.status(404).json({ message: 'User already exits' })
         };
-
+        
         const passwordHash = await bcrypt.hash(password, 10);
 
         const user = await User.create<User>({ ...req.body, password: passwordHash });
@@ -66,6 +70,9 @@ const login = async (req = request, res = response) => {
     const { email, password }: UserInterface = req.body
 
     try {
+        const isValidEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email);
+        if(!isValidEmail){return res.status(404).json({ message : 'It is not a valid email'})}
+
 
         const userFound = await User.findOne({ 
                 where: { email },
@@ -137,7 +144,8 @@ const getProfile = async (req = request, res = response) => {
     try {
         const user = await User.findOne({
             where: { id: UserId },
-            include: [Order, {
+            
+            include: [Order, Product , {
                 model : Address,
 
             }],

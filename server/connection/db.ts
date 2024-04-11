@@ -9,9 +9,9 @@ import Address from '../models/Address';
 import Mark from '../models/Mark';
 import Reviews from '../models/Reviews';
 import Question from '../models/Question';
+import UserProduct from '../models/UserProducts';
 
 dotenv.config()
-
 
 if(!process.env.POSTGRES_URL){
     throw new Error('error db')
@@ -45,7 +45,8 @@ export const sequelize = new Sequelize( {
         Category, 
         Mark, 
         Reviews, 
-        Question
+        Question,
+        UserProduct
     ],
   });
 
@@ -125,3 +126,4 @@ User.hasMany(Question, {
 Question.belongsTo(User, {
     foreignKey: 'UserId'
 });
+

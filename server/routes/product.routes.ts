@@ -7,7 +7,6 @@ import { verifyToken } from "../jwt/verifyToken";
 const router = Router();
 
 router.post('/product',  uploads.single('image') , createProduct);
-// router.get('/products',  getProducts);
 router.get('/product/:id',getProductById);
 router.delete('/product/:id', verifyToken, deleteProductById);
 router.put('/product/:id', updateProductById),

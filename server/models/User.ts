@@ -1,15 +1,13 @@
-import {Model, Table, DataType, PrimaryKey, AutoIncrement, Column, HasMany, BelongsToMany, Default} from 'sequelize-typescript';
-import { User  as UserInterface} from '../interfaces/User';
-import Order from './Order';
+import {Model, Table, DataType, PrimaryKey, AutoIncrement, Column, BelongsToMany, } from 'sequelize-typescript';
+import Product from './Product';
+import UserProduct from './UserProducts';
 
 @Table({
     tableName : 'users',
     timestamps : true
 })
-
-
-
 class User extends Model<User>{
+
     @PrimaryKey
     @Column({
         type: DataType.UUID,
@@ -19,7 +17,7 @@ class User extends Model<User>{
     id!: string; 
     
     @Column(DataType.STRING)
-    name!: string
+    name: string = ''
 
     @Column(DataType.STRING)
     password! : string
@@ -33,12 +31,10 @@ class User extends Model<User>{
     @Column(DataType.BOOLEAN)
     isAdmin! : boolean
 
-    // @HasMany(() => Order, 'OrderId' )
-    // orders! : Order[]
-
-    // @BelongsToMany(() => Order, () => UserOrder, )
-    // userOrders! : Order[]
-
+    @BelongsToMany(() => Product, () =>UserProduct)
+    products! : Product []
 
 };
+
+
  export default User

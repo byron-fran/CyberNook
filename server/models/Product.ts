@@ -1,5 +1,8 @@
-import { Table, Column, Model, DataType, AutoIncrement, PrimaryKey, HasMany, BelongsToMany, Unique, Default } from 'sequelize-typescript'
+import { Table, Column, Model, DataType, AutoIncrement, PrimaryKey, HasMany, BelongsToMany, Unique, Default,
 
+ } from 'sequelize-typescript'
+import User from './User';
+import UserProduct from './UserProducts';
 
 
 @Table({
@@ -15,9 +18,9 @@ class Product extends Model<Product> {
       allowNull: false 
   })
   id!: string; 
-  
+   
   @Column(DataType.STRING)
-  name!: string
+  name!: string 
 
   @Column(DataType.INTEGER)
   price!: number
@@ -43,7 +46,8 @@ class Product extends Model<Product> {
   @Column(DataType.TEXT)
   description! : string
 
-
+  @BelongsToMany(() => User, () => UserProduct)
+  users! : User[]
 
 };
 
@@ -51,29 +55,3 @@ export default Product;
 
 
 
-
-//Opcion 2
-
-// class Product extends Model{}
-
-// Product.init({
-//     id : {
-//         type : DataType.INTEGER,
-//         autoIncrement : true,
-//         primaryKey : true,
-//         unique : true
-//     },
-//     name : {
-//         type : DataType.STRING
-//     },
-//     price : {
-//         type : DataType.INTEGER,
-
-//     },
-//     image : {
-//         type : DataType.STRING
-//     },
-
-// }, {sequelize})
-// Product.sync({force : false})
-// export default Product

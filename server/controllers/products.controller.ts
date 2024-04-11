@@ -76,10 +76,13 @@ const getProductsBySearch = async (req = request, res = response) => {
 }
 const getAllProducts = async (req = request, res = response) => {
     try {
-        const allProducts = await Product.findAll();
+        const totalItems = await Product.count()
+        const allProducts = await Product.findAll({
+            order: [['discount', 'DESC']]
+        });
 
         if (allProducts.length) {
-            return res.status(200).json({ allProducts, })
+            return res.status(200).json({ allProducts, totalItems})
         };
 
         return res.status(404).json('no products')
@@ -107,14 +110,14 @@ const getProducts = async (req = request, res = response) => {
         let whereClause: WhereClause = {}; // Define el tipo de whereClause como WhereClause
 
         // Verifica si se proporcionó la categoría en el query
-        if (cleanedCategory) {
+        if (cleanedCategory ) {
             whereClause.category = {
                 [Op.like]: `%${cleanedCategory}%`
             };
         }
 
         // Verifica si se proporcionó la marca en el query
-        if (cleanedMark) {
+        if (cleanedMark ){
             whereClause.mark = {
                 [Op.like]: `%${cleanedMark}%`
             };
@@ -131,15 +134,22 @@ const getProducts = async (req = request, res = response) => {
         // Retorna una lista vacía si no se encontraron productos
         if (!products || products.length === 0) {
             return res.status(200).json({
-                products: []
+                products: [],
+                totalPages : 0,
+
             });
         }
-
+      
+        const currentPage = page ? Number(page) : 1;
+        const totalPages = Math.ceil(totalItems / (products.length === 10 ? 10 : totalItems));
         // Retorna los productos encontrados
         return res.status(200).json({
             products,
             totalItems,
-            currentPage: page ? Number(page) : 1
+            currentPage,
+            totalPages,
+            nextPage: currentPage < totalPages ? currentPage + 1 : 0,
+            previousPage: currentPage > 1 ? currentPage - 1 : 0,
 
         });
 
@@ -208,5 +218,6 @@ export {
     deleteProductById,
     updateProductById,
     getAllProducts,
+    getProductsBySearch
 
 }
