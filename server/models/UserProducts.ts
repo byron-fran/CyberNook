@@ -21,7 +21,8 @@ class UserProduct extends Model {
     defaultValue: DataType.UUIDV4,
     allowNull: false 
   })
-  UserId!: string
+  UserId!: string;
+  
 }
 
 
