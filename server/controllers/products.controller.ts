@@ -6,11 +6,14 @@ import Reviews from '../models/Reviews';
 import Specs from '../models/Specs';
 import { Product as ProductInterface } from '../interfaces/Product';
 
+import User from '../models/User';
+
 interface WhereClause {
     [key: string]: {
         [Op.like]: string;
     } | undefined;
-}
+};
+
 const createProduct = async (req = request, res = response) => {
 
     try {
@@ -38,7 +41,22 @@ const getProductById = async (req = request, res = response) => {
     const { id } = req.params;
     try {
         const productFind = await Product.findByPk(id, {
-            include: [Reviews, Specs]
+            include: [Reviews, Specs,                 {
+                model : User,
+                attributes : { exclude :
+                    [ 
+                        'UserProduct', 
+                        'name',
+                        'password', 
+                        'email', 
+                        'name', 
+                        'phone',
+                        'updatedAt', 
+                        'createdAt',
+                        'isAdmin',
+                ]
+            }
+            }]
         });
         if (!productFind) { return res.status(404).json({ error: `Product ${id} does not exist` }) };
 
@@ -106,11 +124,13 @@ const getProducts = async (req = request, res = response) => {
 
     try {
         const offset = (Number(page) - 1) * 10 || 0;
-        const totalItems = await Product.count();
+        let  totalItems : number = await Product.count();
         let whereClause: WhereClause = {}; // Define el tipo de whereClause como WhereClause
 
         // Verifica si se proporcionó la categoría en el query
         if (cleanedCategory ) {
+            const count = await Product.findAll({where : { category : cleanedCategory}})
+            totalItems = count.length
             whereClause.category = {
                 [Op.like]: `%${cleanedCategory}%`
             };
@@ -118,6 +138,8 @@ const getProducts = async (req = request, res = response) => {
 
         // Verifica si se proporcionó la marca en el query
         if (cleanedMark ){
+            const count = await Product.findAll({where : { mark : cleanedMark}})
+            totalItems = count.length
             whereClause.mark = {
                 [Op.like]: `%${cleanedMark}%`
             };
@@ -128,7 +150,26 @@ const getProducts = async (req = request, res = response) => {
             limit: 10,
             where: whereClause,
             offset: offset,
-            order: [['discount', 'DESC']] // Aplica las cláusulas WHERE construidas dinámicamente
+            order: [['discount', 'DESC']], 
+            include : [ 
+                {
+                    model : User,
+                    attributes : { exclude :
+                        [ 
+                            "UserProduct", 
+                            'name',
+                            'password', 
+                            'email', 
+                            'name', 
+                            'phone',
+                            'updatedAt', 
+                            'createdAt',
+                            'isAdmin',
+                    ]
+                }
+                }
+            ]
+      
         });
 
         // Retorna una lista vacía si no se encontraron productos
@@ -141,7 +182,8 @@ const getProducts = async (req = request, res = response) => {
         }
       
         const currentPage = page ? Number(page) : 1;
-        const totalPages = Math.ceil(totalItems / (products.length === 10 ? 10 : totalItems));
+        const totalPages = Math.ceil(totalItems >  10 ? totalItems / 10 : 1);
+
         // Retorna los productos encontrados
         return res.status(200).json({
             products,
