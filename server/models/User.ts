@@ -17,7 +17,7 @@ class User extends Model<User>{
     id!: string; 
     
     @Column(DataType.STRING)
-    name: string = ''
+    name!: string;
 
     @Column(DataType.STRING)
     password! : string
