@@ -10,7 +10,6 @@ import Address from '../models/Address';
 import Reviews from '../models/Reviews';
 import Product from '../models/Product';
 
-
 dotenv.config();
 
 const register = async (req = request, res = response) => {
@@ -18,21 +17,17 @@ const register = async (req = request, res = response) => {
 
     try {
         const isValidEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email);
-        if(!isValidEmail){return res.status(404).json({ message : 'It is not a valid email'})}
-        
-        const userFound = await User.findOne<User>({ 
-            where: { email } ,
-            include: [Order, Address],
-            attributes : {exclude : ['password']}
-        
-        });
+        if (!isValidEmail) { return res.status(404).json({ message: 'It is not a valid email' }) }
+
+        const userFound = await User.findOne<User>({ where: { email } });
         if (userFound) {
             return res.status(404).json({ message: 'User already exits' })
         };
-        
-        const passwordHash = await bcrypt.hash(password, 10);
 
-        const user = await User.create<User>({ ...req.body, password: passwordHash });
+        const passwordHash = await bcrypt.hash(password, 10);
+   
+
+        const user = await User.create({...req.body, password : passwordHash})
         if (!process.env.SECRET_KEY) {
             return res.status(500).json({ message: 'Error: SECRET_KEY not defined' });
         }
@@ -44,15 +39,15 @@ const register = async (req = request, res = response) => {
             algorithm: 'HS256',
             expiresIn: '1d'
         })
-        
+
         return res.status(200).json({
             token,
-            user : {
-                id : user.id,
-                name : user.name,
-                email : user.email,
-                phone : user.phone,
-                isAdmin : user.isAdmin,
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                isAdmin: user.isAdmin,
 
             }
         });
@@ -71,13 +66,14 @@ const login = async (req = request, res = response) => {
 
     try {
         const isValidEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email);
-        if(!isValidEmail){return res.status(404).json({ message : 'It is not a valid email'})}
+        if (!isValidEmail) { return res.status(404).json({ message: 'It is not a valid email' }) }
 
 
-        const userFound = await User.findOne({ 
-                where: { email },
-        
-            });
+        const userFound = await User.findOne({
+            where: { email },
+
+        });
+        console.log(userFound)
         if (!userFound) {
 
             return res.status(404).json({ message: 'Email not found' });
@@ -93,30 +89,30 @@ const login = async (req = request, res = response) => {
             algorithm: 'HS256'
 
         });
-        const address = await Address.findOne({ where : {UserId : userFound.id}})
+        const address = await Address.findOne({ where: { UserId: userFound.id } })
         return res.status(200).json({
             token,
-            user : {
-                id : userFound.id,
-                name : userFound.name,
-                email : userFound.email,
-                phone : userFound.phone,
-                isAdmin : userFound.isAdmin,
-                Address : address === null ? {
+            user: {
+                id: userFound.id,
+                name: userFound.name,
+                email: userFound.email,
+                phone: userFound.phone,
+                isAdmin: userFound.isAdmin,
+                Address: address === null ? {
                     street: "",
-                    country : "",
-                    city : "",
-                    postalCode :'',
-                    exteriorNumber : '' 
-                }  : address
+                    country: "",
+                    city: "",
+                    postalCode: '',
+                    exteriorNumber: ''
+                } : address
 
             },
-        
+
         });
     }
     catch (error: unknown) {
         if (error instanceof AxiosError) {
-            
+
             return res.status(401).json({ message: error.response?.data })
         }
         console.log(error)
@@ -144,20 +140,20 @@ const getProfile = async (req = request, res = response) => {
     try {
         const user = await User.findOne({
             where: { id: UserId },
-            
-            include: [Order, Product , {
-                model : Address,
+
+            include: [Order, Product, {
+                model: Address,
 
             }],
 
-            attributes : {exclude : ['password']}
+            attributes: { exclude: ['password'] }
 
         })
         if (!user) { return res.status(404).json({ message: 'user not found' }) };
-        const address = await Address.findOne({ where : {UserId : user.id}})
-        
+
+
         return res.status(200).json({
-            token, 
+            token,
             user
         })
     }
@@ -259,8 +255,8 @@ const deleteUserById = async (req = request, res = response) => {
 const verify = async (req = request, res = response) => {
     const { authorization } = req.headers;
     let token = "";
-    
-    
+
+
 
     if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
         token = authorization.substring(7);
