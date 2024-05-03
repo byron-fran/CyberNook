@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 import { request, response } from 'express';
-import { Review } from '../interfaces/Review';
 import Reviews from '../models/Reviews';
 import User from '../models/User';
 import Product from '../models/Product';
@@ -15,9 +14,11 @@ const createReview = async (req = request, res = response) => {
     }
     catch (error: unknown) {
         if (error instanceof AxiosError) {
+            console.log({ message: error.message})
             return res.status(500).json({ message: error.message })
         }
         else {
+            console.log(error)
             return res.status(500).json({ message: 'Error unknown' })
         }
     }
