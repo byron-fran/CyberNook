@@ -8,7 +8,7 @@ export type UserType = {
     phone?: string | number,
     password: string,
     Orders?: Order[],
-    Addresses?: Address[],
+    Address?: Address,
     Reviews?: Review[],
     isAdmin: boolean,
   

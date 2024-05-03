@@ -1,56 +1,19 @@
-import { useAppSelector, useAppDispatch } from "../../redux/hooks/hooks"
+import { useAppSelector } from "../../redux/hooks/hooks"
 import { formaterDinero } from "../../helpers";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import { StripeInterface } from "../../interface/Stripe";
-import { getAddressThunk } from "../../redux/thunks/AddressThunk";
-import { configHeaders } from "../../redux/thunks/config";
-import axios from "axios";
 import { NavLink } from "react-router-dom";
-
+import { cybernookApi as axios } from "../../config/api/cybernookApi";
+import useTotalQuantity from "../../hooks/cart/useTotalQuantity";
 
 const Payment = () => {
 
-  const [priceTotal, setPriceTotal] = useState(0);
-  const [quantityTotal, setQuantityTotal] = useState(0)
-  const { cart } = useAppSelector(state => state.cart);
-  const {user : {Addresses}} = useAppSelector(state => state.auth)
-  const config = configHeaders()
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    // Calcula el precio total cuando Orders cambia
-    let total = 0;
-    let totalQuantity = 0;
-    if (cart) {
-      for (let i = 0; i < cart.length; i++) {
-        if (cart[i].paid !== true) {
-          total += cart[i].price
-          totalQuantity += cart[i].quantity
-        }
-
-      }
-    }
-
-    setPriceTotal(total);
-    setQuantityTotal(totalQuantity)
-  }, [cart]);
-
-
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      dispatch(getAddressThunk(token))
-
-      return
-    }
-
-
-  }, []);
-
+  const { address } = useAppSelector(state => state.address)
+  const {priceTotal,quantityTotal} = useTotalQuantity()
 
   const handlePayment = async () => {
     try {
-      const { data } = await axios<StripeInterface>(`${import.meta.env.VITE_BACKEND_URL}/cart/payment-checkout`, config);
+      const { data } = await axios.get<StripeInterface>(`/cart/payment-checkout`);
 
       window.location.href = data.url!;
     }
@@ -73,8 +36,8 @@ const Payment = () => {
 
       <div className="border-t border-t-slate-300 mt-4">
         <p className="mt-4">Shipping Address</p>
-        {Addresses?.length! > 0 ? Addresses?.map(address => (
-          <Fragment key={address.id}>
+        {address ?
+          <Fragment >
             <p className="font-bold text-[0.8rem]">Exterior number: <span className="text-blue-800">{address?.exteriorNumber}</span></p>
             <p className="font-bold text-[0.8rem]">Street: <span className="text-blue-800">{address?.street}</span></p>
             <p className="font-bold text-[0.8rem]">Postal Code: <span className="text-blue-800">{address?.postalCode}</span></p>
@@ -82,15 +45,15 @@ const Payment = () => {
             <p className="font-bold text-[0.8rem]">Country: <span className="text-blue-800">{address?.country}
             </span></p>
           </Fragment>
-        )) : <div className="mt-4">
-          <NavLink className='bg-red-500 hover:bg-red-600 text-white w-full p-2 rounded-sm ' to='/profile'>Add your address</NavLink>
-        </div>}
+          : <div className="mt-4">
+            <NavLink className='bg-red-500 hover:bg-red-600 text-white w-full p-2 rounded-sm ' to='/profile'>Add your address</NavLink>
+          </div>}
 
       </div>
       <h2 className="text-2xl mt-4">Total: <span className="text-blue-800">{formaterDinero(priceTotal)}</span></h2>
-      <button className={`bg-lime-500 hover:bg-lime-600 text-white w-full p-2 rounded-sm uppercase mt-4 ${Addresses?.length! > 0 ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+      <button className={`bg-lime-500 hover:bg-lime-600 text-white w-full p-2 rounded-sm uppercase mt-4 ${Object.values(address).length > 0 ? 'cursor-pointer' : 'cursor-not-allowed'}`}
         onClick={handlePayment}
-        disabled={Addresses?.length! > 0 ? false : true}
+        disabled={Object.values(address).length > 0 ? false : true}
       >Pay now
       </button>
     </div>

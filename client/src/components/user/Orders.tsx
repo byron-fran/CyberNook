@@ -6,19 +6,20 @@ import { useAppDispatch } from '../../redux/hooks/hooks';
 import { getAllOrdersThunk } from '../../redux/thunks/CartThunks';
 
 const Orders = () => {
-  const {  isLoading } = useAppSelector(state => state.auth);
-  const {cart} = useAppSelector(state => state.cart);
+  const { isLoading } = useAppSelector(state => state.auth);
+  const { cart } = useAppSelector(state => state.cart);
   const dispatch = useAppDispatch();
 
   const filterOrderPayed = cart?.filter(order => order.paid === true);
+
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    dispatch(getAllOrdersThunk(token!))
+
+    dispatch(getAllOrdersThunk());
+
   }, [])
 
   return (
     <>
-
       {isLoading ? <Spinner /> : (
         <div className='flex flex-col h-full md:h-[43rem] md:overflow-y-scroll justify-start w-full'>
           {filterOrderPayed?.length === 0 ? (<p className='text-center font-bold'>You still have no orders</p>)

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { UserType } from "../../types/auth/User";
-import { registerUser,   logOutUser, loginUser,updateProfile, deleteProfile, getProfile } from "../../pages/auth/api/auth";
+import { registerUser,   logOutUser, loginUser,updateProfile, deleteProfile, getProfile } from "../../config/adapters/auth/auth";
 
 export const registerUserThunk = createAsyncThunk('auth/register', async (user: UserType, { rejectWithValue }) => {
     try {
@@ -21,7 +21,7 @@ export const registerUserThunk = createAsyncThunk('auth/register', async (user: 
 export const loginUserThunk = createAsyncThunk('auth/login', async (user : UserType, {rejectWithValue}) => {
     try{
         const {data} = await loginUser(user)
-        console.log(data)
+        
         return data
     }
     catch (error) {
@@ -43,7 +43,7 @@ export const logOutUserThunk = createAsyncThunk('auth/logout',async (_, {rejectW
         }
     }
 })
-export const getUserProfileThunk = createAsyncThunk('auth/profile', async (token : string, { rejectWithValue }) => {
+export const getUserProfileThunk = createAsyncThunk('auth/profile', async (_, { rejectWithValue }) => {
     try {
         const { data } = await getProfile();
        

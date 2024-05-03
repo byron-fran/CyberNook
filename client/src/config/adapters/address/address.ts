@@ -1,4 +1,4 @@
-import axios from './axios';
+import { cybernookApi as axios } from '../../api/cybernookApi';
 import { Address } from '../../../interface/Address';
 
 export const createAddress = (address : Address) => axios.post('address', address);

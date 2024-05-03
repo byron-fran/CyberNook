@@ -10,6 +10,7 @@ import {
     updateProductByIdThunk,
 
 } from "../thunks/ProductsThunk";
+import { ProductsResponse } from "../../types/products/ProductsResponse";
 
 
 const initialState: ProductsState = {
@@ -17,8 +18,12 @@ const initialState: ProductsState = {
     isLoading: false,
     allProducts: [],
     detailProduct: {} as ProductType,
+    
     currentPage : 1,
-    totalItems : 0
+    totalItems : 0,
+    nextPage : 0,
+    previousPage : 0,
+    totalPages : 0 
 }
 
 const ProductsSlice = createSlice({
@@ -42,11 +47,15 @@ const ProductsSlice = createSlice({
             .addCase(getProductsThunk.pending, state => {
                 state.isLoading = true
             })
-            .addCase(getProductsThunk.fulfilled, (state, action) => {
+            .addCase(getProductsThunk.fulfilled, (state, action :PayloadAction<ProductsResponse | any >)  => {
 
                 state.isLoading = false
                 state.products = action.payload?.products || []
                 state.totalItems = action.payload?.totalItems!
+                state.currentPage = action.payload.currentPage
+                state.nextPage = action.payload.nextPage
+                state.previousPage = action.payload.previousPage
+                state.totalPages = action.payload.totalPages
             })
             .addCase(getProductsThunk.rejected, state => {
                 state.isLoading = false

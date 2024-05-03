@@ -1,7 +1,6 @@
 
 const Advantages = () => {
 
-    
   return (
     <div className='w-full md:w-[90%] mx-auto mt-10'>
         <h2 className='text-center font-bold text-2xl'>Why choose us</h2>

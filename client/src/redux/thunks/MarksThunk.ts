@@ -1,13 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { cybernookApi as axios } from "../../config/api/cybernookApi";
+import { isAxiosError } from "axios";
 
 export const getAllMarks = createAsyncThunk('marks/get', async(_, {rejectWithValue}) => {
     try{
-        const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/mark`);
+        const {data} = await axios.get(`/mark`);
         return data
     }
     catch (error) {
-        if (axios.isAxiosError(error)) {
+        if (isAxiosError(error)) {
             
             return rejectWithValue(error.response?.data.message );
         }
@@ -17,11 +18,11 @@ export const getAllMarks = createAsyncThunk('marks/get', async(_, {rejectWithVal
 export const getProductByMark = createAsyncThunk('marks/product', async (mark : string, {rejectWithValue}) => {
    
     try{
-        const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/store/products/${mark}`);
+        const {data} = await axios.get(`/store/products/${mark}`);
         return data
     }
     catch (error) {
-        if (axios.isAxiosError(error)) {
+        if (isAxiosError(error)) {
             
             return rejectWithValue(error.response?.data.message );
         }

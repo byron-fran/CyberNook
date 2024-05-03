@@ -1,4 +1,4 @@
-import axios from './axios';
+import { cybernookApi as axios } from '../../api/cybernookApi';
 import { UserType } from '../../../types/auth/User';
 export type AuthResponse = {
     user : UserType,

@@ -8,8 +8,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../../spinner/Spinner';
 import { AxiosError } from 'axios';
 
-
 const FormProduct = () => {
+
     const { listCategory: categories } = useAppSelector(state => state.category);
     const { marks } = useAppSelector(state => state.marks)
     const { products } = useAppSelector(state => state.products)
@@ -46,7 +46,7 @@ const FormProduct = () => {
     const onSubmit = handleSubmit(async (data) => {
 
         setIsLoading(true)
-        const productFind = products.find(product => product.id ===id);
+        const productFind = products.find(product => product.id === id);
 
 
         const urlProductImage = await uploadImageClodinary(imgProduct!);
@@ -116,7 +116,7 @@ const FormProduct = () => {
                 {/* field name */}
                 <div className='w-full'>
                     <label className='block w-full my-2' htmlFor="name" >Name of Product</label>
-                   {errors.name?.type === 'required' && <p className='text-red-500'>Name required</p>}
+                    {errors.name?.type === 'required' && <p className='text-red-500'>Name required</p>}
                     <input className='border border-slate-400 rounded-sm w-full p-1 focus:outline-blue-800' type="text" id='name'
                         placeholder='Name product'
                         {...register('name', { required: true })}

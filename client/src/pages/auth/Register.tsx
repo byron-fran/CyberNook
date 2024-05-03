@@ -11,19 +11,20 @@ import { useEffect } from 'react';
 import Spinner from '../../spinner/Spinner';
 
 const Register = () => {
+    
     const { isAuthenticated, isLoading } = useAppSelector(state => state.auth)
     const { register, formState: { errors }, handleSubmit, control, reset } = useForm<UserType>();
+    const Navigate = useNavigate();
+    const dispatch = useAppDispatch();
     
     useEffect(() => {
-        if (isAuthenticated) {
-            Navigate('/')
-            return
-        }
+
+        if (isAuthenticated) { Navigate('/');return }
+
     }, [])
 
-    const Navigate = useNavigate()
-    const dispatch = useAppDispatch()
     const onSubmit = handleSubmit((data) => {
+
         dispatch(registerUserThunk(data));
         // redirect
         Navigate('/')

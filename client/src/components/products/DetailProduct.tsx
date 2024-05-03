@@ -1,42 +1,26 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect} from "react"
 import {  useParams } from "react-router-dom";
 import { formaterDinero } from "../../helpers";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
-import { createOrderThunk, updateOrderThunk } from "../../redux/thunks/CartThunks";
-import { getDetailProduct, clearDetailProductThunk } from "../../redux/thunks/ProductsThunk";
-import { Order } from "../../types/cart/Order";
+import {  clearDetailProductThunk, getDetailProductThunk } from "../../redux/thunks/ProductsThunk";
 import Reviews from "../reviews/Reviews";
 import Spinner from "../../spinner/Spinner";
+import useCreateOrder from "../../hooks/orders/useCreateOrder";
 
 const DetailProduct: React.FC = (): JSX.Element => {
 
     const Navigate = useNavigate();
-    const [quantity, setQuantity] = useState(1);
     const dispatch = useAppDispatch();
     const { id } = useParams();
     const { detailProduct: product, isLoading } = useAppSelector(state => state.products);
-    const { cart } = useAppSelector(state => state.cart);
     const { isAuthenticated } = useAppSelector(state => state.auth)
-
-    const purchase: Order = {
-        image: '',
-        name: '',
-        paid: false,
-        quantity: 0,
-        price: 0,
-        unitPrice: 0,
-        category: '',
-        mark: '',
-        ProductId: '',
-        discount: 0,
-
-    }
+    const { handleAddPurchase, quantity, setQuantity } = useCreateOrder(product)
 
     useEffect(() => {
         // Cargar el detalle del producto si hay un ID válido
         if (id) {
-            dispatch(getDetailProduct(id));
+            dispatch(getDetailProductThunk(id));
 
         }
         return () => {
@@ -48,59 +32,13 @@ const DetailProduct: React.FC = (): JSX.Element => {
     const handleAddQuantityProduct = () => {
         setQuantity(value => value + 1);
     };
-    //
+
     const handleLessQuantityProduct = () => {
+
         setQuantity(value => value - 1);
-        if (quantity <= 1) {
-            setQuantity(1);
-            return
-        }
-    };
+        if (quantity <= 1) { setQuantity(1); return }
+    };   
 
-
-    const handleAddPurchase = async (): Promise<void> => {
-
-        //calcular el total de la orden
-        const unitPrice = product.price;
-
-        const priceTotal = product.discount > 0 ? (product.price - (product.price * (product.discount / 100))) * quantity : product.price * quantity   //product.price * quantity;
-
-        // Crear objeto de orden
-        purchase.unitPrice = unitPrice
-        purchase.price = priceTotal
-        purchase.quantity = quantity
-        purchase.image = product.image
-        purchase.category = product.category
-        purchase.mark = product.mark
-        purchase.name = product.name;
-        purchase.paid = false;
-        purchase.ProductId = product.id
-        purchase.discount = product.discount;
-
-
-        const productExist = cart?.find(order => order.ProductId === product.id);
-
-        if (productExist) {
-            // Actualizar producto en el carrito
-            if (productExist.paid) {
-
-                dispatch(createOrderThunk({ ...purchase, paid: false, quantity, price: priceTotal }))
-                    .then(() => { Navigate('/cart') })
-                    .catch((error: unknown) => { console.error(error) });
-                return
-            }
-            dispatch(updateOrderThunk({ id: productExist.id!, order: { ...purchase, quantity, price: priceTotal, paid: false, unitPrice } }))
-                .then(() => { Navigate('/cart') })
-                .catch((error: unknown) => { console.error(error) });
-        } else {
-            //Crear una nueva orden
-            dispatch(createOrderThunk({ ...purchase, paid: false, quantity, price: priceTotal }))
-                .then(() => { Navigate('/cart') })
-                .catch((error: unknown) => { console.error(error) });
-        }
-    }
-
-   
     return (
         <>
             {isLoading ? (

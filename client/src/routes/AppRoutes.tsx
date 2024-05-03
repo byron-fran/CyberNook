@@ -22,10 +22,8 @@ import Register from "../pages/auth/Register"
 import Login from "../pages/auth/Login"
 import UserPage from "../pages/profile/UserPage";
 
-interface Props { 
-    loading : boolean
-}
-export const AppRoutes = ({loading} : Props) => {
+
+export const AppRoutes = () => {
    
     return (
         <Routes>
@@ -38,16 +36,16 @@ export const AppRoutes = ({loading} : Props) => {
                 <Route path='/oferts' element={<ProductsOferts />} />
                 <Route path='/success-payment' element={<SuccessPayment />} />
                 <Route path='/cancel-payment' element={<CancelPayment />} />
-                <Route element={<UserRouters loading={loading} />}>
+                <Route element={<UserRouters/>}>
                     <Route path='/cart' element={<Cart />} />
                 </Route>
             </Route>
 
             {/* Routes Admin */}
-            <Route element={<AdminRoutes loading={loading} />}>
+            <Route element={<AdminRoutes  />}>
                 <Route path='/admin' element={<AdminPage />} >
                     <Route index element={<FormPage />} />
-                    <Route path='/admin/e*' element={< FormPage />} />
+                    <Route path='/admin/*' element={< FormPage />} />
                     <Route path='/admin/create-product' element={<FormProduct />} />
                     <Route path='/admin/create-specs/:ProductId' element={<FormSpecs />} />
                     <Route path='/admin/update-specs/:ProductId/:id' element={<FormSpecs />} />
@@ -66,7 +64,7 @@ export const AppRoutes = ({loading} : Props) => {
             <Route path='/register' element={<Register />} />
             <Route path='/login' element={<Login />} />
             {/* Routes User Profile */}
-            <Route element={<UserRouters loading={loading} />}>
+            <Route element={<UserRouters  />}>
                 <Route path='/profile' element={<UserPage />} />
 
             </Route>

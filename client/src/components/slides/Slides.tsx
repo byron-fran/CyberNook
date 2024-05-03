@@ -3,12 +3,10 @@ import { Swiper, SwiperSlide, } from 'swiper/react';
 import { NavLink } from 'react-router-dom';
 import { useAppSelector } from '../../redux/hooks/hooks';
 import { formaterDinero } from '../../helpers';
-
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { useEffect, useState , } from 'react';
+import { useEffect, useState, } from 'react';
 
 const Slides = () => {
     const { products } = useAppSelector(state => state.products);
@@ -18,8 +16,6 @@ const Slides = () => {
     const sortedProducts = [...products].sort((a, b) => b.createdAt!.localeCompare(a.createdAt!));
     // limit search results to 5
     const firstFiveProducts = sortedProducts.slice(0, 10);
-   
-
 
     useEffect(() => {
         const handleResize = () => {
@@ -33,19 +29,19 @@ const Slides = () => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
- 
+
     return (
         <div className='w-full mt-10 bg-[url(/images/bg-destcado.jpg)] bg-black bg-opacity-60 bg-cover bg-left-top bg-no-repeat bg-blend-multiply '>
             <div className='grid md:grid-cols-4 p-8 gap-4'>
                 <div className='md:col-span-1 text-white flex flex-col justify-center'>
                     <h2 className='text-3xl font-bold text-center md:text-left'>New releases</h2>
                     <p className='text-center md:text-left'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem mollitia sequi corrupti quae atque sed? Hic, dignissimos! Sint ipsam voluptas blanditiis</p>
-                    
+
 
                 </div>
                 <div className='md:col-span-3'>
                     <Swiper
-                       
+
                         modules={[Virtual, Navigation, Pagination]}
                         slidesPerView={widthMobile ? 2 : 5}
                         spaceBetween={30}
@@ -54,7 +50,7 @@ const Slides = () => {
                         }}
                         navigation={true}
                         virtual
-                        
+
                         className='md:h-[300px] w-[270px] sm:w-[400px] md:w-full'
                     >
                         {firstFiveProducts.map(product => {

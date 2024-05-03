@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { UserType } from "../../types/auth/User";
 import { Auth } from "../../interface/Auth";
-import { AuthResponse } from "../../pages/auth/api/auth";
+import { AuthResponse } from "../../config/adapters/auth/auth";
 
 import { 
     registerUserThunk, 

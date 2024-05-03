@@ -3,10 +3,12 @@ import { useForm, } from 'react-hook-form';
 import { Specs } from '../../interface/Specs';
 import SweetAlert from '../../libs/SweetAlert';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import Spinner from '../../spinner/Spinner';
+import { cybernookApi as axios } from '../../config/api/cybernookApi';
 
 const FormSpecs = () => {
+    
     const [showAlert, setShowAlert] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const { handleSubmit, register, formState: { errors }, setValue } = useForm<Specs>();
@@ -27,9 +29,7 @@ const FormSpecs = () => {
                 try {
 
                     setIsLoading(true)
-                    const { data } = await axios.get<Specs>(`${import.meta.env.VITE_BACKEND_URL}/specs/${id}`, {
-                        withCredentials: true
-                    });
+                    const { data } = await axios.get<Specs>(`/specs/${id}`);
                     setIsLoading(false)
                     setValue('color', data?.color);
                     setValue('memory', data?.memory);
@@ -49,14 +49,14 @@ const FormSpecs = () => {
         }
         getSpecById()
     }, [id]);
-    console.log(ProductId)
+    
     const onSubmit = handleSubmit(async specs => {
         specs.ProductId = ProductId;
 
         if (id) {
             try {
                 setIsLoading(true)
-                await axios.put(`${import.meta.env.VITE_BACKEND_URL}/specs/${id}`, { ...specs,  ProductId: ProductId }, { withCredentials: true });
+                await axios.put(`/specs/${id}`, { ...specs,  ProductId: ProductId });
                 setShowAlert(true)
                 setIsLoading(false)
                 setTimeout(() => {
@@ -72,7 +72,7 @@ const FormSpecs = () => {
         }
         try {
             setIsLoading(true)
-            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/specs`, { ...specs, ProductId:  ProductId }, { withCredentials: true });
+            await axios.post(`/specs`, { ...specs, ProductId:  ProductId });
             setShowAlert(true)
             setIsLoading(false)
             setTimeout(() => {

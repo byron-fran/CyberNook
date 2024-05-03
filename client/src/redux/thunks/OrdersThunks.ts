@@ -1,20 +1,22 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { configHeaders } from "./config";
+import { cybernookApi as axios } from "../../config/api/cybernookApi";
+import { isAxiosError } from "axios";
 
-const config = configHeaders()
 
-export const getAllOrdersByAdmin = createAsyncThunk('get/orders', async (_, {rejectWithValue}) => {
+
+export const getAllOrdersByAdmin = createAsyncThunk('get/orders', async (_, { rejectWithValue }) => {
+
     try {
 
-        const {data} = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/all_orders`, config)
-        
-       return data
-   } catch (error : unknown) {
-       if (axios.isAxiosError(error)) {
+        const { data } = await axios.get(`/all_orders`)
+        return data
 
-           return rejectWithValue(error.response?.data.message);
-       }
-   }
+    } catch (error: unknown) {
+
+        if (isAxiosError(error)) {
+
+            return rejectWithValue(error.response?.data.message);
+        }
+    }
 });
 

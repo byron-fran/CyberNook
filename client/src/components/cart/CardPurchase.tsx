@@ -12,10 +12,10 @@ type OrderProps = {
 
 const CardPurchase: FC<OrderProps> = ({ purchase, filterOrdersByDelete }) => {
 
-
   const handleDeleteById = (id: string) => {
     filterOrdersByDelete(id)
-  }
+  };
+  
   return (
 
     <div className="flex border border-slate-300 w-full items-start md:items-center p-4 gap-4 flex-col sm:flex-row sm:justify-between">

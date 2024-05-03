@@ -1,9 +1,12 @@
 import { ProductType } from "../../interface/Product"
 
 export type ProductsResponse = {
-    products : ProductType[],
-    totalItems : number,
-    currentPage : number,
-    allProducts : ProductType[],
-    product : ProductType
+    products: ProductType[]
+    allProducts: ProductType[],
+    totalItems: number
+    currentPage: number
+    totalPages: number
+    nextPage: number
+    previousPage: number
+
 }

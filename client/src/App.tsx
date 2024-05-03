@@ -7,34 +7,32 @@ import { getListCategories } from './redux/thunks/CategoryThunks';
 import { getAllMarks } from './redux/thunks/MarksThunk';
 import { getAllReviewsThunk } from './redux/thunks/ReviewsThunk';
 import { getAllProductsThunk } from './redux/thunks/ProductsThunk';
+import { getAddressThunk } from './redux/thunks/AddressThunk';
 import { AppRoutes } from './routes/AppRoutes';
 
 function App(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const token = localStorage.getItem('token')
-  const [loading, setLoading] = useState<boolean>(true);
   const { isAuthenticated } = useAppSelector(state => state.auth)
 
-  //get user profile
   useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      dispatch(getProductsThunk(1))
-      dispatch(getListCategories());
-      dispatch(getAllMarks())
-      dispatch(getAllProductsThunk())
-      setLoading(false);
-      dispatch(getAllReviewsThunk())
-    }
-    fetchData()
+
+    dispatch(getProductsThunk({ offset: 1 }))
+    dispatch(getListCategories());
+    dispatch(getAllMarks())
+    dispatch(getAllProductsThunk())
+    dispatch(getAllReviewsThunk())
 
   }, [dispatch]);
 
+  
   useEffect(() => {
 
     if (token) {
-      dispatch(getUserProfileThunk(token));
-      dispatch(getAllOrdersThunk(token))
+      dispatch(getUserProfileThunk());
+      dispatch(getAllOrdersThunk())
+      dispatch(getAddressThunk())
       return
     }
   }, [dispatch, isAuthenticated])
@@ -42,7 +40,7 @@ function App(): JSX.Element {
 
   return (
     <>
-      <AppRoutes loading={loading} />
+      <AppRoutes  />
     </>
   )
 }

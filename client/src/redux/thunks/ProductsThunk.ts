@@ -1,31 +1,49 @@
-import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ProductType,  } from "../../interface/Product";
+import { ProductType, } from "../../interface/Product";
 import { ProductsResponse } from "../../types/products/ProductsResponse";
+import { cybernookApi as axios } from "../../config/api/cybernookApi";
+import { isAxiosError } from "axios";
 
 //get products limit 10 items
-export const getProductsThunk = createAsyncThunk('get/product', async (offset : number = 1, { rejectWithValue }) => {
-    try {
+export const getProductsThunk = createAsyncThunk<object, { offset: number, category?: string, mark? : string }, { rejectValue :string}>('get/product',
 
-        const { data } = await axios<ProductsResponse>(`${import.meta.env.VITE_BACKEND_URL}/store/products/?page=${offset}`,);
-        return data;
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
+    async ({ category ,mark, offset = 1 }, { rejectWithValue }) => {
 
-            return rejectWithValue(error.response?.data.message);
+        let url = `store/products/?page=${offset}`;
+        
+        if(category || mark){
+
+            if(category){
+                url += `&category=${category}`
+            }
+            if(mark){
+                url += (category !== undefined ? '&' : '') + `mark=${mark}`;
+            }
+        };
+       
+        try {
+
+            const { data } = await axios<ProductsResponse>(`/${url}`,);
+            return data;
+
+        } catch (error) {
+            if (isAxiosError(error)) {
+
+                return rejectWithValue(error.response?.data.message);
+            }
         }
-    }
-});
+    });
 
 //get all products
-export const getAllProductsThunk = createAsyncThunk('all/products', async(_, {rejectWithValue}) => {
+export const getAllProductsThunk = createAsyncThunk('all/products', async (_, { rejectWithValue }) => {
+
     try {
 
-        const { data } = await axios<ProductsResponse>(`${import.meta.env.VITE_BACKEND_URL}/store/all_products`);
-      
+        const { data } = await axios<ProductsResponse>(`/store/all_products`);
+
         return data;
     } catch (error) {
-        if (axios.isAxiosError(error)) {
+        if (isAxiosError(error)) {
 
             return rejectWithValue(error.response?.data.message);
         }
@@ -33,21 +51,6 @@ export const getAllProductsThunk = createAsyncThunk('all/products', async(_, {re
 });
 
 
-
-// get detail product
-export const getDetailProduct = createAsyncThunk('detail/product', async (id: string, { rejectWithValue }) => {
-    try {
-
-        const { data } = await axios(`${import.meta.env.VITE_BACKEND_URL}/store/product/${id}`);
-
-        return data
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-
-            return rejectWithValue(error.response?.data.message);
-        }
-    }
-});
 
 //clear state of product
 export const clearDetailProductThunk = createAsyncThunk('clear/product', (_, { rejectWithValue }) => {
@@ -55,7 +58,7 @@ export const clearDetailProductThunk = createAsyncThunk('clear/product', (_, { r
 
         return
     } catch (error) {
-        if (axios.isAxiosError(error)) {
+        if (isAxiosError(error)) {
 
             return rejectWithValue(error.response?.data.message);
         }
@@ -63,18 +66,19 @@ export const clearDetailProductThunk = createAsyncThunk('clear/product', (_, { r
 })
 
 
-//Crud Procducts
+//Crud Products
+
 //create product
 export const createProduct = createAsyncThunk('create/product', async (product: ProductType, { rejectWithValue }) => {
     try {
 
-        const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/store/product`, product, {
+        const { data } = await axios.post(`/store/product`, product, {
             withCredentials: true
         });
 
         return data
     } catch (error) {
-        if (axios.isAxiosError(error)) {
+        if (isAxiosError(error)) {
 
             return rejectWithValue(error.response?.data.message);
         }
@@ -83,13 +87,15 @@ export const createProduct = createAsyncThunk('create/product', async (product: 
 
 
 //detail product
-export const getDetailProductThunk = createAsyncThunk('detail/product', async (id:  string, { rejectWithValue }) => {
+export const getDetailProductThunk = createAsyncThunk('detail/product', async (id: string, { rejectWithValue }) => {
+
     try {
 
-        const { data } = await axios(`${import.meta.env.VITE_BACKEND_URL}/store/product/${id}`)
+        const { data } = await axios(`/store/product/${id}`)
         return data
+
     } catch (error) {
-        if (axios.isAxiosError(error)) {
+        if (isAxiosError(error)) {
 
             return rejectWithValue(error.response?.data.message);
         }
@@ -100,13 +106,11 @@ export const getDetailProductThunk = createAsyncThunk('detail/product', async (i
 export const deleteProductByIdThunk = createAsyncThunk('delete/product', async (id: string, { rejectWithValue }) => {
     try {
 
-         await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/store/product/${id}`, {
-            withCredentials : true
-        })
+        await axios.delete(`/store/product/${id}`)
 
         return id
     } catch (error) {
-        if (axios.isAxiosError(error)) {
+        if (isAxiosError(error)) {
 
             return rejectWithValue(error.response?.data.message);
         }
@@ -116,22 +120,22 @@ export const deleteProductByIdThunk = createAsyncThunk('delete/product', async (
 
 //update product
 export const updateProductByIdThunk =
-     createAsyncThunk<ProductType, {id : string, product : ProductType}, {rejectValue : string}>('update/product', 
-     async ({id, product}, {rejectWithValue}) => {
-        try {
+    createAsyncThunk<ProductType, { id: string, product: ProductType }, { rejectValue: string }>('update/product',
 
-            const {data} = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/store/product/${id}`, product, {
-                withCredentials : true
-            })
-            
-           return data
-       } catch (error : unknown) {
-           if (axios.isAxiosError(error)) {
-   
-               return rejectWithValue(error.response?.data.message);
-           }
-       }
-})
+        async ({ id, product }, { rejectWithValue }) => {
+
+            try {
+
+                const { data } = await axios.put(`/store/product/${id}`, product)
+
+                return data
+            } catch (error: unknown) {
+                if (isAxiosError(error)) {
+
+                    return rejectWithValue(error.response?.data.message);
+                }
+            }
+        })
 
 
 

@@ -1,81 +1,32 @@
-import { useEffect, useState } from 'react'
-import { useAppSelector, useAppDispatch } from '../../redux/hooks/hooks'
+import { useAppSelector } from '../../redux/hooks/hooks'
 import { useForm } from 'react-hook-form';
 import { Address } from '../../interface/Address';
-import { updateAddressThunk, createAddressThunk, deleteAddressThunk, getAddressThunk } from '../../redux/thunks/AddressThunk';
 import SweetAlert from '../../libs/SweetAlert';
+import useHandleAddress from '../../hooks/address/useHandleAddress';
 
 const UserAddress = () => {
 
-    const [disabledStreet, setDisableStreet] = useState<boolean>(true);
-    const [disableCodePostal, setDisableCodePostal] = useState<boolean>(true);
-    const [disableCountry, setDisableCountry] = useState<boolean>(true);
-    const [disabledCity, setDisableCity] = useState<boolean>(true);
-    const [disableInteriorNumber, setDisableInteriorNumber] = useState<boolean>(true);
-
-    // 
-    const [showAlert, setShowAlert] = useState<boolean>(false)
     const { handleSubmit, setValue, register, } = useForm<Address>();
 
-    const { user: { Addresses } } = useAppSelector(state => state.auth);
+    const {
+        onSubmit,
+        handleDeleteAddress,
+        showAlert,
+        disabledStreet,
+        disableCodePostal,
+        disableCountry,
+        disabledCity,
+        disableInteriorNumber,
+        setDisableStreet,
+        setDisableCodePostal,
+        setDisableCountry,
+        setDisableCity,
+        setDisableInteriorNumber,
+        existAddress } = useHandleAddress(setValue, handleSubmit);
+
     const { address } = useAppSelector(state => state.address);
-    const dispatch = useAppDispatch()
 
-    useEffect(() => {
-        const token = localStorage.getItem('token')
-        if (Addresses?.length) {
-            setValue('city', Addresses[0].city);
-            setValue('country', Addresses[0].country);
-            setValue('exteriorNumber', Addresses[0].exteriorNumber);
-            setValue('postalCode', Addresses[0].postalCode);
-            setValue('street', Addresses[0].street);
-            dispatch(getAddressThunk(token!))
-        }
 
-    }, [Addresses]);
-
-    const onSubmit = handleSubmit(data => {
-        if (Addresses?.length) {
-            dispatch(updateAddressThunk({ id: address?.id, address: data }))
-                .then(() => {
-                    setShowAlert(true);
-                    setDisableStreet(true)
-                    setDisableCodePostal(true)
-                    setDisableCountry(true)
-                    setDisableCity(true)
-                    setDisableInteriorNumber(true)
-                    setTimeout(() => {
-                        setShowAlert(false);
-                    }, 3000)
-                })
-                .catch((error) => {
-                    console.log(error);
-                    setShowAlert(false)
-                })
-        }
-        else {
-            dispatch(createAddressThunk({ address: data }))
-                .then(() => {
-                    setShowAlert(true);
-                    setDisableStreet(true)
-                    setDisableCodePostal(true)
-                    setDisableCountry(true)
-                    setDisableCity(true)
-                    setDisableInteriorNumber(true)
-                    setTimeout(() => {
-                        setShowAlert(false);
-                    }, 3000)
-                })
-        }
-    });
-
-    const handleDeleteAddress = (id: string) => {
-        if (confirm(' Are you sure you want to delete this address ?')) {
-            dispatch(deleteAddressThunk(id))
-            return
-        }
-
-    }
     return (
         <div className='border border-slate-300 w-full mb-10'>
             {showAlert && <SweetAlert
@@ -179,7 +130,7 @@ const UserAddress = () => {
                 <div className='flex justify-between mt-10'>
                     <button className='bg-red-500 text-white p-2 uppercase font-bold' type='button'
                         onClick={() => handleDeleteAddress(address?.id)}>Delete Address</button>
-                    <button className='bg-blue-800 text-white p-2 uppercase font-bold' type='submit'>{Addresses?.length ? 'Update Address' : 'Add Address'}</button>
+                    <button className='bg-blue-800 text-white p-2 uppercase font-bold' type='submit'>{existAddress ? 'Update Address' : 'Add Address'}</button>
                 </div>
 
             </form>

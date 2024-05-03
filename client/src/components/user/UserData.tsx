@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppSelector, useAppDispatch } from '../../redux/hooks/hooks'
 import { useForm } from 'react-hook-form';
 import { updateProfileThunk } from '../../redux/thunks/AuthThunk';
@@ -8,15 +8,16 @@ import { deleteProfileThunk } from '../../redux/thunks/AuthThunk';
 import { useNavigate } from 'react-router-dom';
 
 const UserData = () => {
+
     const { user } = useAppSelector(state => state.auth);
     const { handleSubmit, setValue, register, } = useForm<UserType>();
     const [disableName, setDisableName] = useState<boolean>(true);
     const [disabledPhone, setDisablePhone] = useState<boolean>(true);
     const [disableEmail, setDisableEmail] = useState<boolean>(true);
-    const [showAlert, setShowAlert] = useState(false)
-    const Navigate = useNavigate()
-    const dispatch = useAppDispatch()
-    
+    const [showAlert, setShowAlert ] = useState(false)
+    const Navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
     useEffect(() => {
         if (user) {
             setValue('name', user.name);
@@ -26,8 +27,6 @@ const UserData = () => {
         }
     }, [user]);
 
-
-    if (!user) { return null }
     const onSubmit = handleSubmit(data => {
         const phoneNumber = Number(data.phone)
 
@@ -47,16 +46,18 @@ const UserData = () => {
             })
     })
 
+    
     const handleDeleteUserAccount = () => {
         if (confirm(' Are you sure you want to delete your account ?')) {
             dispatch(deleteProfileThunk())
-                .then(() => {
-                    Navigate('/login')
-                })
-            return    
+            .then(() => {
+                Navigate('/login')
+            })
+            return
         }
-
+        
     }
+    if (!user)  return null
     return (
         <div className='border border-slate-300 w-full '>
             <h2 className='bg-blue-800 text-white p-2 font-bold'>Your personal information</h2>

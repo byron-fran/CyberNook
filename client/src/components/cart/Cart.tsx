@@ -7,7 +7,6 @@ import { deleteOrderByIdThunk } from "../../redux/thunks/CartThunks";
 import { getAllOrdersThunk } from "../../redux/thunks/CartThunks";
 import Lottie from "lottie-react";
 import AnimationCart from '../../libs/CartAnimation.json'
-
 import Payment from "./Payment";
 import { NavLink } from "react-router-dom";
 
@@ -17,12 +16,10 @@ const Cart: React.FC = () => {
   const { cart, isLoading } = useAppSelector(state => state.cart);
   const [refreshData, setRefresData] = useState(false);
 
-
   useEffect(() => {
 
     const getOrders = async () => {
-      const token = localStorage.getItem('token');
-      await dispatch(getAllOrdersThunk(token!))
+      await dispatch(getAllOrdersThunk())
     }
     getOrders()
 

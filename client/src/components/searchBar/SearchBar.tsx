@@ -4,14 +4,14 @@ import { NavLink } from 'react-router-dom';
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const { allProducts, isLoading } = useAppSelector(state => state.products)
+  const { allProducts} = useAppSelector(state => state.products)
 
   // filter products by name
   const productsFilterByName = allProducts.filter(product => {
     if (searchTerm.trim().length >= 1) {
-        return product.name.toLowerCase().includes(searchTerm.trim().toLowerCase());
+      return product.name.toLowerCase().includes(searchTerm.trim().toLowerCase());
     }
-});
+  });
 
   // limit search results to 10
   const productsFilterByNameLimit = productsFilterByName.slice(0, 10);
@@ -30,7 +30,7 @@ const SearchBar = () => {
   // filter products by mark
   const producstFilterByMark = allProducts.filter(product => {
     if (searchTerm.trim().length >= 1) {
-    
+
       return product.mark?.toLowerCase().includes(searchTerm.trim())
     }
   })
@@ -64,7 +64,10 @@ const SearchBar = () => {
               return (
                 <ul key={product.id}>
 
-                  <NavLink className='ml-4 hover:underline hover:text-blue-800' to={`/store/${'name'}/${product.name}/${searchTerm}`} onClick={() => setSearchTerm('')}>{product.name} </NavLink>
+                  <NavLink className='ml-4 flex items-center gap-2 hover:underline hover:text-blue-800'  to={`/product/${product.id}`} onClick={() => setSearchTerm('')}>
+                    <img className='w-[45px] h-[45px] object-contain my-2' src={product.image} alt={product.name} />
+                    <p>{product.name}</p>
+                  </NavLink>
                 </ul>
               )
             })}
@@ -79,7 +82,10 @@ const SearchBar = () => {
               {productsFilterByCategoryLimit.map(product => {
                 return (
                   <ul key={product.id}>
-                    <NavLink className='ml-4 hover:underline hover:text-blue-800' to={`/store/${'category'}/${product.name}/${searchTerm}`} onClick={() => setSearchTerm('')}>{product.category} - <span>{product.name}</span></NavLink>
+                    <NavLink className='ml-4 flex items-center gap-2  hover:underline hover:text-blue-800'  to={`/product/${product.id}`} onClick={() => setSearchTerm('')}>
+                      <img className='w-[45px] h-[45px] object-contain my-2' src={product.image} alt={product.name} />
+                      <p>{product.category} - <span>{product.name}</span></p>
+                    </NavLink>
                   </ul>
                 )
               })}
@@ -92,7 +98,10 @@ const SearchBar = () => {
                 producstFilterByMarkLimit.map(product => {
                   return (
                     <ul key={product.id}>
-                      <NavLink className='ml-4 hover:underline hover:text-blue-800' to={`/store/${'mark'}/${product.name}/${searchTerm}`} onClick={() => setSearchTerm('')} >{product.mark} - <span>{product.name}</span></NavLink>
+                      <NavLink className='ml-4 flex items-center gap-2  hover:underline hover:text-blue-800' to={`/product/${product.id}`} onClick={() => setSearchTerm('')} >
+                        <img className='w-[45px] h-[45px] object-contain my-2' src={product.image} alt={product.name} />
+                        <p>{product.mark} - <span>{product.name}</span></p>
+                      </NavLink>
                     </ul>
                   )
                 })

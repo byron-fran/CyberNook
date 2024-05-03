@@ -1,44 +1,24 @@
 import { useForm } from 'react-hook-form'
 import { UserType } from '../../types/auth/User';
-import 'react-phone-input-2/lib/style.css';
 import { NavLink, useNavigate, } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks/hooks';
-import { loginUserThunk } from '../../redux/thunks/AuthThunk';
-import { useEffect, useState } from 'react';
+import { useAppSelector } from '../../redux/hooks/hooks';
+import { useEffect} from 'react';
 import Spinner from '../../spinner/Spinner';
+import useLogin from '../../hooks/auth/useLogin';
+import 'react-phone-input-2/lib/style.css';
 
 const Login = () => {
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm<UserType>();
     const { isAuthenticated, isLoading } = useAppSelector(state => state.auth)
-    const dispatch = useAppDispatch();
+    const {onSubmit, errorLogin} = useLogin(handleSubmit, reset);
     const Navigate = useNavigate();
-    const [errorLogin, seErrorLogin] = useState('')
 
     useEffect(() => {
-        if (isAuthenticated) {
-            Navigate('/')
-            return
-        }
-    }, [])
 
-    const onSubmit = handleSubmit((data) => {
-        dispatch(loginUserThunk(data))
-            .then((data) => {
+        if (isAuthenticated) { Navigate('/'); return };
 
-                if (data?.type === 'auth/login/rejected') {
-                    seErrorLogin(data.payload as string)
-                    return
-                }
-                seErrorLogin('')
-                Navigate('/')
-            })
-            .catch(error => {
-                return error
-            })
-        //reset
-        reset()
-    })
+    }, []);
 
     return (
         <>

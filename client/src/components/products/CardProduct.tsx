@@ -1,95 +1,19 @@
-import React, { useState } from "react"
+import React from "react"
 import { useNavigate } from "react-router-dom"
 import { Product } from "../../interface/Product"
 import { formaterDinero } from "../../helpers"
-import { Order } from "../../types/cart/Order"
-import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
-import { createOrderThunk, updateOrderThunk } from "../../redux/thunks/CartThunks";
+import { useAppSelector } from "../../redux/hooks/hooks";
 import Alert from "../Success/Alert"
+import useCreateOneOrder from "../../hooks/orders/useCreateOneOrder";
 
 const CardProduct: React.FC<Product> = ({ product }) => {
-  const [successOrder, setSuccessOrder] = useState<boolean>(false)
-  const dispatch = useAppDispatch();
-  const { cart } = useAppSelector(state => state.cart)
-  const {isAuthenticated} = useAppSelector(state => state.auth)
-  const purchase: Order = {
-    image: '',
-    name: '',
-    paid: false,
-    quantity: 0,
-    price: 0,
-    unitPrice: 0,
-    category: '',
-    mark: '',
-    ProductId: '',
-    discount: 0,
-
-  }
-  
-  const handleAddToCart = () => {
-    const priceTotal = product.discount > 0 ? (product.price - (product.price * (product.discount / 100))) * 1 : product.price * 1  //product.price * quantity;
-    purchase.quantity = 1
-    purchase.price = product.price
-    purchase.unitPrice = product.price
-    purchase.image = product.image
-    purchase.name = product.name
-    purchase.mark = product.mark
-    purchase.ProductId = product.id
-    purchase.discount = product.discount
-
-    // Verificar si el producto ya existe
-    const productFind = cart.find(p => p.ProductId === product.id);
-    if (productFind) {
-
-      if (productFind.paid) {
-        dispatch(createOrderThunk({ ...purchase, price: priceTotal }))
-          .then(() => {
-            setSuccessOrder(true)
-
-            setTimeout(() => {
-              setSuccessOrder(false)
-            }, 2000)
-          })
-          .catch(error => {
-            setSuccessOrder(false)
-            throw new Error(error)
-
-          })
-        return
-      }
-
-      dispatch(updateOrderThunk({ id: productFind.id!, order: { ...purchase }, }))
-        .then(() => {
-          setSuccessOrder(true)
-          setTimeout(() => {
-            setSuccessOrder(false)
-          }, 2000)
-        })
-        .catch(error => {
-          setSuccessOrder(false)
-          throw new Error(error)
-
-        })
-      return
-    }
-    // Si no existe, agregarlo
-
-    dispatch(createOrderThunk({ ...purchase, price: priceTotal }))
-      .then(() => {
-        setSuccessOrder(true)
-
-        setTimeout(() => {
-          setSuccessOrder(false)
-        }, 2000)
-      })
-      .catch(error => {
-        setSuccessOrder(false)
-        throw new Error(error)
-
-      })
-  }
 
   const Navigate = useNavigate();
+
+  const { isAuthenticated } = useAppSelector(state => state.auth)
+
+  const { handleAddToCart, successOrder } = useCreateOneOrder(product)
+
   return (
     <>
       {successOrder && (

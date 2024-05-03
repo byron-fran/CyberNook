@@ -9,14 +9,7 @@ type AddressType = {
 }
 
 const initialState: AddressType = {
-    address: {
-        city: '',
-        country: '',
-        exteriorNumber: 0,
-        postalCode: '',
-        street: '',
-        id: ''
-    },
+    address: {} as Address,
     isLoading: false
 }
 

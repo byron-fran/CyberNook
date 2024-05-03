@@ -9,7 +9,6 @@ import { paymentConfirmThunk } from '../../redux/thunks/CartThunks';
 import Spinner from '../../spinner/Spinner';
 import { updatePaymentConfirmThunk } from '../../redux/thunks/CartThunks';
 
-
 const SuccessPayment = () => {
 
   const { user } = useAppSelector(state => state.auth);
@@ -23,7 +22,7 @@ const SuccessPayment = () => {
   useEffect(() => {
     const getOrders = async () => {
       if (token) {
-        await dispatch(paymentConfirmThunk(token))
+        await dispatch(paymentConfirmThunk())
         return
       }
       navigate('/')

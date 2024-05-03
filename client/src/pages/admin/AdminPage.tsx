@@ -10,21 +10,21 @@ const AdminPage = () => {
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-      
-      dispatch(getAllOrdersByAdmin())
-      dispatch(getAllUsers());
+
+    dispatch(getAllOrdersByAdmin())
+    dispatch(getAllUsers());
 
   }, [])
 
 
   return (
     <>
-      <NavProfile namePanel='Admin Panel'/>
+      <NavProfile namePanel='Admin Panel' />
       <main className='w-full grid md:grid-cols-4'>
 
         <Sidebar />
         <Outlet />
-       
+
       </main>
     </>
 

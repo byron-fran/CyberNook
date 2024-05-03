@@ -5,13 +5,11 @@ import { Review } from '../../interface/Review';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks/hooks';
 import { createReviewThunk, } from '../../redux/thunks/ReviewsThunk';
 
-
 type ReviewsProps = {
     product: ProductType
 }
 
-const Reviews: FC<ReviewsProps> = ({ product }) => { 
-
+const Reviews: FC<ReviewsProps> = ({ product }) => {
 
     const [valueStar, setValueStar] = useState<number>(0);
     const { handleSubmit, formState: { errors }, register, reset } = useForm<Review>();
@@ -38,7 +36,7 @@ const Reviews: FC<ReviewsProps> = ({ product }) => {
     const handleStarClick = (selectedStar: number) => {
         setValueStar(selectedStar === valueStar ? 0 : selectedStar);
     };
-  
+
     useEffect(() => {
         for (let i = 0; i < reviews?.length; i++) {
             if (reviews[i].UserId === user?.id) {
@@ -92,7 +90,7 @@ const Reviews: FC<ReviewsProps> = ({ product }) => {
             {/* section comment */}
             <section>
                 {reviews && reviews?.map((review) => {
-                    
+
                     const { comment, stars, likes, } = review;
 
                     return (

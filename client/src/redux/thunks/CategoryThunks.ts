@@ -1,15 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-
+import { cybernookApi as axios } from "../../config/api/cybernookApi";
+import { isAxiosError } from "axios";
 
 export const getProductsByCategoryThunk = createAsyncThunk('category/get', async(category : string, {rejectWithValue}) => {
     try{
-        const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/category/${category}`);
+        const {data} = await axios.get(`/category/${category}`);
         return data
     }
     catch (error) {
-        if (axios.isAxiosError(error)) {
+        if (isAxiosError(error)) {
             
             return rejectWithValue(error.response?.data.message );
         }
@@ -17,12 +16,13 @@ export const getProductsByCategoryThunk = createAsyncThunk('category/get', async
 });
 
 export const getListCategories = createAsyncThunk('list/category', async (_, {rejectWithValue}) => {
+    
     try{
-        const {data} = await axios(`${import.meta.env.VITE_BACKEND_URL}/category`);
+        const {data} = await axios.get(`/category`);
         return data
     }
     catch (error) {
-        if (axios.isAxiosError(error)) {
+        if (isAxiosError(error)) {
             
             return rejectWithValue(error.response?.data.message );
         }
@@ -34,7 +34,7 @@ export const cleanCategoryList = createAsyncThunk('category/clean', async (_, {r
 
         return
     } catch (error) {
-        if (axios.isAxiosError(error)) {
+        if (isAxiosError(error)) {
 
             return rejectWithValue(error.response?.data.message);
         }

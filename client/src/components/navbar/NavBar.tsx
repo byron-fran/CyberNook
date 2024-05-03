@@ -3,13 +3,14 @@ import { NavLink, Outlet } from 'react-router-dom'
 import SearchBar from '../searchBar/SearchBar';
 import Footer from '../footer/Footer';
 import NavCategories from './NavCategories';
+import { calculateTotalQuantity } from '../../helpers/cart/totalQuantity';
 
 const NavBar = () => {
 
     const { isAuthenticated, user, } = useAppSelector(state => state.auth);
     const {cart} = useAppSelector(state => state.cart);
-  
-
+    const  totalQuantity = calculateTotalQuantity(cart);
+    
     return (
         <>
             <main className='flex gap-4 justify-around items-center w-full bg-blue-800 p-4 relative'>
@@ -24,8 +25,8 @@ const NavBar = () => {
 
                                     <NavLink to='/cart' className='flex gap-2 items-center justify-center'>
                                         <img className=' w-8' src="/images/cart.svg" alt="image cart" />
-                                        {cart?.filter((purchase) => purchase.paid === false)?.length > 0 ? (
-                                            <p className='bg-white text-blue-600 py-1 px-2 font-bold rounded-full'>{cart?.filter((purchase) => purchase.paid === false)?.length}</p>
+                                        {totalQuantity > 0 ? (
+                                            <p className='bg-white text-blue-600 py-1 px-2 font-bold rounded-full'>{totalQuantity}</p>
                                         ): null}
 
                                     </NavLink>
@@ -54,6 +55,7 @@ const NavBar = () => {
                     <SearchBar />
                 </div>
             </main>
+
             <NavCategories />
             <Outlet />
             <Footer />
