@@ -8,8 +8,8 @@
     ],
     "routes" : [
         {
-            "src" : "/build(.*)",
-            "dest" : "/"
+            "src" : "/build/(.*)",
+            "dest" : "/build/"
         }
     ]
 
