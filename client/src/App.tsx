@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from './redux/hooks/hooks';
 import { getUserProfileThunk } from './redux/thunks/AuthThunk';
 import { getAllOrdersThunk } from './redux/thunks/CartThunks';
